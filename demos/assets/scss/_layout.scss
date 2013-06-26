@@ -1,0 +1,54 @@
+html, body {
+    font-family: "Cabin", Arial;
+}
+
+body {
+    padding: 20px;
+}
+
+h1 {
+    font-size: 50px;
+    margin: 0px 0 30px 0;
+}
+
+h2 {
+    font-size: 30px;
+    margin: 30px 0 20px 0;
+}
+
+h3 {
+    font-size: 20px;
+    margin: 30px 0 20px 0;
+}
+
+pre {
+    font-family: "Courier-New", Arial, Helvetica;
+}
+
+p {
+    line-height: 20px;
+}
+
+small {
+    font-size: 10px;
+}
+
+#github {
+    color: #666;
+    text-decoration: none;
+    display: block;
+    font-size: 11px;
+    position: absolute;
+    font-size: 11px;
+    right: 10px;
+    top: 10px;
+    text-align: center;
+
+    img {
+        margin-bottom: 5px;
+    }
+
+    &:hover {
+        color: #000;
+    }
+}

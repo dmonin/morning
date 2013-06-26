@@ -1,0 +1,23 @@
+body.draggable-gallery-dragging * {
+    cursor: grabbing !important;
+    cursor: -moz-grabbing !important;
+    cursor: -webkit-grabbing !important;
+}
+
+.draggable-gallery {
+    height: 200px;
+    overflow: hidden;
+
+    cursor:grab;
+    cursor:-moz-grab;
+    cursor:-webkit-grab;
+}
+
+.draggable-gallery-content {
+    position: relative;
+}
+
+.draggable-gallery-item {
+    float: left;
+    height: 200px;
+}

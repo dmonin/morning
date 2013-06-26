@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <title>Canvas component</title>
+        <link type="text/css" rel="stylesheet" href="http://fast.fonts.com/cssapi/98891a47-9d5e-4d90-97b7-4b29f5dabcb9.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,700' rel='stylesheet' type='text/css'>
+        <link href="assets/css/demo.css" media="all" rel="stylesheet" type="text/css" rev="stylesheet" />
+        <meta charset="utf-8">
+        <style>
+        html, body { overflow: hidden; }
+        h1, p { color: #fff; position: relative; z-index: 10; }
+        p { line-height: 28px; }
+        a { color: #fff; }
+        canvas {left: 0; position: absolute; top: 0; z-index: 5; }
+        #pattern-selector { position: absolute; top: 5px; right: 5px; width: 100px; z-index: 50;}
+        #pattern-selector img { float: left; margin: 0 8px 8px 0; box-shadow: 0 0 5px rgba(255, 255, 255, 0.9); cursor: pointer; }
+        #text-input { background: none; color: #fff; font-family: "Futura W01 Medium"; border: 0px none; position: absolute; top: 53px; right: 17px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.9); width: 78px; z-index: 50; padding: 0 5px;}
+        </style>
+    </head>
+    <body>
+        <h1>Canvas SVG-Shapes Demo</h1>
+        <p>This demo shows rendering of SVG Shapes into Canvas.</p>
+
+        <div id="pattern-selector">
+            <img src="assets/img/pattern/blue.jpg" width="16" />
+            <img src="assets/img/pattern/brown.jpg" width="16" />
+            <img src="assets/img/pattern/cyan.jpg" width="16" />
+            <img src="assets/img/pattern/dark-gray.jpg" width="16" />
+            <img src="assets/img/pattern/purple.jpg" width="16" />
+            <img src="assets/img/pattern/red.jpg" width="16" />
+            <img src="assets/img/pattern/redbrown.jpg" width="16" />
+            <img src="assets/img/pattern/violett.jpg" width="16" />
+        </div>
+
+        <input type="text" value="s c r o l l" id="text-input" />
+
+        <canvas id="canvas"></canvas>
+        <script src="../../closure-library/closure/goog/base.js"></script>
+        <script src="assets/js/deps.js"></script>
+        <script>
+            // http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+            window.requestAnimFrame = (function(){
+              return  window.requestAnimationFrame       ||
+                      window.webkitRequestAnimationFrame ||
+                      window.mozRequestAnimationFrame    ||
+                      function( callback ){
+                        window.setTimeout(callback, 1000 / 60);
+                      };
+            })();
+        </script>
+        <script>
+            goog.require("goog.math.Size");
+            goog.require("goog.dom");
+            goog.require('goog.events.MouseWheelHandler');
+            goog.require("monin.ui.CoverBackground");
+            goog.require('monin.canvas.SvgPathRenderer');
+        </script>
+
+        <!-- Here is the source code -->
+        <script src="assets/js/canvas-shapes.js"></script>
+
+        <!-- For full source check out github:
+        https://github.com/dmonin/moninjs
+        -->
+    </body>
+</html>

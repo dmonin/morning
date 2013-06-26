@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <title>File Upload component</title>
+        <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,700' rel='stylesheet' type='text/css'>
+        <link href="assets/css/demo.css" media="all" rel="stylesheet" type="text/css" rev="stylesheet" />
+        <meta charset="utf-8">
+        <script src="assets/js/modernizr.js"></script>
+        <style>
+            html, body {
+                min-height: 100%;
+            }
+
+            #upload-btn {
+                margin-top: 20px;
+                position: relative;
+            }
+
+            #upload-btn .goog-ui-media-flash {
+                left: 0;
+                position: absolute;
+                top: 0;
+            }
+
+            #dragdroptip {
+                display: none;
+                margin-top: 20px;
+            }
+
+            .filereader.draganddrop #dragdroptip {
+                display: block;
+            }
+            #progress {
+                border: 1px solid #dedede;
+                height: 40px;
+                margin-top: 20px;
+                position: relative;
+                width: 100%;
+            }
+
+            #progress-bar {
+                background: #f2b608;
+                color: #000;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+				overflow: hidden;
+                width: 0%;
+            }
+            #progress-bar-status {
+                left: 50%;
+                margin-left: -40px;
+                position: absolute;
+                top: 11px;
+                white-space: nowrap;
+            }
+        </style>
+         <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-42019927-1', 'monin.me');
+          ga('send', 'pageview');
+
+        </script>
+    </head>
+    <body>
+        <a id="github" href="https://github.com/dmonin/moninjs">
+            <img src="assets/img/Octocat.png" width="40" alt="octocat" title="View on GitHub." /><br  />
+            VIEW ON GITHUB
+        </a>
+        <h1>File Upload Demo</h1>
+        <p>This demo demonstrates cross browser (inclusive mobile) multiple file upload with displaying of progress.</p>
+        <div id="upload-btn" class="button primary enabled">Select files for upload.</div>
+        <div id="dragdroptip">...or Drag &amp; Drop them anywhere in window.</div>
+        <div id="progress">
+            <div id="progress-bar"></div>
+            <div id="progress-bar-status"></div>
+        </div>
+        <script src="../../closure-library/closure/goog/base.js"></script>
+        <script src="assets/js/deps.js"></script>
+        <script>
+            goog.require('monin.ui.FileUploaderFactory');
+        </script>
+        <script>
+            var factory = new monin.ui.FileUploaderFactory();
+            var uploader = factory.getInstance();
+            var progressText = '';
+            var isUploading = false;
+            uploader.decorate(document.getElementById('upload-btn'));
+
+            // Allowing multiple file selection
+            uploader.setMultiple(true);
+
+            // Adding listener for file select
+            uploader.listen('select', uploadFiles);
+
+            // Adding listener for file drop
+            uploader.listen('drop', uploadFiles);
+
+            function uploadFiles(e)
+            {
+                if (isUploading)
+                {
+                    return;
+                }
+
+                isUploading = true;
+                updateProgress(0);
+                progressText = e.files.length + " file(s)";
+				uploader.send('/moninjs/demos/assets/php/send.php', e.files);
+            }
+
+			function updateProgress(progress)
+			{
+				var pbar = document.getElementById('progress-bar');
+                pbar.style.width = progress * 100 + '%';
+                setStatus(Math.round(progress * 100) + '% - ' + progressText);
+			}
+
+            function setStatus(statusText)
+            {
+                document.getElementById('progress-bar-status').innerHTML = statusText;
+            }
+
+            // Adding listener for upload progress
+            uploader.listen('progress', function(e) {
+				updateProgress(e.progress);
+            });
+
+            uploader.listen('complete', function(e) {
+				updateProgress(1);
+                setStatus('UPLOAD COMPLETE - ' + progressText);
+                isUploading = false;
+            });
+
+            // This is only for HTML5 Upload able browsers
+            if (uploader instanceof monin.ui.FileUploaderHtml5)
+            {
+                // Drop files anywhere
+                uploader.setDropTarget(document.body);
+            }
+
+        </script>
+        <!-- For full source check out github:
+        https://github.com/dmonin/moninjs
+        -->
+    </body>
+</html>

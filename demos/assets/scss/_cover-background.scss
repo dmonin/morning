@@ -1,0 +1,19 @@
+.cover-background {
+    display: none;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+
+    &.visible {
+        display: block;
+    }
+}
+
+.cover-background-content {
+    background: #fff;
+    /*background: rgba(255, 255, 255, .4);*/
+    position: relative;
+    z-index: 2;
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <title>Tooltip component</title>
+        <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,700' rel='stylesheet' type='text/css'>
+        <link href="assets/css/demo.css" media="all" rel="stylesheet" type="text/css" rev="stylesheet" />
+        <style>
+
+        ul {
+            left: 50%;
+            margin: -150px 0 0 -150px;
+            position: absolute;
+            top: 50%;
+        }
+
+        li {
+            background: #e2e2e2;
+            margin: 15px 0;
+            padding: 5px;
+        }
+
+        </style>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-42019927-1', 'monin.me');
+          ga('send', 'pageview');
+
+        </script>
+    </head>
+    <body>
+        <a id="github" href="https://github.com/dmonin/moninjs">
+            <img src="assets/img/Octocat.png" width="40" alt="octocat" title="View on GitHub." /><br  />
+            VIEW ON GITHUB
+        </a>
+        <h1>Tooltip Demo</h1>
+
+        <ul>
+            <li onmouseover="showTooltip()" onmouseout="hideTooltip()" data-type="normal" data-dir="4">Tooltip direction: BOTTOM</li>
+            <li onmouseover="showTooltip()" onmouseout="hideTooltip()" data-type="normal" data-dir="1">Tooltip direction: TOP</li>
+            <li onmouseover="showTooltip()" onmouseout="hideTooltip()" data-type="normal" data-dir="2">Tooltip direction: RIGHT</li>
+            <li onmouseover="showTooltip()" onmouseout="hideTooltip()" data-type="normal" data-dir="8">Tooltip direction: LEFT</li>
+            <li onmouseover="showTooltip()" onmouseout="hideTooltip()" data-type="simple" data-dir="1">Simple tooltip</li>
+        </ul>
+
+        <script src="../../closure-library/closure/goog/base.js"></script>
+        <script src="assets/js/deps.js"></script>
+        <script>
+        goog.require("monin.ui.Tooltip");
+        goog.require("goog.dom.dataset");
+
+        </script>
+        <script>
+        var defaultTooltip = new monin.ui.Tooltip();
+        defaultTooltip.render(document.body);
+
+        var simpleTooltip = new monin.ui.Tooltip();
+        simpleTooltip.setSimple(true);
+        simpleTooltip.animationEnabled = false;
+        simpleTooltip.render(document.body);
+
+        function showTooltip(e)
+        {
+            e = e || window.event;
+
+            var dir = parseInt(goog.dom.dataset.get(e.target, 'dir'), 10);
+            var tooltip = goog.dom.dataset.get(e.target, 'type') == 'simple' ? simpleTooltip : defaultTooltip;
+
+            // @see monin.ui.Tooltip.Direction enumerator
+            tooltip.setDirection(dir);
+            tooltip.setBody(e.target.innerHTML);
+            tooltip.positionateToElement(e.target);
+            tooltip.setVisible(true);
+        }
+
+        function hideTooltip(e)
+        {
+            e = e || window.event;
+
+            var tooltip = goog.dom.dataset.get(e.target, 'type') == 'simple' ? simpleTooltip : defaultTooltip;
+            tooltip.setVisible(false);
+        }
+
+
+        </script>
+        <!-- For full source check out github:
+        https://github.com/dmonin/moninjs
+        -->
+    </body>
+</html>

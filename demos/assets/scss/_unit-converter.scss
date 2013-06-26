@@ -1,0 +1,25 @@
+.goog-tooltip {
+    background: #fff;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+    color: #000;
+    padding: 8px;
+}
+
+.unit-converter {
+    border-bottom: 1px dashed $color-yellow;
+    cursor: default;
+    display: none;
+
+    &.visible {
+        display: inline;
+    }
+}
+
+.unit-type {
+    cursor: pointer;
+    font-size: 11pt;
+}
+
+.unit-type.selected {
+    text-decoration: underline;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <title>Loader component</title>
+        <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,700' rel='stylesheet' type='text/css'>
+        <link href="assets/css/demo.css" media="all" rel="stylesheet" type="text/css" rev="stylesheet" />
+         <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-42019927-1', 'monin.me');
+          ga('send', 'pageview');
+
+        </script>
+    </head>
+    <body>
+        <a id="github" href="https://github.com/dmonin/moninjs">
+            <img src="assets/img/Octocat.png" width="40" alt="octocat" title="View on GitHub." /><br  />
+            VIEW ON GITHUB
+        </a>
+        <h1>Loader Demo</h1>
+
+        <script src="http://heartcode-canvasloader.googlecode.com/files/heartcode-canvasloader-min-0.9.1.js"></script>
+        <script src="../../closure-library/closure/goog/base.js"></script>
+        <script src="assets/js/deps.js"></script>
+        <script>
+        goog.require("monin.ui.Loader");
+        </script>
+        <script>
+        var loader = new monin.ui.Loader();
+        loader.setColor("#000000"); // default is '#000000'
+        loader.setDiameter(150); // default is 40
+        loader.setDensity(30); // default is 40
+        loader.setRange(1.1); // default is 1.3
+        loader.setFps(30); // default is 24
+        loader.render(document.body);
+        loader.setVisible(true);
+
+        // Shortcut factory with default parameters
+        loader = monin.ui.Loader.factory("#ff0000", 100);
+        loader.render(document.body);
+        loader.setVisible(true);
+
+        loader = monin.ui.Loader.factory("#00ff00", 50);
+        loader.render(document.body);
+        loader.setVisible(true);
+
+        loader = monin.ui.Loader.factory("#0000ff", 25);
+        loader.render(document.body);
+        loader.setVisible(true);
+        </script>
+        <!-- For full source check out github:
+        https://github.com/dmonin/moninjs
+        -->
+    </body>
+</html>
