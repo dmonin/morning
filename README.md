@@ -1,6 +1,6 @@
 monin.js
 ========
 
-A part of library I used at www.lindalino.com, an amazing project about travelling. Check it out! :-)
+This library is based on Google Closure and was created by making of www.lindalino.com, an amazing project about travelling! Feel free to use anything you find useful for you.
 
-Check out http://monin.me/moninjs/demos/ for more information.
+Check out some demos at http://monin.me/moninjs/demos/.
