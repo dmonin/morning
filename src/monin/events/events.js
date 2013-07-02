@@ -50,3 +50,124 @@ monin.events.getPointerPosition = function(e)
 
     return position;
 };
+
+
+/**
+ * @param {goog.events.EventHandler} handler
+ * @param {goog.events.EventTarget} target
+ * @param {string} type
+ * @param {Function} listener
+ */
+monin.events.listenPointerEvent = function(handler, target, type, listener)
+{
+    var isTouch = goog.events.BrowserFeature.TOUCH_ENABLED;
+    var isMsPointerTouch = !!window.navigator.msPointerEnabled;
+    var evtType = null;
+
+    switch (type)
+    {
+        case monin.events.EventType.POINTERDOWN:
+            if (isTouch && isMsPointerTouch)
+            {
+                handler.listen(target,
+                    goog.events.EventType.MSPOINTERDOWN, listener);
+            }
+            evtType = isTouch ? goog.events.EventType.TOUCHSTART :
+                goog.events.EventType.MOUSEDOWN;
+
+            handler.listen(target, evtType, listener);
+            break;
+
+        case monin.events.EventType.POINTERMOVE:
+            if (isTouch && isMsPointerTouch)
+            {
+                handler.listen(target,
+                    goog.events.EventType.MSPOINTERMOVE, listener);
+            }
+
+            evtType = isTouch ? goog.events.EventType.TOUCHMOVE :
+                goog.events.EventType.MOUSEMOVE;
+
+            handler.listen(target, evtType, listener);
+            break;
+
+        case monin.events.EventType.POINTERUP:
+            if (isTouch && isMsPointerTouch)
+            {
+                handler.listen(target,
+                    goog.events.EventType.MSPOINTERUP, listener);
+            }
+
+            evtType = isTouch ? goog.events.EventType.TOUCHEND :
+                goog.events.EventType.MOUSEUP;
+
+            handler.listen(target, evtType, listener);
+
+            break;
+    }
+};
+
+
+/**
+ * @param {goog.events.EventHandler} handler
+ * @param {goog.events.EventTarget} target
+ * @param {string} type
+ * @param {Function} listener
+ */
+monin.events.unlistenPointerEvent = function(handler, target, type, listener)
+{
+    var isTouch = goog.events.BrowserFeature.TOUCH_ENABLED;
+    var isMsPointerTouch = !!window.navigator.msPointerEnabled;
+    var evtType = null;
+
+    switch (type)
+    {
+        case monin.events.EventType.POINTERDOWN:
+            if (isTouch && isMsPointerTouch)
+            {
+                handler.unlisten(target,
+                    goog.events.EventType.MSPOINTERDOWN, listener);
+            }
+            evtType = isTouch ? goog.events.EventType.TOUCHSTART :
+                goog.events.EventType.MOUSEDOWN;
+
+            handler.unlisten(target, evtType, listener);
+            break;
+
+        case monin.events.EventType.POINTERMOVE:
+            if (isTouch && isMsPointerTouch)
+            {
+                handler.unlisten(target,
+                    goog.events.EventType.MSPOINTERMOVE, listener);
+            }
+
+            evtType = isTouch ? goog.events.EventType.TOUCHMOVE :
+                goog.events.EventType.MOUSEMOVE;
+
+            handler.unlisten(target, evtType, listener);
+            break;
+
+        case monin.events.EventType.POINTERUP:
+            if (isTouch && isMsPointerTouch)
+            {
+                handler.unlisten(target,
+                    goog.events.EventType.MSPOINTERUP, listener);
+            }
+
+            evtType = isTouch ? goog.events.EventType.TOUCHEND :
+                goog.events.EventType.MOUSEUP;
+
+            handler.unlisten(target, evtType, listener);
+
+            break;
+    }
+};
+
+/**
+ * @enum {string}
+ */
+monin.events.EventType = {
+    POINTERDOWN: 'pointerdown',
+    POINTERMOVE: 'pointermove',
+    POINTERUP: 'pointerup'
+};
