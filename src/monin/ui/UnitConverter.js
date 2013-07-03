@@ -188,7 +188,7 @@ monin.ui.UnitConverter.prototype.setType = function(type)
 
     var value = this.measure_.getValue(this.unitType_, this.decimals_);
     goog.dom.dataset.set(this.getElement(), 'unittype', type);
-    goog.dom.dataset.set(this.getElement(), 'value', value);
+    goog.dom.dataset.set(this.getElement(), 'value', String(value));
 
     var tooltipTypes = this.tooltip_.getElement().querySelectorAll('.unit-type'),
         isActive;
@@ -198,7 +198,7 @@ monin.ui.UnitConverter.prototype.setType = function(type)
         goog.dom.classes.enable(tooltipType, 'selected', isActive);
     });
 
-    this.setHtml_(value);
+    this.setHtml_(String(value));
 };
 
 /**
@@ -234,7 +234,7 @@ monin.ui.UnitConverter.prototype.setValue = function(value, opt_unitType)
     opt_unitType = opt_unitType || this.unitType_;
     this.measure_.setValue(value, opt_unitType);
     var html = this.measure_.getValue(this.unitType_, this.decimals_);
-    this.setHtml_(html);
+    this.setHtml_(String(html));
 };
 
 /**
