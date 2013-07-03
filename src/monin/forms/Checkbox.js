@@ -89,7 +89,7 @@ monin.forms.Checkbox.prototype.reset = function()
  */
 monin.forms.Checkbox.prototype.setInvalid = function(isInvalid)
 {
-    goog.dom.classes.add(this.getElement(), 'invalid', isInvalid);
+    goog.dom.classes.enable(this.getElement(), 'invalid', isInvalid);
 };
 
 /**
