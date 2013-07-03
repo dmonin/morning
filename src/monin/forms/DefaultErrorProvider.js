@@ -22,6 +22,7 @@ goog.require('goog.Timer');
 goog.require('goog.dom');
 goog.require('goog.dom.classes');
 goog.require('goog.ui.Component');
+goog.require('monin.forms.Textbox');
 goog.require('monin.forms.IErrorProvider');
 
 /**
