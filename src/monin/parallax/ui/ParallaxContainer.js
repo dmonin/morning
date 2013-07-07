@@ -403,6 +403,15 @@ monin.parallax.ui.ParallaxContainer.prototype.handleKey_ = function(e)
         case goog.events.KeyCodes.PAGE_DOWN:
             this.setPosition(this.endScrollPos_ + this.size_.height);
             break;
+
+        case goog.events.KeyCodes.RIGHT:
+        case goog.events.KeyCodes.DOWN:
+            this.setPosition(this.endScrollPos_ + 100);
+            break;
+        case goog.events.KeyCodes.UP:
+        case goog.events.KeyCodes.LEFT:
+            this.setPosition(this.endScrollPos_ - 100);
+            break;
     }
 };
 
