@@ -24,6 +24,7 @@ monin.parallax.ui.Scene = function()
      */
     this.config_ = null;
 
+
     /**
      * Loaded elements count
      *
@@ -47,6 +48,11 @@ monin.parallax.ui.Scene = function()
      * @private
      */
     this.elements_ = new goog.structs.Map();
+
+    /**
+     * @type {string}
+     */
+    this.name = '';
 };
 goog.inherits(monin.parallax.ui.Scene, goog.ui.Component);
 

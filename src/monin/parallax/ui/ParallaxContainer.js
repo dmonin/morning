@@ -105,6 +105,11 @@ monin.parallax.ui.ParallaxContainer = function()
      * @private
      */
     this.snapDelay_ = new goog.async.Delay(this.snap_, 1000, this);
+
+    /**
+     * @type {number}
+     */
+    this.speedFactor = 8;
 };
 goog.inherits(monin.parallax.ui.ParallaxContainer, goog.ui.Component);
 
@@ -169,8 +174,9 @@ monin.parallax.ui.ParallaxContainer.prototype.decorateInternal = function(el)
         this.addChild(cmp);
         cmp.decorate(sceneElements[i]);
 
-        sceneName = goog.dom.dataset.get(sceneElements[i], 'name');
-        if (!sceneName)
+        cmp.name = goog.dom.dataset.get(sceneElements[i], 'name');
+
+        if (!cmp.name)
         {
             if (goog.DEBUG)
             {
@@ -179,7 +185,7 @@ monin.parallax.ui.ParallaxContainer.prototype.decorateInternal = function(el)
             throw new Error('Scene element omits data-name attribute.');
         }
 
-        this.scenes_.set(sceneName, cmp);
+        this.scenes_.set(cmp.name, cmp);
     }
 };
 
@@ -274,6 +280,22 @@ monin.parallax.ui.ParallaxContainer.prototype.loadConfig = function(url)
 };
 
 /**
+ * @return {monin.parallax.ui.Scene}
+ */
+monin.parallax.ui.ParallaxContainer.prototype.getCurrentScene = function()
+{
+    var found = null;
+    goog.array.forEach(this.scenes_.getValues(), function(scene) {
+        if (typeof scene.getConfig().navigationName != 'undefined' && scene.getPosition() <= this.endScrollPos_)
+        {
+            found = scene;
+        }
+    }, this);
+
+    return found;
+};
+
+/**
  * @return {number}
  */
 monin.parallax.ui.ParallaxContainer.prototype.getLoadProgress = function()
@@ -297,7 +319,7 @@ monin.parallax.ui.ParallaxContainer.prototype.getLoadProgress = function()
 monin.parallax.ui.ParallaxContainer.prototype.getPosition = function()
 {
     return this.endScrollPos_;
-}
+};
 
 /**
  * @param {string} sceneName
@@ -306,6 +328,23 @@ monin.parallax.ui.ParallaxContainer.prototype.getPosition = function()
 monin.parallax.ui.ParallaxContainer.prototype.getScene = function(sceneName)
 {
     return /** @type {monin.parallax.ui.Scene} */ (this.scenes_.get(sceneName));
+};
+
+/**
+ * @param {string} sceneName
+ * @return {monin.parallax.ui.Scene}
+ */
+monin.parallax.ui.ParallaxContainer.prototype.getSceneByNavigationName = function(sceneName)
+{
+    var found = null;
+    goog.array.forEach(this.scenes_.getValues(), function(scene) {
+        if (scene.getConfig().navigationName == sceneName)
+        {
+            found = scene;
+        }
+    }, this);
+
+    return found;
 };
 
 /**
@@ -326,7 +365,7 @@ monin.parallax.ui.ParallaxContainer.prototype.onAnimationFrame = function(e)
         return;
     }
 
-    var delta = (this.endScrollPos_ - this.scrollPos_) / 8;
+    var delta = (this.endScrollPos_ - this.scrollPos_) / this.speedFactor;
 
     if (Math.abs(delta) < 1 || !this.smoothScrolling)
     {
@@ -363,6 +402,15 @@ monin.parallax.ui.ParallaxContainer.prototype.handleKey_ = function(e)
             break;
         case goog.events.KeyCodes.PAGE_DOWN:
             this.setPosition(this.endScrollPos_ + this.size_.height);
+            break;
+
+        case goog.events.KeyCodes.RIGHT:
+        case goog.events.KeyCodes.DOWN:
+            this.setPosition(this.endScrollPos_ + 100);
+            break;
+        case goog.events.KeyCodes.UP:
+        case goog.events.KeyCodes.LEFT:
+            this.setPosition(this.endScrollPos_ - 100);
             break;
     }
 };
@@ -498,12 +546,11 @@ monin.parallax.ui.ParallaxContainer.prototype.setPosition = function(newPos)
             type: monin.parallax.ui.ParallaxContainer.EventType.TARGET_SCROLL_POSITION_CHANGED,
             position: newPos
         });
+        this.snapDelay_.start();
     }
 
     this.endScrollPos_ = newPos;
     this.strictPos_();
-    this.snapDelay_.start();
-
 };
 
 /**

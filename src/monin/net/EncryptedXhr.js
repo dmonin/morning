@@ -37,21 +37,16 @@ monin.net.EncryptedXhr = function(opt_password)
      * @type {string}
      * @private
      */
-    this.password_ = opt_password;
+    this.password_ = opt_password || '';
 };
 goog.inherits(monin.net.EncryptedXhr, goog.net.XhrIo);
 
-/**
- * @type {monin.crypt.Aes}
- * @private
- */
-monin.net.EncryptedXhr.aes_ = null;
 
 /**
  * @param {string} data
  * @private
  */
-monin.net.EncryptedXhr.encrypt_ = function(data)
+monin.net.EncryptedXhr.prototype.encrypt_ = function(data)
 {
     if (!monin.net.EncryptedXhr.aes_)
     {
@@ -106,7 +101,7 @@ monin.net.EncryptedXhr.prototype.send = function(url, opt_method, opt_content,
 
     if (this.encryptData_ && opt_content)
     {
-        jsonContent = monin.net.EncryptedXhr.encrypt_(jsonContent);
+        jsonContent = this.encrypt_(jsonContent);
     }
 
     goog.base(this, 'send', url, opt_method, jsonContent, opt_headers);
