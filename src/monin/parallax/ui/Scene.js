@@ -15,6 +15,11 @@ monin.parallax.ui.Scene = function()
     goog.base(this);
 
     /**
+     * @type {string}
+     */
+    this.name = '';
+
+    /**
      * @type {monin.parallax.model.SceneConfig}
      * @private
      */
