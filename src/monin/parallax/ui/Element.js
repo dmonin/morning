@@ -1,11 +1,10 @@
 goog.provide('monin.parallax.ui.Element');
 
-goog.require('goog.ui.Component');
-goog.require('goog.math.Range');
 goog.require('goog.math.Coordinate');
-
-goog.require('goog.ui.registry');
+goog.require('goog.math.Range');
 goog.require('goog.style');
+goog.require('goog.ui.Component');
+goog.require('goog.ui.registry');
 goog.require('monin.parallax.model.ElementConfig');
 
 /**
@@ -15,7 +14,7 @@ goog.require('monin.parallax.model.ElementConfig');
 monin.parallax.ui.Element = function()
 {
     goog.base(this);
-    
+
     /**
      * @type {monin.parallax.model.ElementConfig}
      * @private
@@ -27,64 +26,71 @@ monin.parallax.ui.Element = function()
      * @protected
      */
     this.range = new goog.math.Range(0, 0);
-    
+
     /**
      * @type {Array.<monin.parallax.effects.Effect>}
      * @private
      */
     this.effects_ = [];
-    
+
     /**
      * @type {goog.math.Coordinate}
      * @private
      */
     this.position_ = new goog.math.Coordinate(0, 0);
-    
-}
 
+};
 goog.inherits(monin.parallax.ui.Element, goog.ui.Component);
 
 /**
+ * Adjusts element to viewport size
+ *
  * @param {goog.math.Size} size
- */ 
+ */
 monin.parallax.ui.Element.prototype.adjustToSize = function(size)
 {
     // No default implementation
-}
+};
 
 /** @inheritDoc */
 monin.parallax.ui.Element.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
-    
+
     this.position_ = goog.style.getPosition(this.getElement());
-}
+};
 
 /**
+ * Returns initial position
+ *
  * @return {goog.math.Coordinate}
  */
 monin.parallax.ui.Element.prototype.getInitialPosition = function()
 {
     return this.position_;
-}
+};
 
 /**
+ * Returns true if element needs to be loaded
+ *
  * @return {boolean}
  */
 monin.parallax.ui.Element.prototype.isLoadable = function()
 {
     return false;
-}
+};
 
 /**
- *
+ * Returns visibility range
  */
 monin.parallax.ui.Element.prototype.getRange = function()
 {
     return this.range;
-}
+};
 
 /**
+ * Updates parallax properties
+ *
  * @param {number} offset
  * @param {goog.math.Size} size
  * @param {number} position
@@ -95,31 +101,35 @@ monin.parallax.ui.Element.prototype.update = function(offset, size, position)
     {
         console.info('Element offset %o, %f', this, offset);
     }
-    
+
     for (var i = 0; i < this.effects_.length; i++)
     {
-        this.effects_[i].apply(this, offset, size, position);        
+        this.effects_[i].apply(this, offset, size, position);
     }
-}
+};
 
 /**
+ * Sets element configuration
+ *
  * @param {Object} config
  * @param {monin.parallax.effects.EffectFactory} effectFactory
  */
 monin.parallax.ui.Element.prototype.setConfig = function(config, effectFactory)
 {
     this.config_ = monin.parallax.model.ElementConfig.factory(config);
-    
+
     var effect;
-    
+
     for (var i = 0; i < config['effects'].length; i++)
     {
         effect = effectFactory.getEffect(config['effects'][i]);
         this.effects_.push(effect);
     }
-}
+};
 
 /**
+ * Enumiration for event types
+ *
  * @enum {string}
  */
 monin.parallax.ui.Element.EventType = {

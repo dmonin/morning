@@ -7,6 +7,8 @@ goog.require('goog.ui.registry');
 goog.require('monin.parallax.model.SceneConfig');
 
 /**
+ * Scene constructor
+ *
  * @constructor
  * @extends {goog.ui.Component}
  */
@@ -15,37 +17,48 @@ monin.parallax.ui.Scene = function()
     goog.base(this);
 
     /**
-     * @type {string}
-     */
-    this.name = '';
-
-    /**
+     * Scene Configuration
+     *
      * @type {monin.parallax.model.SceneConfig}
      * @private
      */
     this.config_ = null;
 
+
     /**
+     * Loaded elements count
+     *
      * @type {number}
      * @private
      */
     this.loadedCount_ = 0;
 
     /**
+     * Total element count, which need to be loaded.
+     *
      * @type {number}
      * @private
      */
     this.loadedTotalCount_ = 0;
 
     /**
+     * Hashmap with elements
+     *
      * @type {goog.structs.Map}
      * @private
      */
     this.elements_ = new goog.structs.Map();
+
+    /**
+     * @type {string}
+     */
+    this.name = '';
 };
 goog.inherits(monin.parallax.ui.Scene, goog.ui.Component);
 
 /**
+ * Adjusts container size and updates elements
+ *
  * @param {goog.math.Size} size
  */
 monin.parallax.ui.Scene.prototype.adjustToSize = function(size)
@@ -89,6 +102,8 @@ monin.parallax.ui.Scene.prototype.decorateInternal = function(el)
 };
 
 /**
+ * Returns bottom position of scene
+ *
  * @param {goog.math.Size} size
  * @return {number}
  */
@@ -103,6 +118,8 @@ monin.parallax.ui.Scene.prototype.getBottom = function(size)
 };
 
 /**
+ * Returns scene configuration
+ *
  * @return {Object}
  */
 monin.parallax.ui.Scene.prototype.getConfig = function()
@@ -111,6 +128,8 @@ monin.parallax.ui.Scene.prototype.getConfig = function()
 };
 
 /**
+ * Returns element from scene with specified id
+ *
  * @param {string} elementId
  * @return {monin.parallax.ui.Element}
  */
@@ -120,6 +139,8 @@ monin.parallax.ui.Scene.prototype.getElementById = function(elementId)
 };
 
 /**
+ * Returns scene position
+ *
  * @return {number}
  */
 monin.parallax.ui.Scene.prototype.getPosition = function()
@@ -128,6 +149,8 @@ monin.parallax.ui.Scene.prototype.getPosition = function()
 };
 
 /**
+ * Handles element load event
+ *
  * @param {goog.events.Event} e
  * @private
  */
@@ -143,6 +166,8 @@ monin.parallax.ui.Scene.prototype.handleElementLoad_ = function(e)
 };
 
 /**
+ * Handles load progress
+ *
  * @return {number}
  */
 monin.parallax.ui.Scene.prototype.getLoadProgress = function()
@@ -151,6 +176,8 @@ monin.parallax.ui.Scene.prototype.getLoadProgress = function()
 };
 
 /**
+ * Handles position change animation
+ *
  * @param {goog.events.Event} e
  * @private
  */
@@ -161,6 +188,8 @@ monin.parallax.ui.Scene.prototype.handlePositionAnimation_ = function(e)
 };
 
 /**
+ * Returns true if scene is visible
+ *
  * @param {number} position
  * @return {boolean}
  */
@@ -171,6 +200,8 @@ monin.parallax.ui.Scene.prototype.isVisible = function(position)
 };
 
 /**
+ * Sets scene configuration
+ *
  * @param {Object} config
  * @param {monin.parallax.effects.EffectFactory} effectFactory
  */
@@ -197,6 +228,8 @@ monin.parallax.ui.Scene.prototype.setConfig = function(config, effectFactory)
 };
 
 /**
+ * Sets scene position
+ *
  * @param {number} position
  * @param {number=} opt_duration
  */
@@ -231,6 +264,8 @@ monin.parallax.ui.Scene.prototype.setPosition = function(position, opt_duration)
 };
 
 /**
+ * Updates scene view according to position and viewportsize
+ *
  * @param {number} position
  * @param {goog.math.Size} size
  */
@@ -242,10 +277,13 @@ monin.parallax.ui.Scene.prototype.update = function(position, size)
     goog.array.forEach(this.elements_.getValues(), function(el) {
         el.update(offset, size, position);
     });
-
-
 };
 
+/**
+ * Event types
+ *
+ * @enum {string}
+ */
 monin.parallax.ui.Scene.EventType = {
     UPDATE_REQUIRED: 'scene:update_required',
     PROGRESS: 'scene:progress',
