@@ -26,9 +26,11 @@ goog.require('monin.ui.HoverEffect');
  * Button component
  *
  * @constructor
+ * @param {string=} opt_text
+ * @param {string=} opt_value
  * @extends {goog.ui.Component}
  */
-monin.ui.Button = function()
+monin.ui.Button = function(opt_text, opt_value)
 {
     goog.base(this);
 
@@ -46,7 +48,7 @@ monin.ui.Button = function()
      * @type {string}
      * @private
      */
-    this.value_ = '';
+    this.value_ = opt_value || '';
 
     /**
      * Defines internally whether button is enabled
@@ -55,13 +57,31 @@ monin.ui.Button = function()
      * @private
      */
     this.isEnabled_ = true;
+
+    /**
+     * Defines button text label
+     *
+     * @type {string}
+     * @private
+     */
+    this.text_ = opt_text || '';
 };
 goog.inherits(monin.ui.Button, goog.ui.Component);
 
 /** @inheritDoc */
 monin.ui.Button.prototype.createDom = function()
 {
-    var el = this.getDomHelper().createDom('div', 'button');
+    var cls = 'button';
+    if (this.value_)
+    {
+        cls += ' button-' + this.value_.replace(/[^a-z]/gi, '');
+    }
+
+    if (this.isEnabled_)
+    {
+        cls += ' enabled';
+    }
+    var el = this.getDomHelper().createDom('div', cls, this.text_);
     this.decorateInternal(el);
 };
 
@@ -157,7 +177,10 @@ monin.ui.Button.prototype.handleClick = function(e)
 monin.ui.Button.prototype.setEnabled = function(isEnabled)
 {
     this.isEnabled_ = isEnabled;
-    goog.dom.classes.enable(this.getElement(), 'enabled', isEnabled);
+    if (this.getElement())
+    {
+        goog.dom.classes.enable(this.getElement(), 'enabled', isEnabled);
+    }
 };
 
 /**
@@ -177,7 +200,12 @@ monin.ui.Button.prototype.setVisible = function(isVisible)
  */
 monin.ui.Button.prototype.setText = function(text)
 {
-    this.getContentElement().innerHTML = text;
+    this.text_ = text;
+
+    if (this.getElement())
+    {
+        this.getContentElement().innerHTML = text;
+    }
 };
 
 /**
