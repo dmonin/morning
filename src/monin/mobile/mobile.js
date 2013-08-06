@@ -16,6 +16,7 @@
  * @fileoverview Set of utilities for mobile browsers
  */
 goog.provide('monin.mobile');
+goog.require('goog.events.BrowserFeature');
 goog.require('goog.math.Size');
 
 /**
@@ -35,7 +36,7 @@ monin.mobile.getScreenSize = function()
  */
 monin.mobile.isTouchDevice = function()
 {
-    return 'ontouchstart' in document.documentElement;
+    return goog.events.BrowserFeature.TOUCH_ENABLED;
 };
 
 /**

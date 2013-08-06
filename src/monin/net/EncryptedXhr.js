@@ -99,7 +99,7 @@ monin.net.EncryptedXhr.prototype.send = function(url, opt_method, opt_content,
         jsonContent = goog.json.serialize(opt_content);
     }
 
-    if (this.encryptData_ && opt_content)
+    if (this.password_ && opt_content)
     {
         jsonContent = this.encrypt_(jsonContent);
     }

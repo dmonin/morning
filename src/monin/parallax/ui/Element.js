@@ -43,6 +43,8 @@ monin.parallax.ui.Element = function()
 goog.inherits(monin.parallax.ui.Element, goog.ui.Component);
 
 /**
+ * Adjusts element to viewport size
+ *
  * @param {goog.math.Size} size
  */
 monin.parallax.ui.Element.prototype.adjustToSize = function(size)
@@ -59,6 +61,8 @@ monin.parallax.ui.Element.prototype.enterDocument = function()
 };
 
 /**
+ * Returns initial position
+ *
  * @return {goog.math.Coordinate}
  */
 monin.parallax.ui.Element.prototype.getInitialPosition = function()
@@ -67,6 +71,8 @@ monin.parallax.ui.Element.prototype.getInitialPosition = function()
 };
 
 /**
+ * Returns true if element needs to be loaded
+ *
  * @return {boolean}
  */
 monin.parallax.ui.Element.prototype.isLoadable = function()
@@ -75,7 +81,7 @@ monin.parallax.ui.Element.prototype.isLoadable = function()
 };
 
 /**
- *
+ * Returns visibility range
  */
 monin.parallax.ui.Element.prototype.getRange = function()
 {
@@ -83,6 +89,8 @@ monin.parallax.ui.Element.prototype.getRange = function()
 };
 
 /**
+ * Updates parallax properties
+ *
  * @param {number} offset
  * @param {goog.math.Size} size
  * @param {number} position
@@ -101,6 +109,8 @@ monin.parallax.ui.Element.prototype.update = function(offset, size, position)
 };
 
 /**
+ * Sets element configuration
+ *
  * @param {Object} config
  * @param {monin.parallax.effects.EffectFactory} effectFactory
  */
@@ -118,6 +128,8 @@ monin.parallax.ui.Element.prototype.setConfig = function(config, effectFactory)
 };
 
 /**
+ * Enumiration for event types
+ *
  * @enum {string}
  */
 monin.parallax.ui.Element.EventType = {
