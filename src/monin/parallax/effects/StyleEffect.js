@@ -38,10 +38,8 @@ monin.parallax.effects.StyleEffect.prototype.setConfig = function(config)
 };
 
 /**
- * @param {Element} element
- * @param {string} property
- * @param {string} value
- * @private
+ * @param {monin.parallax.ui.Element} element
+ * @param {number} value
  */
 monin.parallax.effects.StyleEffect.prototype.setProperty = function(element, value)
 {
