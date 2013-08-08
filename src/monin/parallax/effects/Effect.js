@@ -1,6 +1,6 @@
 goog.provide('monin.parallax.effects.Effect');
-goog.require('goog.math.Range');
 goog.require('goog.fx.easing');
+goog.require('goog.math.Range');
 
 /**
  * @constructor
@@ -11,14 +11,14 @@ monin.parallax.effects.Effect = function()
      * @type {goog.math.Range}
      * @protected
      */
-    this.range = null;    
-    
+    this.range = null;
+
     /**
      * @type {boolean}
      * @protected
      */
     this.strictToRange = false;
-}
+};
 
 /**
  * @param {monin.parallax.ui.Element} element
@@ -42,9 +42,9 @@ monin.parallax.effects.Effect.prototype.easingFactory = function(type)
         case 'both':
             return goog.fx.easing.inAndOut;
     }
-    
-    return null;    
-}
+
+    return null;
+};
 
 /**
  * @param {number} offset
@@ -54,7 +54,7 @@ monin.parallax.effects.Effect.prototype.easingFactory = function(type)
 monin.parallax.effects.Effect.prototype.isInRange = function(offset)
 {
     return goog.math.Range.containsPoint(this.range, offset);
-}
+};
 
 /**
  * @param {Object} config
@@ -65,9 +65,9 @@ monin.parallax.effects.Effect.prototype.setConfig = function(config)
     {
         this.range = new goog.math.Range(config['range'][0], config['range'][1]);
     }
-    
+
     this.strictToRange = !!config['strictToRange'];
-}
+};
 
 /**
  * @param {number} offset
@@ -80,7 +80,7 @@ monin.parallax.effects.Effect.prototype.strictRange = function(offset)
     {
         offset = Math.max(offset, this.range.start);
         offset = Math.min(offset, this.range.end);
-    }    
-    
+    }
+
     return offset;
-}
+};
