@@ -660,7 +660,10 @@ monin.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
             this.removeChild(scene, true);
         }
 
-        scene.update(this.scrollPos_, this.size_);
+        if (isVisible)
+        {
+            scene.update(this.scrollPos_, this.size_);
+        }
     }, this);
 };
 
