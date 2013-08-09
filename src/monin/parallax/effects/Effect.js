@@ -18,6 +18,12 @@ monin.parallax.effects.Effect = function()
      * @protected
      */
     this.strictToRange = false;
+
+    /**
+     * @type {boolean}
+     * @protected
+     */
+    this.isActive = true;
 };
 
 /**
@@ -57,6 +63,16 @@ monin.parallax.effects.Effect.prototype.isInRange = function(offset)
 };
 
 /**
+ * @param  {boolean} isActive
+ */
+monin.parallax.effects.Effect.prototype.setActive = function(isActive)
+{
+    this.isActive = isActive;
+};
+
+/**
+ * Sets effect configuration
+ *
  * @param {Object} config
  */
 monin.parallax.effects.Effect.prototype.setConfig = function(config)

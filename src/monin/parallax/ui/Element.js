@@ -39,6 +39,13 @@ monin.parallax.ui.Element = function()
      */
     this.position_ = new goog.math.Coordinate(0, 0);
 
+
+    /**
+     * @type {boolean}
+     * @protected
+     */
+    this.isActive = true;
+
 };
 goog.inherits(monin.parallax.ui.Element, goog.ui.Component);
 
@@ -89,22 +96,17 @@ monin.parallax.ui.Element.prototype.getRange = function()
 };
 
 /**
- * Updates parallax properties
+ * Sets whether element is currently active / inactive
  *
- * @param {number} offset
- * @param {goog.math.Size} size
- * @param {number} position
+ * @param {boolean} isActive
  */
-monin.parallax.ui.Element.prototype.update = function(offset, size, position)
+monin.parallax.ui.Element.prototype.setActive = function(isActive)
 {
-    if (goog.DEBUG && this.config_ && this.config_.logOffset)
-    {
-        console.info('Element offset %o, %f', this, offset);
-    }
+    this.isActive = isActive;
 
     for (var i = 0; i < this.effects_.length; i++)
     {
-        this.effects_[i].apply(this, offset, size, position);
+        this.effects_[i].setActive(isActive);
     }
 };
 
@@ -124,6 +126,27 @@ monin.parallax.ui.Element.prototype.setConfig = function(config, effectFactory)
     {
         effect = effectFactory.getEffect(config['effects'][i]);
         this.effects_.push(effect);
+    }
+};
+
+
+/**
+ * Updates parallax properties
+ *
+ * @param {number} offset
+ * @param {goog.math.Size} size
+ * @param {number} position
+ */
+monin.parallax.ui.Element.prototype.update = function(offset, size, position)
+{
+    if (goog.DEBUG && this.config_ && this.config_.logOffset)
+    {
+        console.info('Element offset %o, %f', this, offset);
+    }
+
+    for (var i = 0; i < this.effects_.length; i++)
+    {
+        this.effects_[i].apply(this, offset, size, position);
     }
 };
 

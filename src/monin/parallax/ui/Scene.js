@@ -53,6 +53,13 @@ monin.parallax.ui.Scene = function()
      * @type {string}
      */
     this.name = '';
+
+
+    /**
+     * @type {boolean}
+     * @protected
+     */
+    this.isActive = true;
 };
 goog.inherits(monin.parallax.ui.Scene, goog.ui.Component);
 
@@ -197,6 +204,20 @@ monin.parallax.ui.Scene.prototype.isVisible = function(position)
 {
     return this.config_ && this.config_.range ?
         goog.math.Range.containsPoint(this.config_.range, position) : true;
+};
+
+/**
+ * Sets whether scene is currently active / inactive
+ *
+ * @param {boolean} isActive
+ */
+monin.parallax.ui.Scene.prototype.setActive = function(isActive)
+{
+    this.isActive = isActive;
+
+    goog.array.forEach(this.elements_.getValues(), function(el) {
+        el.setActive(isActive);
+    });
 };
 
 /**
