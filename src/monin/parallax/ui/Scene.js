@@ -85,6 +85,11 @@ monin.parallax.ui.Scene.prototype.decorateInternal = function(el)
     for (var i = 0; i < elements.length; i++)
     {
         cmp = goog.ui.registry.getDecorator(elements[i]);
+        if (goog.DEBUG && !cmp)
+        {
+            console.info('Can\'t find component: ', elements[i]);
+        }
+
         this.addChild(cmp);
         cmp.decorate(elements[i]);
 
@@ -295,9 +300,25 @@ monin.parallax.ui.Scene.prototype.update = function(position, size)
     // Calculating offset
     var delta = position - this.config_.position;
     var offset = delta / 1000;
+    var isVisible;
     goog.array.forEach(this.elements_.getValues(), function(el) {
+        isVisible = el.isVisible(offset);
+        if (!isVisible && el.isInDocument())
+        {
+            this.removeChild(el, true);
+        }
+        else if (isVisible && !el.isInDocument())
+        {
+            this.addChild(el, true);
+        }
+
+        if (!isVisible)
+        {
+            return;
+        }
+
         el.update(offset, size, position);
-    });
+    }, this);
 };
 
 /**

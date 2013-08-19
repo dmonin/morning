@@ -25,7 +25,7 @@ monin.parallax.ui.Element = function()
      * @type {goog.math.Range}
      * @protected
      */
-    this.range = new goog.math.Range(0, 0);
+    this.range = null;
 
     /**
      * @type {Array.<monin.parallax.effects.Effect>}
@@ -88,11 +88,11 @@ monin.parallax.ui.Element.prototype.isLoadable = function()
 };
 
 /**
- * Returns visibility range
+ * @param  {number} offset
  */
-monin.parallax.ui.Element.prototype.getRange = function()
+monin.parallax.ui.Element.prototype.isVisible = function(offset)
 {
-    return this.range;
+    return !this.range || goog.math.Range.containsPoint(this.range, offset);
 };
 
 /**
@@ -120,12 +120,19 @@ monin.parallax.ui.Element.prototype.setConfig = function(config, effectFactory)
 {
     this.config_ = monin.parallax.model.ElementConfig.factory(config);
 
-    var effect;
-
-    for (var i = 0; i < config['effects'].length; i++)
+    if (config['range'])
     {
-        effect = effectFactory.getEffect(config['effects'][i]);
-        this.effects_.push(effect);
+        this.range = new goog.math.Range(config['range'][0], config['range'][1]);
+    }
+
+    if (config['effects'])
+    {
+        var effect;
+        for (var i = 0; i < config['effects'].length; i++)
+        {
+            effect = effectFactory.getEffect(config['effects'][i]);
+            this.effects_.push(effect);
+        }
     }
 };
 
@@ -143,6 +150,8 @@ monin.parallax.ui.Element.prototype.update = function(offset, size, position)
     {
         console.info('Element offset %o, %f', this, offset);
     }
+
+
 
     for (var i = 0; i < this.effects_.length; i++)
     {

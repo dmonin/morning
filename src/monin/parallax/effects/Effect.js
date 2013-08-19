@@ -31,8 +31,17 @@ monin.parallax.effects.Effect = function()
  * @param {number} offset
  * @param {goog.math.Size} size
  * @param {number} position
+ * @return {boolean}
  */
-monin.parallax.effects.Effect.prototype.apply = goog.abstractMethod;
+monin.parallax.effects.Effect.prototype.apply = function(element, offset, size, position)
+{
+    if (!this.isInRange(offset) && this.strictToRange)
+    {
+        return false;
+    }
+
+    return true;
+};
 
 /**
  * @return {Function}
