@@ -54,7 +54,7 @@ monin.events.getPointerPosition = function(e)
 
 /**
  * @param {goog.events.EventHandler} handler
- * @param {goog.events.EventTarget} target
+ * @param {goog.events.ListenableType} target
  * @param {string} type
  * @param {Function} listener
  */
@@ -110,7 +110,7 @@ monin.events.listenPointerEvent = function(handler, target, type, listener)
 
 /**
  * @param {goog.events.EventHandler} handler
- * @param {goog.events.EventTarget} target
+ * @param {goog.events.ListenableType} target
  * @param {string} type
  * @param {Function} listener
  */
