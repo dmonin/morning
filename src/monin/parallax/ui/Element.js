@@ -25,7 +25,7 @@ monin.parallax.ui.Element = function()
      * @type {goog.math.Range}
      * @protected
      */
-    this.range = new goog.math.Range(0, 0);
+    this.range = null;
 
     /**
      * @type {Array.<monin.parallax.effects.Effect>}
@@ -38,6 +38,13 @@ monin.parallax.ui.Element = function()
      * @private
      */
     this.position_ = new goog.math.Coordinate(0, 0);
+
+
+    /**
+     * @type {boolean}
+     * @protected
+     */
+    this.isActive = true;
 
 };
 goog.inherits(monin.parallax.ui.Element, goog.ui.Component);
@@ -81,12 +88,54 @@ monin.parallax.ui.Element.prototype.isLoadable = function()
 };
 
 /**
- * Returns visibility range
+ * @param  {number} offset
  */
-monin.parallax.ui.Element.prototype.getRange = function()
+monin.parallax.ui.Element.prototype.isVisible = function(offset)
 {
-    return this.range;
+    return !this.range || goog.math.Range.containsPoint(this.range, offset);
 };
+
+/**
+ * Sets whether element is currently active / inactive
+ *
+ * @param {boolean} isActive
+ */
+monin.parallax.ui.Element.prototype.setActive = function(isActive)
+{
+    this.isActive = isActive;
+
+    for (var i = 0; i < this.effects_.length; i++)
+    {
+        this.effects_[i].setActive(isActive);
+    }
+};
+
+/**
+ * Sets element configuration
+ *
+ * @param {Object} config
+ * @param {monin.parallax.effects.EffectFactory} effectFactory
+ */
+monin.parallax.ui.Element.prototype.setConfig = function(config, effectFactory)
+{
+    this.config_ = monin.parallax.model.ElementConfig.factory(config);
+
+    if (config['range'])
+    {
+        this.range = new goog.math.Range(config['range'][0], config['range'][1]);
+    }
+
+    if (config['effects'])
+    {
+        var effect;
+        for (var i = 0; i < config['effects'].length; i++)
+        {
+            effect = effectFactory.getEffect(config['effects'][i]);
+            this.effects_.push(effect);
+        }
+    }
+};
+
 
 /**
  * Updates parallax properties
@@ -102,28 +151,11 @@ monin.parallax.ui.Element.prototype.update = function(offset, size, position)
         console.info('Element offset %o, %f', this, offset);
     }
 
+
+
     for (var i = 0; i < this.effects_.length; i++)
     {
         this.effects_[i].apply(this, offset, size, position);
-    }
-};
-
-/**
- * Sets element configuration
- *
- * @param {Object} config
- * @param {monin.parallax.effects.EffectFactory} effectFactory
- */
-monin.parallax.ui.Element.prototype.setConfig = function(config, effectFactory)
-{
-    this.config_ = monin.parallax.model.ElementConfig.factory(config);
-
-    var effect;
-
-    for (var i = 0; i < config['effects'].length; i++)
-    {
-        effect = effectFactory.getEffect(config['effects'][i]);
-        this.effects_.push(effect);
     }
 };
 

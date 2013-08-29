@@ -406,11 +406,11 @@ monin.parallax.ui.ParallaxContainer.prototype.handleKey_ = function(e)
 
         case goog.events.KeyCodes.RIGHT:
         case goog.events.KeyCodes.DOWN:
-            this.setPosition(this.endScrollPos_ + 100);
+            this.setPosition(this.endScrollPos_ + 30);
             break;
         case goog.events.KeyCodes.UP:
         case goog.events.KeyCodes.LEFT:
-            this.setPosition(this.endScrollPos_ - 100);
+            this.setPosition(this.endScrollPos_ - 30);
             break;
     }
 };
@@ -654,13 +654,18 @@ monin.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
         if (isVisible && !scene.isInDocument())
         {
             this.addChild(scene, true);
+            scene.setActive(true);
         }
         else if (!isVisible && scene.isInDocument())
         {
             this.removeChild(scene, true);
+            scene.setActive(false);
         }
 
-        scene.update(this.scrollPos_, this.size_);
+        if (isVisible)
+        {
+            scene.update(this.scrollPos_, this.size_);
+        }
     }, this);
 };
 

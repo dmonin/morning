@@ -53,6 +53,13 @@ monin.parallax.ui.Scene = function()
      * @type {string}
      */
     this.name = '';
+
+
+    /**
+     * @type {boolean}
+     * @protected
+     */
+    this.isActive = true;
 };
 goog.inherits(monin.parallax.ui.Scene, goog.ui.Component);
 
@@ -78,6 +85,11 @@ monin.parallax.ui.Scene.prototype.decorateInternal = function(el)
     for (var i = 0; i < elements.length; i++)
     {
         cmp = goog.ui.registry.getDecorator(elements[i]);
+        if (goog.DEBUG && !cmp)
+        {
+            console.info('Can\'t find component: ', elements[i]);
+        }
+
         this.addChild(cmp);
         cmp.decorate(elements[i]);
 
@@ -200,6 +212,20 @@ monin.parallax.ui.Scene.prototype.isVisible = function(position)
 };
 
 /**
+ * Sets whether scene is currently active / inactive
+ *
+ * @param {boolean} isActive
+ */
+monin.parallax.ui.Scene.prototype.setActive = function(isActive)
+{
+    this.isActive = isActive;
+
+    goog.array.forEach(this.elements_.getValues(), function(el) {
+        el.setActive(isActive);
+    });
+};
+
+/**
  * Sets scene configuration
  *
  * @param {Object} config
@@ -274,9 +300,25 @@ monin.parallax.ui.Scene.prototype.update = function(position, size)
     // Calculating offset
     var delta = position - this.config_.position;
     var offset = delta / 1000;
+    var isVisible;
     goog.array.forEach(this.elements_.getValues(), function(el) {
+        isVisible = el.isVisible(offset);
+        if (!isVisible && el.isInDocument())
+        {
+            this.removeChild(el, true);
+        }
+        else if (isVisible && !el.isInDocument())
+        {
+            this.addChild(el, true);
+        }
+
+        if (!isVisible)
+        {
+            return;
+        }
+
         el.update(offset, size, position);
-    });
+    }, this);
 };
 
 /**

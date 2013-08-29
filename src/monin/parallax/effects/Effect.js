@@ -1,6 +1,6 @@
 goog.provide('monin.parallax.effects.Effect');
-goog.require('goog.math.Range');
 goog.require('goog.fx.easing');
+goog.require('goog.math.Range');
 
 /**
  * @constructor
@@ -11,22 +11,37 @@ monin.parallax.effects.Effect = function()
      * @type {goog.math.Range}
      * @protected
      */
-    this.range = null;    
-    
+    this.range = null;
+
     /**
      * @type {boolean}
      * @protected
      */
     this.strictToRange = false;
-}
+
+    /**
+     * @type {boolean}
+     * @protected
+     */
+    this.isActive = true;
+};
 
 /**
  * @param {monin.parallax.ui.Element} element
  * @param {number} offset
  * @param {goog.math.Size} size
  * @param {number} position
+ * @return {boolean}
  */
-monin.parallax.effects.Effect.prototype.apply = goog.abstractMethod;
+monin.parallax.effects.Effect.prototype.apply = function(element, offset, size, position)
+{
+    if (!this.isInRange(offset) && this.strictToRange)
+    {
+        return false;
+    }
+
+    return true;
+};
 
 /**
  * @return {Function}
@@ -42,9 +57,9 @@ monin.parallax.effects.Effect.prototype.easingFactory = function(type)
         case 'both':
             return goog.fx.easing.inAndOut;
     }
-    
-    return null;    
-}
+
+    return null;
+};
 
 /**
  * @param {number} offset
@@ -54,9 +69,19 @@ monin.parallax.effects.Effect.prototype.easingFactory = function(type)
 monin.parallax.effects.Effect.prototype.isInRange = function(offset)
 {
     return goog.math.Range.containsPoint(this.range, offset);
-}
+};
 
 /**
+ * @param  {boolean} isActive
+ */
+monin.parallax.effects.Effect.prototype.setActive = function(isActive)
+{
+    this.isActive = isActive;
+};
+
+/**
+ * Sets effect configuration
+ *
  * @param {Object} config
  */
 monin.parallax.effects.Effect.prototype.setConfig = function(config)
@@ -65,9 +90,9 @@ monin.parallax.effects.Effect.prototype.setConfig = function(config)
     {
         this.range = new goog.math.Range(config['range'][0], config['range'][1]);
     }
-    
+
     this.strictToRange = !!config['strictToRange'];
-}
+};
 
 /**
  * @param {number} offset
@@ -80,7 +105,7 @@ monin.parallax.effects.Effect.prototype.strictRange = function(offset)
     {
         offset = Math.max(offset, this.range.start);
         offset = Math.min(offset, this.range.end);
-    }    
-    
+    }
+
     return offset;
-}
+};

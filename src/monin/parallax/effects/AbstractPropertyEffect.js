@@ -42,9 +42,9 @@ monin.parallax.effects.AbstractPropertyEffect.prototype.setConfig = function(con
 /** @inheritDoc */
 monin.parallax.effects.AbstractPropertyEffect.prototype.apply = function(element, offset, size)
 {
-    if (!this.isInRange(offset) && this.strictToRange)
+    if (!goog.base(this, 'apply', element, offset, size))
     {
-        return;
+        return false;
     }
 
     offset = this.strictRange(offset);
@@ -58,6 +58,8 @@ monin.parallax.effects.AbstractPropertyEffect.prototype.apply = function(element
     var value = goog.math.lerp(this.from, this.to, percent);
 
     this.setProperty(element, value);
+
+    return true;
 };
 
 
