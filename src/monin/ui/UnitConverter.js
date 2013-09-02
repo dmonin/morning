@@ -30,9 +30,10 @@ goog.require('monin.measure.Temperature');
  * Unit Converter
  *
  * @constructor
+ * @param {string=} opt_unitType
  * @extends {goog.ui.Component}
  */
-monin.ui.UnitConverter = function()
+monin.ui.UnitConverter = function(opt_unitType)
 {
     goog.base(this);
 
@@ -40,13 +41,15 @@ monin.ui.UnitConverter = function()
      * Unit type
      *
      * @type {string}
+     * @private
      */
-    this.unitType_ = '';
+    this.unitType_ = opt_unitType || '';
 
     /**
      * Number of decimals
      *
      * @type {number}
+     * @private
      */
     this.decimals_ = 0;
 
@@ -54,6 +57,7 @@ monin.ui.UnitConverter = function()
      * Measure converter
      *
      * @type {monin.measure.AbstractMeasure}
+     * @private
      */
     this.measure_ = null;
 
@@ -61,15 +65,26 @@ monin.ui.UnitConverter = function()
      * Tooltip component which shows switches
      *
      * @type {goog.ui.Tooltip}
+     * @private
      */
     this.tooltip_ = null;
 
     /**
      * @type {Function}
+     * @private
      */
     this.messageProvider_ = null;
 };
 goog.inherits(monin.ui.UnitConverter, goog.ui.Component);
+
+/** @inheritDoc */
+monin.ui.UnitConverter.prototype.createDom = function()
+{
+    var domHelper = this.getDomHelper();
+    var el = domHelper.createDom('div', 'unit-converter');
+
+    this.decorateInternal(el);
+};
 
 /** @inheritDoc */
 monin.ui.UnitConverter.prototype.decorateInternal = function(el)
@@ -78,12 +93,15 @@ monin.ui.UnitConverter.prototype.decorateInternal = function(el)
 
     if (typeof this.messageProvider_ != 'function')
     {
-        throw new Error('monin.ui.UnitConverter: Message provider is not specified.');
+        throw new Error(
+            'monin.ui.UnitConverter: Message provider is not specified.');
     }
 
-    var unitType = /** @type {string} */ (goog.dom.dataset.get(el, 'unittype'));
-    var value = parseFloat(goog.dom.dataset.get(el, 'value'));
-    var decimals = parseInt(goog.dom.dataset.get(el, 'decimals'), 10);
+    var ds = goog.dom.dataset;
+    var unitType = /** @type {string} */ (ds.get(el, 'unittype')) ||
+        this.unitType_;
+    var value = parseFloat(ds.get(el, 'value')) || 0;
+    var decimals = parseInt(ds.get(el, 'decimals'), 10) || 0;
 
     if (goog.DEBUG && !unitType)
     {
@@ -127,6 +145,16 @@ monin.ui.UnitConverter.prototype.enterDocument = function()
 };
 
 /**
+ * Returns current unit type
+ *
+ * @return {string}
+ */
+monin.ui.UnitConverter.prototype.getType = function()
+{
+    return this.unitType_;
+};
+
+/**
  * Handles click event
  *
  * @param {goog.events.BrowserEvent} e
@@ -139,8 +167,9 @@ monin.ui.UnitConverter.prototype.handleClick_ = function(e)
         return;
     }
 
+    var ds = goog.dom.dataset;
     var element = /** @type {Element} */ (e.target);
-    var unitType = /** @type {string} */ (goog.dom.dataset.get(element, 'unittype'));
+    var unitType = /** @type {string} */ (ds.get(element, 'unittype'));
     this.setType(unitType);
 };
 
@@ -190,8 +219,9 @@ monin.ui.UnitConverter.prototype.setType = function(type)
     goog.dom.dataset.set(this.getElement(), 'unittype', type);
     goog.dom.dataset.set(this.getElement(), 'value', String(value));
 
-    var tooltipTypes = this.tooltip_.getElement().querySelectorAll('.unit-type'),
-        isActive;
+    var tooltipTypes = this.tooltip_.getElement().
+                        querySelectorAll('.unit-type');
+    var isActive;
 
     goog.array.forEach(tooltipTypes, function(tooltipType) {
         isActive = goog.dom.dataset.get(tooltipType, 'unittype') == type;
@@ -199,6 +229,11 @@ monin.ui.UnitConverter.prototype.setType = function(type)
     });
 
     this.setHtml_(String(value));
+
+    this.dispatchEvent({
+        type: monin.ui.UnitConverter.EventType.TYPE_CHANGE,
+        unitType: type
+    });
 };
 
 /**
@@ -245,4 +280,8 @@ monin.ui.UnitConverter.prototype.setValue = function(value, opt_unitType)
 monin.ui.UnitConverter.prototype.setVisible = function(isVisible)
 {
     goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+};
+
+monin.ui.UnitConverter.EventType = {
+    TYPE_CHANGE: 'typechange'
 };
