@@ -158,8 +158,11 @@ monin.style.translate = function(el, opt_x, opt_y, opt_initialPosition)
     }
     else
     {
-        x += opt_initialPosition.x;
-        y += opt_initialPosition.y;
+        if (opt_initialPosition)
+        {
+            x += opt_initialPosition.x;
+            y += opt_initialPosition.y;
+        }
         if (typeof opt_x == 'number')
         {
             el.style.marginLeft = x + 'px';
