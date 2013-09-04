@@ -19,6 +19,7 @@
 goog.provide('monin.fx.dom.PredefinedEffect');
 goog.provide('monin.fx.dom.Slide');
 goog.provide('monin.fx.dom.SlideFrom');
+goog.require('goog.style.bidi');
 
 goog.require('monin.fx.Animation');
 
