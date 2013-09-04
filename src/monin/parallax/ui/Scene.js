@@ -87,7 +87,7 @@ monin.parallax.ui.Scene.prototype.decorateInternal = function(el)
         cmp = goog.ui.registry.getDecorator(elements[i]);
         if (goog.DEBUG && !cmp)
         {
-            console.info('Can\'t find component: ', elements[i]);
+            console.error('Can\'t find component: ', elements[i]);
         }
 
         this.addChild(cmp);
