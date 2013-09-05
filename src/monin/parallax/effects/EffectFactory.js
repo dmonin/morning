@@ -1,8 +1,8 @@
 goog.provide('monin.parallax.effects.EffectFactory');
 
+goog.require('monin.parallax.effects.CounterEffect');
 goog.require('monin.parallax.effects.ParallaxEffect');
 goog.require('monin.parallax.effects.StyleEffect');
-goog.require('monin.parallax.effects.CounterEffect');
 
 /**
  * @constructor
@@ -10,7 +10,7 @@ goog.require('monin.parallax.effects.CounterEffect');
 monin.parallax.effects.EffectFactory = function()
 {
 
-}
+};
 
 /**
  * @param {Object} config
@@ -20,7 +20,7 @@ monin.parallax.effects.EffectFactory.prototype.getEffect = function(config)
 {
     var effect = null;
 
-    switch(config['type'])
+    switch (config['type'])
     {
         case 'parallax':
             effect = new monin.parallax.effects.ParallaxEffect();
@@ -39,4 +39,4 @@ monin.parallax.effects.EffectFactory.prototype.getEffect = function(config)
     }
 
     return effect;
-}
+};

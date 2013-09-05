@@ -1,6 +1,7 @@
 goog.provide('monin.parallax.effects.Effect');
 goog.require('goog.fx.easing');
 goog.require('goog.math.Range');
+goog.require('monin.fx.easing');
 
 /**
  * @constructor
@@ -56,6 +57,10 @@ monin.parallax.effects.Effect.prototype.easingFactory = function(type)
             return goog.fx.easing.easeOut;
         case 'both':
             return goog.fx.easing.inAndOut;
+        case 'elasticOut':
+            return monin.fx.easing.elasticOut;
+        case 'elasticIn':
+            return monin.fx.easing.elasticIn;
     }
 
     return null;

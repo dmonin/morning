@@ -301,6 +301,8 @@ monin.parallax.ui.Scene.prototype.update = function(position, size)
     var delta = position - this.config_.position;
     var offset = delta / 1000;
     var isVisible;
+    var elementsProcessed = 0;
+    var effectsProcessed = 0;
     goog.array.forEach(this.elements_.getValues(), function(el) {
         isVisible = el.isVisible(offset);
         if (!isVisible && el.isInDocument())

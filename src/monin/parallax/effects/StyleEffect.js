@@ -1,7 +1,7 @@
 goog.provide('monin.parallax.effects.StyleEffect');
 
 goog.require('monin.parallax.effects.AbstractPropertyEffect');
-
+goog.require('goog.structs.Map');
 /**
  * @constructor
  * @extends {monin.parallax.effects.AbstractPropertyEffect }
@@ -22,9 +22,16 @@ monin.parallax.effects.StyleEffect = function()
      * @type {string}
      */
     this.selector = '';
+
 };
 
 goog.inherits(monin.parallax.effects.StyleEffect, monin.parallax.effects.AbstractPropertyEffect);
+
+/**
+ * @type {goog.structs.Map}
+ * @private
+ */
+monin.parallax.effects.StyleEffect.states_ = new goog.structs.Map();
 
 /** @inheritDoc */
 monin.parallax.effects.StyleEffect.prototype.setConfig = function(config)
@@ -34,7 +41,6 @@ monin.parallax.effects.StyleEffect.prototype.setConfig = function(config)
     this.selector = config['selector'];
     this.property = config['property'];
     this.unit = config['unit'] || '';
-
 };
 
 /**
@@ -45,6 +51,23 @@ monin.parallax.effects.StyleEffect.prototype.setProperty = function(element, val
 {
     var node = element.getElement();
     var property = this.property;
+
+    var state = null;
+    if (node.id)
+    {
+        state = monin.parallax.effects.StyleEffect.states_.get(node.id) || {};
+    }
+
+    if (state && state[this.property] == value)
+    {
+        return;
+    }
+
+    if (goog.DEBUG && grad17.DEBUG_STYLE)
+    {
+        console.info('StyleEffect: Updating style %o %s', node.id, property, value);
+    }
+
     if (this.selector)
     {
         node = node.querySelector(this.selector);
@@ -73,4 +96,9 @@ monin.parallax.effects.StyleEffect.prototype.setProperty = function(element, val
             break;
     }
 
+    if (state)
+    {
+        state[property] = value;
+        monin.parallax.effects.StyleEffect.states_.set(node.id, state);
+    }
 };

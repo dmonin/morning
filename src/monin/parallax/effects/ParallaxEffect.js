@@ -19,15 +19,11 @@ monin.parallax.effects.ParallaxEffect = function()
      * @type {string}
      * @private
      */
-    this.property = "top";
-}
+    this.property = 'top';
+};
 goog.inherits(monin.parallax.effects.ParallaxEffect, monin.parallax.effects.Effect);
 
-/**
- * @param {monin.parallax.ui.Element} element
- * @param {number} offset
- * @param {goog.math.Size} size
- */
+/** @inheritDoc */
 monin.parallax.effects.ParallaxEffect.prototype.apply = function(element, offset, size)
 {
     var position = element.getInitialPosition();
@@ -39,7 +35,9 @@ monin.parallax.effects.ParallaxEffect.prototype.apply = function(element, offset
             monin.style.translate(element.getElement(), undefined, y, position);
             break;
     }
-}
+
+    return true;
+};
 
 /**
  * @param {Object} config
@@ -50,4 +48,4 @@ monin.parallax.effects.ParallaxEffect.prototype.setConfig = function(config)
 
     this.ratio = config['ratio'];
     this.property = config['property'];
-}
+};

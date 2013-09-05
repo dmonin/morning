@@ -22,6 +22,12 @@ monin.parallax.effects.AbstractPropertyEffect = function()
      * @type {Function}
      */
     this.easing = null;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.decimals = -1;
 };
 
 goog.inherits(monin.parallax.effects.AbstractPropertyEffect, monin.parallax.effects.Effect);
@@ -34,15 +40,15 @@ monin.parallax.effects.AbstractPropertyEffect.prototype.setConfig = function(con
 
     this.from = config['from'];
     this.to = config['to'];
+    this.decimals = typeof config['decimals'] == 'number' ? config['decimals'] : -1;
     this.easing = this.easingFactory(config['easing']);
-
 };
 
 
 /** @inheritDoc */
-monin.parallax.effects.AbstractPropertyEffect.prototype.apply = function(element, offset, size)
+monin.parallax.effects.AbstractPropertyEffect.prototype.apply = function(element, offset, size, position)
 {
-    if (!goog.base(this, 'apply', element, offset, size))
+    if (!goog.base(this, 'apply', element, offset, size, position))
     {
         return false;
     }
@@ -56,6 +62,12 @@ monin.parallax.effects.AbstractPropertyEffect.prototype.apply = function(element
     }
 
     var value = goog.math.lerp(this.from, this.to, percent);
+    var decimals = this.decimals;
+    if (decimals != -1)
+    {
+        var exp = Math.pow(10, decimals);
+        value = Math.round(value *  exp) / exp;
+    }
 
     this.setProperty(element, value);
 

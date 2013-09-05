@@ -649,8 +649,16 @@ monin.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
         return;
     }
 
+    var processed = {
+        effectsProcessed: 0,
+        elementsProcessed: 0
+    };
+    var isVisible, result;
+
+    // var tStart = Date.now();
+
     goog.array.forEach(this.scenes_.getValues(), function(scene) {
-        var isVisible = scene.isVisible(this.scrollPos_);
+        isVisible = scene.isVisible(this.scrollPos_);
         if (isVisible && !scene.isInDocument())
         {
             this.addChild(scene, true);
@@ -665,8 +673,17 @@ monin.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
         if (isVisible)
         {
             scene.update(this.scrollPos_, this.size_);
+            // processed.effectsProcessed += result.effectsProcessed;
+            // processed.elementsProcessed += result.elementsProcessed;
         }
     }, this);
+
+    // var tEnd = Date.now();
+
+    // if (goog.DEBUG)
+    // {
+    //     console.info(tEnd - tStart);
+    // }
 };
 
 /**

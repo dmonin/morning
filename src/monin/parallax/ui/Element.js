@@ -151,12 +151,12 @@ monin.parallax.ui.Element.prototype.update = function(offset, size, position)
         console.info('Element offset %o, %f', this, offset);
     }
 
-
-
     for (var i = 0; i < this.effects_.length; i++)
     {
         this.effects_[i].apply(this, offset, size, position);
     }
+
+    // return this.effects_.length;
 };
 
 /**
