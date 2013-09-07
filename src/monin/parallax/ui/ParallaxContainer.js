@@ -605,7 +605,8 @@ monin.parallax.ui.ParallaxContainer.prototype.setTargetPosition = function(newPo
 
     this.endScrollPos_ = newPos;
     this.strictPos_();
-};
+}
+
 
 
 /**
