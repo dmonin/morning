@@ -59,6 +59,14 @@ monin.parallax.ui.Element.prototype.adjustToSize = function(size)
     // No default implementation
 };
 
+/**
+ * @return {Array.<monin.parallax.effects.Effect>}
+ */
+monin.parallax.ui.Element.prototype.getEffects = function()
+{
+    return this.effects_;
+};
+
 /** @inheritDoc */
 monin.parallax.ui.Element.prototype.enterDocument = function()
 {
