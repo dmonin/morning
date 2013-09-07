@@ -124,8 +124,17 @@ monin.net.Navigator.prototype.handleDataLoad_ = function(e)
     this.rawBody = body;
 
     this.iframe_.onload = goog.bind(function() {
+        if (goog.DEBUG)
+        {
+            console.info('Navigator: IFrame Loaded');
+        }
         this.readyDelay_.start(500, 15000);
     }, this);
+
+    if (goog.DEBUG)
+    {
+        console.info('Navigator: Writing content');
+    }
 
     var iframe = /** @type {!HTMLIFrameElement} */ (this.iframe_);
     goog.dom.iframe.writeContent(iframe, body);

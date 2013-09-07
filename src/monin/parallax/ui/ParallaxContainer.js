@@ -130,6 +130,11 @@ monin.parallax.ui.ParallaxContainer.prototype.addScene = function(name, scene)
  */
 monin.parallax.ui.ParallaxContainer.prototype.calculateBottom_ = function()
 {
+    if (goog.DEBUG)
+    {
+        console.info('ParallaxContainer: Calculating bottom position...');
+    }
+
     var bottom = 0;
     goog.array.forEach(this.scenes_.getValues(), function(scene) {
         bottom = Math.max(scene.getBottom(this.size_), bottom);
@@ -187,6 +192,11 @@ monin.parallax.ui.ParallaxContainer.prototype.decorateInternal = function(el)
 
         this.scenes_.set(cmp.name, cmp);
     }
+
+    if (goog.DEBUG)
+    {
+        console.info('ParallaxContainer: Scenes initialized');
+    }
 };
 
 /** @inheritDoc */
@@ -231,6 +241,11 @@ monin.parallax.ui.ParallaxContainer.prototype.handleConfigLoad_ = function(e)
 {
     var config = e.target.getResponseJson();
 
+    if (goog.DEBUG)
+    {
+        console.info('ParallaxContainer: Config Loaded');
+    }
+
     for (var key in config)
     {
         var sceneConfig = config[key];
@@ -241,6 +256,16 @@ monin.parallax.ui.ParallaxContainer.prototype.handleConfigLoad_ = function(e)
         }
 
         scene.setConfig(sceneConfig, this.effectFactory_);
+        if (sceneConfig['addEffects'])
+        {
+            this.addEffects_(sceneConfig['position'],
+                sceneConfig['addEffects']);
+        }
+    }
+
+    if (goog.DEBUG)
+    {
+        console.info('ParallaxContainer: Config Updated');
     }
 
     this.calculateBottom_();
@@ -257,11 +282,17 @@ monin.parallax.ui.ParallaxContainer.prototype.handleConfigLoad_ = function(e)
         if (scrollPos)
         {
             this.scrollPos_ = Number(scrollPos);
-            this.setPosition(Number(scrollPos));
+            this.setTargetPosition(Number(scrollPos));
         }
     }
 
     this.initialized_ = true;
+
+
+    if (goog.DEBUG)
+    {
+        console.info('ParallaxContainer: Performing first update...');
+    }
 
     this.updateScenes_();
 
@@ -392,25 +423,25 @@ monin.parallax.ui.ParallaxContainer.prototype.handleKey_ = function(e)
     switch (e.keyCode)
     {
         case goog.events.KeyCodes.HOME:
-            this.setPosition(0);
+            this.setTargetPosition(0);
             break;
         case goog.events.KeyCodes.END:
-            this.setPosition(this.bottomPosition_);
+            this.setTargetPosition(this.bottomPosition_);
             break;
         case goog.events.KeyCodes.PAGE_UP:
-            this.setPosition(this.endScrollPos_ - this.size_.height);
+            this.setTargetPosition(this.endScrollPos_ - this.size_.height);
             break;
         case goog.events.KeyCodes.PAGE_DOWN:
-            this.setPosition(this.endScrollPos_ + this.size_.height);
+            this.setTargetPosition(this.endScrollPos_ + this.size_.height);
             break;
 
         case goog.events.KeyCodes.RIGHT:
         case goog.events.KeyCodes.DOWN:
-            this.setPosition(this.endScrollPos_ + 30);
+            this.setTargetPosition(this.endScrollPos_ + 30);
             break;
         case goog.events.KeyCodes.UP:
         case goog.events.KeyCodes.LEFT:
-            this.setPosition(this.endScrollPos_ - 30);
+            this.setTargetPosition(this.endScrollPos_ - 30);
             break;
     }
 };
@@ -424,7 +455,7 @@ monin.parallax.ui.ParallaxContainer.prototype.handleMouseWheel_ = function(e)
     var delta = this.smoothScrolling ? 300 : 100;
     var offset = e.deltaY > 0 ? delta : -delta;
 
-    this.setPosition(this.scrollPos_ + offset);
+    this.setTargetPosition(this.scrollPos_ + offset);
 
 
 
@@ -506,7 +537,7 @@ monin.parallax.ui.ParallaxContainer.prototype.moveToNext = function()
     goog.array.forEach(this.scenes_.getValues(), function(scene) {
         if (!found && scene.getConfig().snappable && scene.getPosition() > this.endScrollPos_)
         {
-            this.setPosition(scene.getPosition());
+            this.setTargetPosition(scene.getPosition());
             found = true;
         }
     }, this);
@@ -521,7 +552,7 @@ monin.parallax.ui.ParallaxContainer.prototype.moveToPrevious = function()
     goog.array.forEachRight(this.scenes_.getValues(), function(scene) {
         if (!found && scene.getConfig().snappable && scene.getPosition() < this.endScrollPos_)
         {
-            this.setPosition(scene.getPosition());
+            this.setTargetPosition(scene.getPosition());
             found = true;
         }
     }, this);
@@ -540,6 +571,16 @@ monin.parallax.ui.ParallaxContainer.prototype.setEffectFactory = function(effect
  */
 monin.parallax.ui.ParallaxContainer.prototype.setPosition = function(newPos)
 {
+    this.scrollPos_ = newPos - 1;
+    this.endScrollPos_ = newPos;
+    this.strictPos_();
+};
+
+/**
+ * @param {number} newPos
+ */
+monin.parallax.ui.ParallaxContainer.prototype.setTargetPosition = function(newPos)
+{
     if (newPos != this.endScrollPos_)
     {
         this.dispatchEvent({
@@ -551,7 +592,8 @@ monin.parallax.ui.ParallaxContainer.prototype.setPosition = function(newPos)
 
     this.endScrollPos_ = newPos;
     this.strictPos_();
-};
+}
+
 
 /**
  * @param {Element} el
@@ -579,7 +621,7 @@ monin.parallax.ui.ParallaxContainer.prototype.snap_ = function()
     goog.array.forEach(this.scenes_.getValues(), function(scene) {
         if (scene.getConfig().snappable && Math.abs(scene.getPosition() - this.scrollPos_) < 500)
         {
-            this.setPosition(scene.getPosition());
+            this.setTargetPosition(scene.getPosition());
         }
     }, this);
 };
@@ -637,6 +679,34 @@ monin.parallax.ui.ParallaxContainer.prototype.setSize = function(size)
 monin.parallax.ui.ParallaxContainer.prototype.setVisible = function(isVisible)
 {
     goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+};
+
+/**
+ * @param {number} pos
+ * @param {Object} config
+ * @private
+ */
+monin.parallax.ui.ParallaxContainer.prototype.addEffects_ = function(pos, config)
+{
+    var parts, element, scene, effect, effectsCfg;
+    for (var key in config)
+    {
+        parts = key.split('/');
+        scene = this.scenes_.get(parts[0]);
+        if (!scene)
+        {
+            console.error('Scene not found', parts);
+        }
+        element = scene.getElementById(parts[1]);
+        effectsCfg = config[key];
+        for (var i = 0; i < effectsCfg.length; i++)
+        {
+            effectsCfg[i]['range'][0] += pos / 1000;
+            effectsCfg[i]['range'][1] += pos / 1000;
+            effect = this.effectFactory_.getEffect(effectsCfg[i]);
+            element.getEffects().push(effect);
+        }
+    }
 };
 
 /**

@@ -96,7 +96,7 @@ monin.parallax.ui.Scene.prototype.decorateInternal = function(el)
         this.elements_.set(elements[i].id, cmp);
         if (goog.DEBUG)
         {
-            console.info('Initializing Element: %o', cmp);
+            console.info('Scene: Initializing element: %s %o', elements[i].id, cmp);
         }
 
         if (cmp.isLoadable())
@@ -105,6 +105,11 @@ monin.parallax.ui.Scene.prototype.decorateInternal = function(el)
                 this.handleElementLoad_);
             this.loadedTotalCount_++;
         }
+    }
+
+    if (goog.DEBUG)
+    {
+        console.info('Scene: Initialization complete');
     }
 
     if (this.loadedCount_ == this.loadedTotalCount_)

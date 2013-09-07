@@ -155,6 +155,7 @@ monin.style.translate = function(el, opt_x, opt_y, opt_initialPosition)
         el.style.msTransform = 'translate(' + x + 'px, ' + y + 'px)';
         el.style.MozTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
         el.style.webkitTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+
     }
     else
     {
