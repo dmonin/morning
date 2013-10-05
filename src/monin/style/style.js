@@ -150,9 +150,9 @@ monin.style.translate = function(el, opt_x, opt_y, opt_initialPosition)
     var x = opt_x || 0;
     var y = opt_y || 0;
 
-    if (Modernizr.csstransforms)
+    if (Modernizr.csstransforms3d)
     {
-        el.style.msTransform = 'translate(' + x + 'px, ' + y + 'px)';
+        el.style.msTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
         el.style.MozTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
         el.style.webkitTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
 
