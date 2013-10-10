@@ -139,6 +139,14 @@ monin.parallax.ui.Element.prototype.setConfig = function(config, effectFactory)
         for (var i = 0; i < config['effects'].length; i++)
         {
             effect = effectFactory.getEffect(config['effects'][i]);
+            if (!effect)
+            {
+                if (goog.DEBUG)
+                {
+                    console.error('Effect could\'nt be found. %o', config['effects'][i]);
+                }
+                throw new Error('Effect not found.');
+            }
             this.effects_.push(effect);
         }
     }
