@@ -725,14 +725,17 @@ monin.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
     };
     var isVisible, result;
 
-    // var tStart = Date.now();
-
     goog.array.forEach(this.scenes_.getValues(), function(scene) {
         isVisible = scene.isVisible(this.scrollPos_);
         if (isVisible && !scene.isInDocument())
         {
             this.addChild(scene, true);
             scene.setActive(true);
+
+            this.dispatchEvent({
+                type: monin.parallax.ui.ParallaxContainer.EventType.ADDED_TO_STAGE,
+                scene: scene
+            });
         }
         else if (!isVisible && scene.isInDocument())
         {
@@ -743,23 +746,15 @@ monin.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
         if (isVisible)
         {
             scene.update(this.scrollPos_, this.size_);
-            // processed.effectsProcessed += result.effectsProcessed;
-            // processed.elementsProcessed += result.elementsProcessed;
         }
     }, this);
-
-    // var tEnd = Date.now();
-
-    // if (goog.DEBUG)
-    // {
-    //     console.info(tEnd - tStart);
-    // }
 };
 
 /**
  * @enum {string}
  */
 monin.parallax.ui.ParallaxContainer.EventType = {
+    ADDED_TO_STAGE: 'added_to_stage',
     INITIALIZED: 'initialized',
     MAX_POSITION_CHANGED: 'maxPositionChanged',
     SCROLL_POSITION_CHANGED: 'scrollpositionchanged',
