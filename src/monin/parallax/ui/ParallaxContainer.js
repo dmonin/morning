@@ -107,6 +107,11 @@ monin.parallax.ui.ParallaxContainer = function()
     this.snapDelay_ = new goog.async.Delay(this.snap_, 1000, this);
 
     /**
+     * @type {boolean}
+     */
+    this.snappable = true;
+
+    /**
      * @type {number}
      */
     this.speedFactor = 8;
@@ -362,6 +367,14 @@ monin.parallax.ui.ParallaxContainer.prototype.getScene = function(sceneName)
 };
 
 /**
+ * @return {Array.<monin.parallax.ui.Scene>}
+ */
+monin.parallax.ui.ParallaxContainer.prototype.getScenes = function()
+{
+    return this.scenes_.getValues();
+};
+
+/**
  * @param {string} sceneName
  * @return {monin.parallax.ui.Scene}
  */
@@ -592,7 +605,7 @@ monin.parallax.ui.ParallaxContainer.prototype.setTargetPosition = function(newPo
 
     this.endScrollPos_ = newPos;
     this.strictPos_();
-}
+};
 
 
 /**
@@ -618,6 +631,10 @@ monin.parallax.ui.ParallaxContainer.prototype.setMouseWheelTarget = function(el)
  */
 monin.parallax.ui.ParallaxContainer.prototype.snap_ = function()
 {
+    if (!this.snappable)
+    {
+        return;
+    }
     goog.array.forEach(this.scenes_.getValues(), function(scene) {
         if (scene.getConfig().snappable && Math.abs(scene.getPosition() - this.scrollPos_) < 500)
         {
