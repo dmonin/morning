@@ -209,22 +209,7 @@ monin.ui.Swiffy.prototype.initialize_ = function()
 
         this.frameCount_ = Number(this.data_['frameCount']);
         this.timer_.setInterval(1000 / this.data_['frameRate']);
-        console.log('Swiffy initialize', this.getElement());
     }
-};
-
-/** @inheritDoc */
-monin.ui.Swiffy.prototype.exitDocument = function()
-{
-    goog.base(this, 'exitDocument');
-
-    // if (this.stage_)
-    // {
-        // this.stage_.destroy();
-        // this.stage_ = null;
-        // this.getElement().innerHTML = '';
-        // console.log('Swiffy exit', this.getElement());
-    // }
 };
 
 /**
