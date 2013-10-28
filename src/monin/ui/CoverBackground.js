@@ -149,14 +149,35 @@ monin.ui.CoverBackground.prototype.decorateInternal = function(el)
         {
             var width = Number(imgEl.getAttribute('width'));
             var height = Number(imgEl.getAttribute('height'));
-            this.image = new monin.model.Image(imgEl.src,
-                new goog.math.Size(width, height));
+            var size = null;
+
+            if (width > 0 && height > 0)
+            {
+                size = new goog.math.Size(width, height);
+            }
+
+            this.image = new monin.model.Image(imgEl.src, size);
+
+            if (!size)
+            {
+                this.image.load(this.handleImageLoad_, this);
+            }
 
             this.imgEl = imgEl;
         }
     }
 };
 
+/**
+ * @private
+ */
+monin.ui.CoverBackground.prototype.handleImageLoad_ = function()
+{
+    if (this.coverSize)
+    {
+        this.setSize(this.coverSize);
+    }
+};
 
 /**
  * Resizes element to specified size
@@ -231,6 +252,11 @@ monin.ui.CoverBackground.prototype.setSize = function(coverSize)
     el.style.height = coverSize.height + 'px';
 
     this.coverSize = coverSize;
+
+    if (!this.image.size)
+    {
+        return;
+    }
 
     this.resize(this.imgEl, this.image.size, coverSize);
     var imgSize = /** @type {goog.math.Size!} */ (this.image.size);
