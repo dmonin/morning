@@ -107,6 +107,11 @@ monin.parallax.ui.ParallaxContainer = function()
     this.snapDelay_ = new goog.async.Delay(this.snap_, 1000, this);
 
     /**
+     * @type {boolean}
+     */
+    this.snappable = true;
+
+    /**
      * @type {number}
      */
     this.speedFactor = 8;
@@ -362,6 +367,14 @@ monin.parallax.ui.ParallaxContainer.prototype.getScene = function(sceneName)
 };
 
 /**
+ * @return {Array.<monin.parallax.ui.Scene>}
+ */
+monin.parallax.ui.ParallaxContainer.prototype.getScenes = function()
+{
+    return this.scenes_.getValues();
+};
+
+/**
  * @param {string} sceneName
  * @return {monin.parallax.ui.Scene}
  */
@@ -592,8 +605,7 @@ monin.parallax.ui.ParallaxContainer.prototype.setTargetPosition = function(newPo
 
     this.endScrollPos_ = newPos;
     this.strictPos_();
-}
-
+};
 
 /**
  * @param {Element} el
@@ -618,6 +630,10 @@ monin.parallax.ui.ParallaxContainer.prototype.setMouseWheelTarget = function(el)
  */
 monin.parallax.ui.ParallaxContainer.prototype.snap_ = function()
 {
+    if (!this.snappable)
+    {
+        return;
+    }
     goog.array.forEach(this.scenes_.getValues(), function(scene) {
         if (scene.getConfig().snappable && Math.abs(scene.getPosition() - this.scrollPos_) < 500)
         {
@@ -725,14 +741,17 @@ monin.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
     };
     var isVisible, result;
 
-    // var tStart = Date.now();
-
     goog.array.forEach(this.scenes_.getValues(), function(scene) {
         isVisible = scene.isVisible(this.scrollPos_);
         if (isVisible && !scene.isInDocument())
         {
             this.addChild(scene, true);
             scene.setActive(true);
+
+            this.dispatchEvent({
+                type: monin.parallax.ui.ParallaxContainer.EventType.ADDED_TO_STAGE,
+                scene: scene
+            });
         }
         else if (!isVisible && scene.isInDocument())
         {
@@ -743,23 +762,15 @@ monin.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
         if (isVisible)
         {
             scene.update(this.scrollPos_, this.size_);
-            // processed.effectsProcessed += result.effectsProcessed;
-            // processed.elementsProcessed += result.elementsProcessed;
         }
     }, this);
-
-    // var tEnd = Date.now();
-
-    // if (goog.DEBUG)
-    // {
-    //     console.info(tEnd - tStart);
-    // }
 };
 
 /**
  * @enum {string}
  */
 monin.parallax.ui.ParallaxContainer.EventType = {
+    ADDED_TO_STAGE: 'added_to_stage',
     INITIALIZED: 'initialized',
     MAX_POSITION_CHANGED: 'maxPositionChanged',
     SCROLL_POSITION_CHANGED: 'scrollpositionchanged',

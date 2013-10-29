@@ -18,6 +18,7 @@
 goog.provide('monin.mobile');
 goog.require('goog.events.BrowserFeature');
 goog.require('goog.math.Size');
+goog.require('goog.math.Vec2');
 
 /**
  * Returns screen size
