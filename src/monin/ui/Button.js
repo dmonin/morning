@@ -163,6 +163,8 @@ monin.ui.Button.prototype.getHandlerElement = function()
  */
 monin.ui.Button.prototype.handleClick = function(e)
 {
+    e.preventDefault();
+
     if (this.isEnabled_)
     {
         this.dispatchEvent(goog.ui.Component.EventType.ACTION);
