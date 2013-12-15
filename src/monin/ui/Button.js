@@ -158,12 +158,15 @@ monin.ui.Button.prototype.getHandlerElement = function()
 /**
  * Handles click event
  *
- * @param {goog.events.BrowserEvent} e
+ * @param {goog.events.BrowserEvent=} e
  * @protected
  */
 monin.ui.Button.prototype.handleClick = function(e)
 {
-    e.preventDefault();
+    if (e)
+    {
+        e.preventDefault();
+    }
 
     if (this.isEnabled_)
     {
