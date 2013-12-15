@@ -56,9 +56,9 @@ monin.forms.DefaultErrorProvider.prototype.display = function(result, form)
     if (!result.isValid())
     {
         var error = result.errors[0];
-
         var control = form.getControlByName(error.fieldName);
         control.setInvalid(true);
+
         if (control instanceof monin.forms.Textbox)
         {
             control.focus();
@@ -69,8 +69,6 @@ monin.forms.DefaultErrorProvider.prototype.display = function(result, form)
             this.setVisible(!result.isValid());
         }, 100, this);
     }
-
-
 };
 
 /**
@@ -83,7 +81,6 @@ monin.forms.DefaultErrorProvider.prototype.displayError = function(element, mess
 {
     this.getElement().innerHTML = message;
     goog.dom.insertSiblingAfter(this.getElement(), element);
-
 };
 
 /**

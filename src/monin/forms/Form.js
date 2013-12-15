@@ -112,6 +112,11 @@ monin.forms.Form.prototype.disposeInternal = function()
 {
     goog.base(this, 'disposeInternal');
 
+    if (this.errorProvider)
+    {
+        goog.dispose(this.errorProvider);
+    }
+
     this.unbindAll();
 };
 

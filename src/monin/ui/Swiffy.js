@@ -146,7 +146,6 @@ monin.ui.Swiffy.prototype.enterDocument = function()
 
 };
 
-
 /**
  * Handles JSON Response and initializes
  * animation configuration if already rendered
