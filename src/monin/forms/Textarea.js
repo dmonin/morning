@@ -178,22 +178,22 @@ monin.forms.Textarea.prototype.reset = function()
  */
 monin.forms.Textarea.prototype.setConfig = function(config)
 {
-    if (typeof config.delayChangeEvent != 'undefined')
+    if (goog.isDef(config.delayChangeEvent))
     {
         this.delayChangeEvent_ = !!config.delayChangeEvent;
     }
 
-    if (typeof config.className != 'undefined')
+    if (goog.isDef(config.className))
     {
         this.addClassName(config.className);
     }
 
-    if (typeof config.fieldName != 'undefined')
+    if (goog.isDef(config.fieldName))
     {
         this.fieldName_ = config.fieldName;
     }
 
-    if (typeof config.placeholder != 'undefined')
+    if (goog.isDef(config.placeholder))
     {
         this.placeholder_ = config.placeholder;
         if (this.getElement())

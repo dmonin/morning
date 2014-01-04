@@ -95,6 +95,11 @@ monin.forms.Select.prototype.setConfig = function(config)
             this.addItem(new goog.ui.Option(options[i].text, options[i].model));
         }
     }
+
+    if (goog.isDef(config.fieldName))
+    {
+        this.fieldName_ = config.fieldName;
+    }
 };
 
 /**
