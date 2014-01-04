@@ -26,6 +26,7 @@ goog.require('goog.events');
  * Collection of BaseModel classes.
  *
  * @constructor
+ * @template T
  * @extends {goog.events.EventTarget}
  */
 monin.model.Collection = function()
@@ -33,7 +34,7 @@ monin.model.Collection = function()
     goog.base(this);
 
     /**
-     * @type Array
+     * @type {Array.<T>}
      * @private
      */
     this.data_ = [];
@@ -138,7 +139,7 @@ monin.model.Collection.prototype.getById = function(id)
 /**
  * Pushes an item into an array, if it's not already in the array.
  *
- * @param {*} item Value to add.
+ * @param {T} item Value to add.
  */
 monin.model.Collection.prototype.insert = function(item)
 {
@@ -155,7 +156,7 @@ monin.model.Collection.prototype.insert = function(item)
 /**
  * Inserts an object at the given index of the array.
  *
- * @param {*} item The object to insert.
+ * @param {T} item The object to insert.
  * @param {number=} index The index at which to insert the object. If omitted,
  *      treated as 0. A negative index is counted from the end of the array.
  */
@@ -174,7 +175,7 @@ monin.model.Collection.prototype.insertAt = function(item, index)
 /**
  * Returns index of specified model in collection. Returns -1 if element not found.
  *
- * @param {*} item
+ * @param {T} item
  * @return {number}
  */
 monin.model.Collection.prototype.indexOf = function(item)
@@ -207,7 +208,7 @@ monin.model.Collection.prototype.move = function(oldIndex, newIndex)
 
 /**
  * Removes the first occurrence of a particular value from an array.
- * @param {*} item Object to remove.
+ * @param {T} item Object to remove.
  * @return {boolean} True if an element was removed.
  */
 monin.model.Collection.prototype.remove = function(item)
@@ -268,7 +269,7 @@ monin.model.Collection.EventType = {
 /**
  * @constructor
  * @param {string} type Event Type.
- * @param {Object=} opt_target Reference to the object that is the target of
+ * @param {T=} opt_target Reference to the object that is the target of
  *     this event. It has to implement the {@code EventTarget} interface
  *     declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
  * @extends {goog.events.Event}
@@ -278,7 +279,7 @@ monin.model.Collection.ChangeEvent = function(type, opt_target)
     goog.base(this, type, opt_target);
 
     /**
-     * @type {Object}
+     * @type {T}
      */
     this.item = null;
 
@@ -292,7 +293,7 @@ goog.inherits(monin.model.Collection.ChangeEvent, goog.events.Event);
 /**
  * @constructor
  * @param {string} type Event Type.
- * @param {Object=} opt_target Reference to the object that is the target of
+ * @param {T=} opt_target Reference to the object that is the target of
  *     this event. It has to implement the {@code EventTarget} interface
  *     declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
  * @extends {goog.events.Event}
