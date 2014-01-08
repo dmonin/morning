@@ -43,17 +43,20 @@ monin.forms.TextboxRenderer.CSS_CLASS = goog.getCssName('textbox');
 
 
 /**
- * @param {goog.ui.Control} textarea
+ * @param {goog.ui.Control} textbox
  * @return {Element}
  * @override
  */
-monin.forms.TextboxRenderer.prototype.createDom = function(textarea) {
-    this.setUpTextbox_(textarea);
-    var element = textarea.getDomHelper().createDom('input', {
+monin.forms.TextboxRenderer.prototype.createDom = function(textbox) {
+    this.setUpTextbox_(textbox);
+
+    var element = textbox.getDomHelper().createDom('input', {
         'type': 'text',
-        'class': this.getClassNames(textarea).join(' '),
-        'disabled': !textarea.isEnabled()
+        'class': this.getClassNames(textbox).join(' '),
+        'disabled': !textbox.isEnabled(),
+        'value': textbox.getContent()
     });
+
     return element;
 };
 
@@ -72,11 +75,11 @@ monin.forms.TextboxRenderer.prototype.decorate = function(control, element)
 monin.forms.TextboxRenderer.prototype.setFocusable = goog.nullFunction;
 
 /** @override */
-monin.forms.TextboxRenderer.prototype.setState = function(textarea, state,
+monin.forms.TextboxRenderer.prototype.setState = function(textbox, state,
     enable)
 {
-    goog.base(this, 'setState', textarea, state, enable);
-    var element = textarea.getElement();
+    goog.base(this, 'setState', textbox, state, enable);
+    var element = textbox.getElement();
     if (element && state == goog.ui.Component.State.DISABLED)
     {
         element.disabled = enable;

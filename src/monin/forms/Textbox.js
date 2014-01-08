@@ -77,11 +77,19 @@ monin.forms.Textbox = function(content, opt_renderer, opt_domHelper)
      */
     this.value_ = '';
 
+    /**
+     * Textbox placeholder
+     *
+     * @type {string}
+     * @private
+     */
+    this.placeholder_ = '';
+
     this.setHandleMouseEvents(false);
     this.setAllowTextSelection(true);
     if (!content)
     {
-        this.setContentInternal('');
+        this.setContent('');
     }
 };
 goog.inherits(monin.forms.Textbox, goog.ui.Control);
@@ -105,6 +113,11 @@ monin.forms.Textbox.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
 
     var el = this.getElement();
+
+    if (this.placeholder_)
+    {
+        el.placeholder = this.placeholder_;
+    }
 
     this.getHandler().listen(el, goog.events.EventType.KEYDOWN,
         this.handleKeyDown_);
@@ -218,8 +231,29 @@ monin.forms.Textbox.prototype.setConfig = function(config)
     {
         this.fieldName_ = config.fieldName;
     }
+
+    if (goog.isDef(config.placeholder))
+    {
+        this.setPlaceholder(config.placeholder);
+
+    }
 };
 
+/**
+ * Sets textbox placeholder
+ *
+ * @param {string} placeholder
+ */
+hash5.forms.Textbox.prototype.setPlaceholder = function(placeholder)
+{
+    this.placeholder_ = placeholder;
+
+    this.placeholder_ = placeholder;
+    if (this.getElement())
+    {
+        this.getElement().placeholder = this.placeholder_;
+    }
+};
 
 /**
  * Sets control state to invalid
