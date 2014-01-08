@@ -119,11 +119,10 @@ monin.forms.Textbox.prototype.enterDocument = function()
         el.placeholder = this.placeholder_;
     }
 
-    this.getHandler().listen(el, goog.events.EventType.KEYDOWN,
-        this.handleKeyDown_);
-
-    this.getHandler().listen(el, goog.events.EventType.KEYUP,
-        this.handleKeyUp_);
+    this.getHandler()
+        .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
+        .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
+        .listen(el, goog.events.EventType.CHANGE, this.fireChangeEvent_);
 };
 
 /**

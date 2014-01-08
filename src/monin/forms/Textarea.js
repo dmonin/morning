@@ -106,11 +106,10 @@ monin.forms.Textarea.prototype.enterDocument = function()
         goog.events.EventType.BLUR
     ], this.handleFocus_);
 
-    this.getHandler().listen(el, goog.events.EventType.KEYDOWN,
-        this.handleKeyDown_);
-
-    this.getHandler().listen(el, goog.events.EventType.KEYUP,
-        this.handleKeyUp_);
+    this.getHandler()
+        .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
+        .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
+        .listen(el, goog.events.EventType.CHANGE, this.update_);
 };
 
 /**
