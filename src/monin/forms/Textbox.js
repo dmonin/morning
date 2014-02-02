@@ -21,6 +21,7 @@ goog.provide('monin.forms.Textbox');
 goog.require('goog.async.Delay');
 goog.require('goog.ui.Control');
 goog.require('goog.ui.registry');
+goog.require('goog.events.KeyCodes');
 goog.require('monin.forms.IControl');
 goog.require('monin.forms.TextboxRenderer');
 
@@ -76,11 +77,19 @@ monin.forms.Textbox = function(content, opt_renderer, opt_domHelper)
      */
     this.value_ = '';
 
+    /**
+     * Textbox placeholder
+     *
+     * @type {string}
+     * @private
+     */
+    this.placeholder_ = '';
+
     this.setHandleMouseEvents(false);
     this.setAllowTextSelection(true);
     if (!content)
     {
-        this.setContentInternal('');
+        this.setContent('');
     }
 };
 goog.inherits(monin.forms.Textbox, goog.ui.Control);
@@ -105,11 +114,15 @@ monin.forms.Textbox.prototype.enterDocument = function()
 
     var el = this.getElement();
 
-    this.getHandler().listen(el, goog.events.EventType.KEYDOWN,
-        this.handleKeyDown_);
+    if (this.placeholder_)
+    {
+        el.placeholder = this.placeholder_;
+    }
 
-    this.getHandler().listen(el, goog.events.EventType.KEYUP,
-        this.handleKeyUp_);
+    this.getHandler()
+        .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
+        .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
+        .listen(el, goog.events.EventType.CHANGE, this.fireChangeEvent_);
 };
 
 /**
@@ -162,7 +175,7 @@ monin.forms.Textbox.prototype.getValue = function()
  */
 monin.forms.Textbox.prototype.handleKeyDown_ = function(e)
 {
-    if (e.keyCode == 13)
+    if (e.keyCode == goog.events.KeyCodes.ENTER)
     {
         this.dispatchEvent(goog.events.EventType.SUBMIT);
     }
@@ -203,22 +216,43 @@ monin.forms.Textbox.prototype.reset = function()
  */
 monin.forms.Textbox.prototype.setConfig = function(config)
 {
-    if (typeof config.delayChangeEvent != 'undefined')
+    if (goog.isDef(config.delayChangeEvent))
     {
         this.delayChangeEvent_ = !!config.delayChangeEvent;
     }
 
-    if (typeof config.className != 'undefined')
+    if (goog.isDef(config.className))
     {
         this.addClassName(config.className);
     }
 
-    if (typeof config.fieldName != 'undefined')
+    if (goog.isDef(config.fieldName))
     {
         this.fieldName_ = config.fieldName;
     }
+
+    if (goog.isDef(config.placeholder))
+    {
+        this.setPlaceholder(config.placeholder);
+
+    }
 };
 
+/**
+ * Sets textbox placeholder
+ *
+ * @param {string} placeholder
+ */
+hash5.forms.Textbox.prototype.setPlaceholder = function(placeholder)
+{
+    this.placeholder_ = placeholder;
+
+    this.placeholder_ = placeholder;
+    if (this.getElement())
+    {
+        this.getElement().placeholder = this.placeholder_;
+    }
+};
 
 /**
  * Sets control state to invalid

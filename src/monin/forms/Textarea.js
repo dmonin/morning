@@ -106,11 +106,10 @@ monin.forms.Textarea.prototype.enterDocument = function()
         goog.events.EventType.BLUR
     ], this.handleFocus_);
 
-    this.getHandler().listen(el, goog.events.EventType.KEYDOWN,
-        this.handleKeyDown_);
-
-    this.getHandler().listen(el, goog.events.EventType.KEYUP,
-        this.handleKeyUp_);
+    this.getHandler()
+        .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
+        .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
+        .listen(el, goog.events.EventType.CHANGE, this.update_);
 };
 
 /**
@@ -178,22 +177,22 @@ monin.forms.Textarea.prototype.reset = function()
  */
 monin.forms.Textarea.prototype.setConfig = function(config)
 {
-    if (typeof config.delayChangeEvent != 'undefined')
+    if (goog.isDef(config.delayChangeEvent))
     {
         this.delayChangeEvent_ = !!config.delayChangeEvent;
     }
 
-    if (typeof config.className != 'undefined')
+    if (goog.isDef(config.className))
     {
         this.addClassName(config.className);
     }
 
-    if (typeof config.fieldName != 'undefined')
+    if (goog.isDef(config.fieldName))
     {
         this.fieldName_ = config.fieldName;
     }
 
-    if (typeof config.placeholder != 'undefined')
+    if (goog.isDef(config.placeholder))
     {
         this.placeholder_ = config.placeholder;
         if (this.getElement())

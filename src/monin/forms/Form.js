@@ -59,6 +59,7 @@ goog.inherits(monin.forms.Form, goog.ui.Component);
  * @param {string} label
  * @param {string} className
  * @param {Object=} controlConfig
+ * @return {!monin.forms.FormItem}
  */
 monin.forms.Form.prototype.addFormItem = function(label, className, controlConfig)
 {
