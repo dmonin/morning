@@ -273,7 +273,7 @@ monin.ui.CoverBackground.prototype.setSize = function(coverSize)
  */
 monin.ui.CoverBackground.prototype.setVisible = function(isVisible)
 {
-    if (!this.isInDocument())
+    if (!this.getElement())
     {
         return;
     }
