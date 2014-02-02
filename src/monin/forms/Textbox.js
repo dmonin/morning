@@ -243,11 +243,10 @@ monin.forms.Textbox.prototype.setConfig = function(config)
  *
  * @param {string} placeholder
  */
-hash5.forms.Textbox.prototype.setPlaceholder = function(placeholder)
+monin.forms.Textbox.prototype.setPlaceholder = function(placeholder)
 {
     this.placeholder_ = placeholder;
 
-    this.placeholder_ = placeholder;
     if (this.getElement())
     {
         this.getElement().placeholder = this.placeholder_;
@@ -278,8 +277,6 @@ monin.forms.Textbox.prototype.setValue = function(value)
         this.dispatchEvent(goog.events.EventType.CHANGE);
     }
 };
-
-
 
 /**
  * Register this control so it can be created from markup.
