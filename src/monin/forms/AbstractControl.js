@@ -20,6 +20,7 @@
 goog.provide('monin.forms.AbstractControl');
 
 goog.require('goog.ui.Component');
+goog.require('monin.forms.IControl');
 goog.require('goog.dom.classes');
 
 /**
