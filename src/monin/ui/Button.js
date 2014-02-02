@@ -21,6 +21,7 @@ goog.require('goog.style');
 goog.require('goog.ui.Component');
 goog.require('goog.ui.Component.EventType');
 goog.require('monin.ui.HoverEffect');
+goog.require('goog.ui.registry');
 
 /**
  * Button component
