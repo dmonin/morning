@@ -21,7 +21,7 @@ goog.provide('monin.forms.IControl');
 /**
  * @interface
  */
-monin.forms.IControl = function() {}
+monin.forms.IControl = function() {};
 
 /**
  * @return {Element}
