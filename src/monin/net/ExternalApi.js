@@ -36,6 +36,7 @@ goog.addSingletonGetter(monin.net.ExternalApi);
  *
  * @param {Element} parent
  * @param {string} src
+ * @return {Element}
  */
 monin.net.ExternalApi.prototype.addScript = function(parent, src)
 {
@@ -43,6 +44,8 @@ monin.net.ExternalApi.prototype.addScript = function(parent, src)
     js.async = true;
     js.src = src;
     parent.appendChild(js);
+
+    return js;
 };
 
 /**
