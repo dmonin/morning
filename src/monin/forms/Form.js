@@ -76,11 +76,21 @@ monin.forms.Form.prototype.addFormItem = function(label, className, controlConfi
     {
         throw new Error('Decorator not found for control type "' + className + '"');
     }
+
     control.setConfig(controlConfig);
     formItem.setControl(control);
     this.addChild(formItem, true);
 
     return formItem;
+};
+
+/**
+ * @inheritDoc
+ */
+monin.forms.Form.prototype.createDom = function()
+{
+    var form = this.getDomHelper().createDom('form', 'form');
+    this.decorateInternal(form);
 };
 
 /** @inheritDoc */
@@ -266,6 +276,31 @@ monin.forms.Form.prototype.validate = function()
 
         this.validation.validate(this.getData());
     }
+};
+
+/**
+ * Returns form data as object
+ *
+ * @param {Object} data
+ */
+monin.forms.Form.prototype.setData = function(data)
+{
+    var control;
+    this.forEachChild(function(child) {
+        if (child instanceof monin.forms.FormItem)
+        {
+            control = child.getControl();
+
+            if (control)
+            {
+                control.setValue(data[control.getFieldName()]);
+            }
+        }
+        else if (child.getFieldName)
+        {
+            control.setValue(data[child.getFieldName()]);
+        }
+    }, this);
 };
 
 /**
