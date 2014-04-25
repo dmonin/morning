@@ -144,18 +144,25 @@ monin.style.setTransformOrigin = function(el, transformOrigin)
  * @param {number=} opt_x
  * @param {number=} opt_y
  * @param {goog.math.Coordinate=} opt_initialPosition
+ * @param {string=} opt_units
  */
-monin.style.translate = function(el, opt_x, opt_y, opt_initialPosition)
+monin.style.translate = function(el, opt_x, opt_y, opt_initialPosition, opt_units)
 {
     var x = opt_x || 0;
     var y = opt_y || 0;
 
+    var units = opt_units || 'px';
+
     if (Modernizr.csstransforms3d)
     {
-        el.style.msTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
-        el.style.MozTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
-        el.style.webkitTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+        el.style.msTransform = 'translate3d(' + x + units + ', ' +
+            y + units + ', 0)';
 
+        el.style.MozTransform = 'translate3d(' + x + units + ', ' +
+            y + units + ', 0)';
+
+        el.style.webkitTransform = 'translate3d(' + x + units + ', ' +
+            y + units + ', 0)';
     }
     else
     {
@@ -166,12 +173,12 @@ monin.style.translate = function(el, opt_x, opt_y, opt_initialPosition)
         }
         if (typeof opt_x == 'number')
         {
-            el.style.marginLeft = x + 'px';
+            el.style.marginLeft = x + units;
         }
 
         if (typeof opt_y == 'number')
         {
-            el.style.marginTop = y + 'px';
+            el.style.marginTop = y +  units;
         }
     }
 };
