@@ -23,12 +23,17 @@ goog.provide('monin.events');
  * Returns mousedown / touch position from specified event
  *
  * @param {goog.events.BrowserEvent} e
+ * @param {boolean=} opt_relativeToPage
  * @return {goog.math.Coordinate}
  */
-monin.events.getPointerPosition = function(e)
+monin.events.getPointerPosition = function(e, opt_relativeToPage)
 {
     var nativeEvt = e.getBrowserEvent();
     var position = new goog.math.Coordinate(0, 0);
+
+    var xProp = opt_relativeToPage ? 'pageX' : 'clientX';
+    var yProp = opt_relativeToPage ? 'pageY' : 'clientY';
+
     if (nativeEvt.touches)
     {
         if (nativeEvt.touches.length > 1)
@@ -38,14 +43,14 @@ monin.events.getPointerPosition = function(e)
         else if (nativeEvt.touches.length == 1)
         {
             var touch = /** @type {Object} */ (nativeEvt['touches'][0]);
-            position.x = /** @type {number} */ (touch['pageX']);
-            position.y = /** @type {number} */ (touch['pageY']);
+            position.x = /** @type {number} */ (touch[xProp]);
+            position.y = /** @type {number} */ (touch[yProp]);
         }
     }
     else
     {
-        position.x = /** @type {number} */ (e['clientX']);
-        position.y = /** @type {number} */ (e['clientY']);
+        position.x = /** @type {number} */ (nativeEvt[xProp]);
+        position.y = /** @type {number} */ (nativeEvt[yProp]);
     }
 
     return position;
@@ -53,6 +58,8 @@ monin.events.getPointerPosition = function(e)
 
 
 /**
+ * Adds cross platform listener of pointer event
+ *
  * @param {goog.events.EventHandler} handler
  * @param {goog.events.ListenableType} target
  * @param {string} type
@@ -62,6 +69,7 @@ monin.events.listenPointerEvent = function(handler, target, type, listener)
 {
     var isTouch = goog.events.BrowserFeature.TOUCH_ENABLED;
     var isMsPointerTouch = !!window.navigator.msPointerEnabled;
+    var isPointerEnabled = !!window.navigator['pointerEnabled'];
     var evtType = null;
 
     switch (type)
@@ -69,46 +77,62 @@ monin.events.listenPointerEvent = function(handler, target, type, listener)
         case monin.events.EventType.POINTERDOWN:
             if (isTouch && isMsPointerTouch)
             {
-                handler.listen(target,
-                    goog.events.EventType.MSPOINTERDOWN, listener);
+                evtType = goog.events.EventType.MSPOINTERDOWN;
             }
-            evtType = isTouch ? goog.events.EventType.TOUCHSTART :
-                goog.events.EventType.MOUSEDOWN;
-
-            handler.listen(target, evtType, listener);
+            else if (isTouch && isPointerEnabled)
+            {
+                evtType = goog.events.EventType.POINTERDOWN;
+            }
+            else
+            {
+                evtType = isTouch ? goog.events.EventType.TOUCHSTART :
+                    goog.events.EventType.MOUSEDOWN;
+            }
             break;
 
         case monin.events.EventType.POINTERMOVE:
             if (isTouch && isMsPointerTouch)
             {
-                handler.listen(target,
-                    goog.events.EventType.MSPOINTERMOVE, listener);
+                evtType = goog.events.EventType.MSPOINTERMOVE;
+            }
+            else if (isTouch && isPointerEnabled)
+            {
+                evtType = goog.events.EventType.POINTERDOWN;
+            }
+            else
+            {
+                evtType = isTouch ? goog.events.EventType.TOUCHMOVE :
+                    goog.events.EventType.MOUSEMOVE;
             }
 
-            evtType = isTouch ? goog.events.EventType.TOUCHMOVE :
-                goog.events.EventType.MOUSEMOVE;
-
-            handler.listen(target, evtType, listener);
             break;
 
         case monin.events.EventType.POINTERUP:
             if (isTouch && isMsPointerTouch)
             {
-                handler.listen(target,
-                    goog.events.EventType.MSPOINTERUP, listener);
+                evtType = goog.events.EventType.MSPOINTERUP;
+            }
+            else if (isTouch && isPointerEnabled)
+            {
+                evtType = goog.events.EventType.POINTERUP;
+            }
+            else
+            {
+                evtType = isTouch ? goog.events.EventType.TOUCHEND :
+                    goog.events.EventType.MOUSEUP;
             }
 
-            evtType = isTouch ? goog.events.EventType.TOUCHEND :
-                goog.events.EventType.MOUSEUP;
-
             handler.listen(target, evtType, listener);
-
             break;
     }
+
+    handler.listen(target, evtType, listener);
 };
 
 
 /**
+ * Removes cross platform listener of pointer event
+ *
  * @param {goog.events.EventHandler} handler
  * @param {goog.events.ListenableType} target
  * @param {string} type
