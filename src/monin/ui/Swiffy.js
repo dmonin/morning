@@ -263,3 +263,12 @@ monin.ui.Swiffy.prototype.stop = function()
 {
     this.timer_.stop();
 };
+
+/**
+ * Register this control so it can be created from markup.
+ */
+goog.ui.registry.setDecoratorByClassName(
+    'swiffy',
+    function() {
+      return new monin.ui.Swiffy();
+    });
