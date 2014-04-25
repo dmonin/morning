@@ -83,18 +83,22 @@ monin.fx.Animation.prototype.setDuration = function(duration)
  * Sets animation end point
  *
  * @param  {Array.<number>} endPoint
+ * @return {monin.fx.Animation}
  */
 monin.fx.Animation.prototype.setEndPoint = function(endPoint)
 {
     this.endPoint = endPoint;
+    return this;
 };
 
 /**
  * Sets animation start point
  *
  * @param  {Array.<number>} startPoint
+ * @return {monin.fx.Animation}
  */
 monin.fx.Animation.prototype.setStartPoint = function(startPoint)
 {
     this.startPoint = startPoint;
+    return this;
 };
