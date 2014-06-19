@@ -45,6 +45,9 @@ monin.ui.FileUploaderHtml5.prototype.decorateInternal = function(el)
     this.fileInput_ = this.getDomHelper().createDom('input', {
         type: 'file'
     });
+    el.appendChild(this.fileInput_);
+    this.fileInput_.style.left = '-9999px';
+    this.fileInput_.style.position = 'absolute';
 };
 
 /** @inheritDoc */
@@ -112,12 +115,12 @@ monin.ui.FileUploaderHtml5.prototype.handleFileDrop_ = function(e)
 /**
  * Handles upload complete event
  *
- * @param {goog.events.BrowserEvent} e
+ * @param {goog.events.Event} e
  * @private
  */
 monin.ui.FileUploaderHtml5.prototype.handleLoadComplete_ = function(e)
 {
-    var responseText = /** @type {string} */ e.target.responseText;
+    var responseText = /** @type {string} */ (e.target.responseText);
     this.dispatchEvent({
         type: monin.ui.FileUploader.EventType.COMPLETE,
         data: goog.json.parse(responseText)
