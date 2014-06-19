@@ -214,12 +214,11 @@ monin.ui.CoverBackground.prototype.resize = function(element, srcSize, dstSize)
 
     srcSize.scaleToFit(fitSize);
 
-
     element.width = srcSize.width;
     element.height = srcSize.height;
 
-    element.style.width = srcSize.width + 'px';
-    element.style.height = srcSize.height + 'px';
+    element.style.width = Math.round(srcSize.width) + 'px';
+    element.style.height = Math.round(srcSize.height) + 'px';
 
     element.style.left = Math.floor((dstSize.width - srcSize.width)) / 2 + 'px';
 
