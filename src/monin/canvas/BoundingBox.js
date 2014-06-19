@@ -1,5 +1,3 @@
-// Based on https://code.google.com/p/canvg/
-
 goog.provide('monin.canvas.BoundingBox');
 
 goog.require('goog.math.Rect');
