@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @fileoverview Vimeo API
+ * @fileoverview YouTube Service API
  */
 
 goog.provide('monin.service.YouTubeService');
@@ -21,24 +21,22 @@ goog.provide('monin.service.YouTubeService');
 goog.require('goog.net.Jsonp');
 
 /**
+ * YouTube Service API
+ *
  * @constructor
  */
 monin.service.YouTubeService = function()
 {
-    var oembedUrl = monin.service.YouTubeService.OEMBED_API_URL;
 
-    /**
-     * @type {goog.net.Jsonp}
-     * @private
-     */
-    this.oembedJsonp_ = new goog.net.Jsonp(oembedUrl);
 };
 
 goog.addSingletonGetter(monin.service.YouTubeService);
 
 /**
- * @param {string} videoId
- * @param {Object=} opt_data
+ * Returns link to embed player
+ *
+ * @param  {string} videoId YouTube Video ID
+ * @param {Object=} opt_data Player configuration parameters
  * @return {string}
  */
 monin.service.YouTubeService.prototype.getEmbedUrl = function(videoId, opt_data)
@@ -56,9 +54,11 @@ monin.service.YouTubeService.prototype.getEmbedUrl = function(videoId, opt_data)
 };
 
 /**
- * @param {number} videoId
- * @param {Function} callback
- * @param {Object=} opt_handler
+ * Loads Video information and calls callback with YouTube Video data
+ *
+ * @param {number} videoId YouTube Video ID
+ * @param {Function} callback Callback function
+ * @param {Object=} opt_handler Optional callback context
  */
 monin.service.YouTubeService.prototype.getVideoData = function(videoId, callback,
     opt_handler)
@@ -75,7 +75,11 @@ monin.service.YouTubeService.prototype.getVideoData = function(videoId, callback
 
 
 /**
- * @param {string} videoUrl
+ * Returns a video ID by specified YouTube link, if video id couldn't be regonized
+ * or link is invalid, returns null.
+ *
+ * @param {string} videoUrl  Link to YouTube Video
+ * @return {String}
  */
 monin.service.YouTubeService.prototype.getVideoIdFromUrl = function(videoUrl)
 {

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @fileoverview Vimeo API
+ * @fileoverview Vimeo API Service
  */
 
 goog.provide('monin.service.VimeoService');
@@ -21,6 +21,8 @@ goog.provide('monin.service.VimeoService');
 goog.require('goog.net.Jsonp');
 
 /**
+ * Vimeo API Service
+ *
  * @constructor
  */
 monin.service.VimeoService = function()
@@ -37,7 +39,11 @@ monin.service.VimeoService = function()
 goog.addSingletonGetter(monin.service.VimeoService);
 
 /**
- * @param {String} videoUrl
+ * Returns a video ID by specified Vimeo link, if video id couldn't be regonized
+ * or link is invalid, returns null.
+ *
+ * @param {string} videoUrl Link to Vimeo Video
+ * @return {String}
  */
 monin.service.VimeoService.prototype.getVideoIdFromUrl = function(videoUrl)
 {
@@ -53,8 +59,10 @@ monin.service.VimeoService.prototype.getVideoIdFromUrl = function(videoUrl)
 };
 
 /**
- * @param  {string} videoId
- * @param {Object} opt_data
+ * Returns link to embed player
+ *
+ * @param  {string} videoId Vimeo Video ID
+ * @param {Object=} opt_data Player configuration parameters
  * @return {string}
  */
 monin.service.VimeoService.prototype.getEmbedUrl = function(videoId, opt_data)
@@ -72,9 +80,11 @@ monin.service.VimeoService.prototype.getEmbedUrl = function(videoId, opt_data)
 };
 
 /**
- * @param {number} videoId
- * @param {Function} callback
- * @param {Object=} opt_handler
+ * Loads Video information and calls callback with Vimeo Video data
+ *
+ * @param {number} videoId Vimeo Video ID
+ * @param {Function} callback Callback function
+ * @param {Object=} opt_handler Optional callback context
  */
 monin.service.VimeoService.prototype.getVideoData = function(videoId, callback,
     opt_handler)
