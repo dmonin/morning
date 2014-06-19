@@ -38,6 +38,14 @@ monin.controller.BaseController = function()
 goog.inherits(monin.controller.BaseController,
     goog.events.EventTarget);
 
+/** @inheritDoc */
+monin.controller.BaseController.prototype.disposeInternal = function()
+{
+    goog.base(this, 'disposeInternal');
+
+    this.handler_.removeAll();
+};
+
 /**
  * Initializes controller
  *
