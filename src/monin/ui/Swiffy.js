@@ -39,7 +39,6 @@
  *
  */
 goog.provide('monin.ui.Swiffy');
-goog.require('monin.parallax.ui.Element');
 goog.require('goog.dom.dataset');
 goog.require('goog.net.XhrIo');
 goog.require('goog.Timer');
