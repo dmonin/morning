@@ -56,7 +56,7 @@ monin.service.YouTubeService.prototype.getEmbedUrl = function(videoId, opt_data)
 /**
  * Loads Video information and calls callback with YouTube Video data
  *
- * @param {number} videoId YouTube Video ID
+ * @param {string} videoId YouTube Video ID
  * @param {Function} callback Callback function
  * @param {Object=} opt_handler Optional callback context
  */
@@ -79,11 +79,11 @@ monin.service.YouTubeService.prototype.getVideoData = function(videoId, callback
  * or link is invalid, returns null.
  *
  * @param {string} videoUrl  Link to YouTube Video
- * @return {String}
+ * @return {string}
  */
 monin.service.YouTubeService.prototype.getVideoIdFromUrl = function(videoUrl)
 {
-    var re = /https?:\/\/(www\.)?youtube.com.*v=([0-9a-z_-]+)$/i;
+    var re = /https?:\/\/(www\.|m\.)?youtube.com.*v=([0-9a-z_-]+)/i;
     var matches = videoUrl.match(re);
 
     if (matches)
@@ -91,5 +91,5 @@ monin.service.YouTubeService.prototype.getVideoIdFromUrl = function(videoUrl)
         return matches[2];
     }
 
-    return null;
+    return '';
 };

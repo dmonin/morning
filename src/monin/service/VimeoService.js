@@ -43,7 +43,7 @@ goog.addSingletonGetter(monin.service.VimeoService);
  * or link is invalid, returns null.
  *
  * @param {string} videoUrl Link to Vimeo Video
- * @return {String}
+ * @return {string}
  */
 monin.service.VimeoService.prototype.getVideoIdFromUrl = function(videoUrl)
 {
@@ -55,7 +55,7 @@ monin.service.VimeoService.prototype.getVideoIdFromUrl = function(videoUrl)
         return matches[2];
     }
 
-    return null;
+    return '';
 };
 
 /**
@@ -82,7 +82,7 @@ monin.service.VimeoService.prototype.getEmbedUrl = function(videoId, opt_data)
 /**
  * Loads Video information and calls callback with Vimeo Video data
  *
- * @param {number} videoId Vimeo Video ID
+ * @param {string} videoId Vimeo Video ID
  * @param {Function} callback Callback function
  * @param {Object=} opt_handler Optional callback context
  */
