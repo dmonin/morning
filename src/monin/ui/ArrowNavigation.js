@@ -19,6 +19,7 @@ goog.provide('monin.ui.ArrowNavigation');
 goog.provide('monin.ui.ArrowNavigationEvent');
 
 goog.require('goog.dom.classes');
+goog.require('goog.ui.registry');
 goog.require('goog.ui.Component');
 
 /**
@@ -137,6 +138,26 @@ monin.ui.ArrowNavigation.prototype.setActive = function(left, right)
     goog.dom.classes.enable(this.prev_, 'active', left);
     goog.dom.classes.enable(this.next_, 'active', right);
 };
+
+/**
+ * Defines whether arrow navigation should be displayed
+ *
+ * @param {boolean} isVisible
+ */
+monin.ui.ArrowNavigation.prototype.setVisible = function(isVisible)
+{
+    goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+};
+
+/**
+ * Register this control so it can be created from markup.
+ */
+goog.ui.registry.setDecoratorByClassName(
+    'arrow-nav',
+    function() {
+      return new monin.ui.ArrowNavigation();
+    });
+
 
 /**
  * @constructor
