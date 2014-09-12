@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('monin.controller.BaseController');
+goog.provide('monin.controllers.BaseController');
 
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventHandler');
@@ -22,7 +22,7 @@ goog.require('goog.events.EventHandler');
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-monin.controller.BaseController = function()
+monin.controllers.BaseController = function()
 {
     goog.base(this);
 
@@ -35,11 +35,11 @@ monin.controller.BaseController = function()
     this.handler_ = new goog.events.EventHandler(this);
 };
 
-goog.inherits(monin.controller.BaseController,
+goog.inherits(monin.controllers.BaseController,
     goog.events.EventTarget);
 
 /** @inheritDoc */
-monin.controller.BaseController.prototype.disposeInternal = function()
+monin.controllers.BaseController.prototype.disposeInternal = function()
 {
     goog.base(this, 'disposeInternal');
 
@@ -51,7 +51,7 @@ monin.controller.BaseController.prototype.disposeInternal = function()
  *
  * @param {Object} config
  */
-monin.controller.BaseController.prototype.initialize = function(config)
+monin.controllers.BaseController.prototype.initialize = function(config)
 {
 
 };
@@ -61,7 +61,7 @@ monin.controller.BaseController.prototype.initialize = function(config)
  *
  * @return {goog.events.EventHandler}
  */
-monin.controller.BaseController.prototype.getHandler = function()
+monin.controllers.BaseController.prototype.getHandler = function()
 {
     return this.handler_;
 };
