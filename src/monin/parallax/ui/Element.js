@@ -143,7 +143,7 @@ monin.parallax.ui.Element.prototype.setConfig = function(config, effectFactory)
             {
                 if (goog.DEBUG)
                 {
-                    console.error('Effect could\'nt be found. %o', config['effects'][i]);
+                    console.error('Effect couldn\'t be found %o, %o', config['effects'][i], effectFactory);
                 }
                 throw new Error('Effect not found.');
             }
