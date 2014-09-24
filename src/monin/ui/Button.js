@@ -194,7 +194,7 @@ monin.ui.Button.prototype.setEnabled = function(isEnabled)
 */
 monin.ui.Button.prototype.setVisible = function(isVisible)
 {
-  goog.style.setElementShown(this.getElement(), isVisible);
+  goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
 };
 
 /**
