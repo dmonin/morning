@@ -38,12 +38,16 @@ monin.events.TapProvider = function(element)
   goog.base(this);
 
   /**
+   * Event handler
+   *
    * @type {goog.events.EventHandler}
    * @private
    */
   this.handler_ = new goog.events.EventHandler(this);
 
   /**
+   * Element for which tap provider is attached
+   *
    * @type {Element}
    * @private
    */
@@ -141,6 +145,8 @@ monin.events.TapProvider.prototype.dispose = function()
 };
 
 /**
+ * Returns attached element
+ *
  * @return {Element}
  */
 monin.events.TapProvider.prototype.getElement = function()
@@ -149,6 +155,8 @@ monin.events.TapProvider.prototype.getElement = function()
 };
 
 /**
+ * Handles click event
+ *
  * @param {goog.events.BrowserEvent} e
  * @private
  */
@@ -167,6 +175,8 @@ monin.events.TapProvider.prototype.handleClick_ = function(e)
 };
 
 /**
+ * Restores hover state after some delay
+ *
  * @private
  */
 monin.events.TapProvider.prototype.handleTouchDelay_ = function()
