@@ -216,24 +216,24 @@ monin.forms.Textbox.prototype.reset = function()
  */
 monin.forms.Textbox.prototype.setConfig = function(config)
 {
-    if (goog.isDef(config.delayChangeEvent))
+    if (goog.isDef(config['delayChangeEvent']))
     {
-        this.delayChangeEvent_ = !!config.delayChangeEvent;
+        this.delayChangeEvent_ = !!config['delayChangeEvent'];
     }
 
-    if (goog.isDef(config.className))
+    if (goog.isDef(config['className']))
     {
-        this.addClassName(config.className);
+        this.addClassName(config['className']);
     }
 
-    if (goog.isDef(config.fieldName))
+    if (goog.isDef(config['fieldName']))
     {
-        this.fieldName_ = config.fieldName;
+        this.fieldName_ = config['fieldName'];
     }
 
-    if (goog.isDef(config.placeholder))
+    if (goog.isDef(config['placeholder']))
     {
-        this.setPlaceholder(config.placeholder);
+        this.setPlaceholder(config['placeholder']);
 
     }
 };

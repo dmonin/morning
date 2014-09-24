@@ -35,6 +35,13 @@ monin.ui.FileUploader = function()
 };
 goog.inherits(monin.ui.FileUploader, goog.ui.Component);
 
+/** @inheritDoc */
+monin.ui.FileUploader.prototype.createDom = function()
+{
+    var el = this.getDomHelper().createDom('div', 'file-uploader');
+    this.decorateInternal(el);
+};
+
 /**
  * Sends file to server
  *

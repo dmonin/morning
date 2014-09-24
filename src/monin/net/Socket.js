@@ -59,6 +59,14 @@ monin.net.Socket = function(socketUrl)
 goog.inherits(monin.net.Socket, goog.events.EventTarget);
 
 /**
+ *
+ */
+monin.net.Socket.prototype.disconnect = function()
+{
+    this.socket_.disconnect();
+};
+
+/**
  * Sends a message to server
  *
  * @param {string} type
@@ -106,6 +114,16 @@ monin.net.Socket.prototype.initialize_ = function()
         this.connected = true;
         this.dispatchEvent(monin.net.Socket.EventType.CONNECTED);
     }, this));
+
+    this.socket_.on('disconnect', goog.bind(function() {
+        if (goog.DEBUG)
+        {
+            console.info('Socket: Disconnected');
+        }
+
+        this.connected = false;
+        this.dispatchEvent(monin.net.Socket.EventType.DISCONNECTED);
+    }, this));
 };
 
 /**
@@ -147,8 +165,18 @@ monin.net.Socket.prototype.off = function(type, callback)
 };
 
 /**
+ *
+ */
+monin.net.Socket.prototype.reconnect = function()
+{
+    this.socket_.disconnect();
+    this.initialize_();
+};
+
+/**
  * @enum {string}
  */
 monin.net.Socket.EventType = {
-    CONNECTED: 'connected'
+    CONNECTED: 'connected',
+    DISCONNECTED: 'disconnected'
 };

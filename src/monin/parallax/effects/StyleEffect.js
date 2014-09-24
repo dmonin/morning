@@ -63,11 +63,6 @@ monin.parallax.effects.StyleEffect.prototype.setProperty = function(element, val
         return;
     }
 
-    if (goog.DEBUG && grad17.DEBUG_STYLE)
-    {
-        console.info('StyleEffect: Updating style %o %s', node.id, property, value);
-    }
-
     if (this.selector)
     {
         node = node.querySelector(this.selector);

@@ -43,8 +43,9 @@ monin.validation.EmailValidator.prototype.validate = function(formData)
 {
     var value = formData[this.fieldName];
 
+    var emailRe = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.isValid = this.isEmpty(value) ||
-        goog.format.EmailAddress.isValidAddress(value);
+        !!value.match(emailRe);
 
     this.dispatchEvent(monin.validation.Validator.EventType.VALIDATOR_COMPLETE);
 };

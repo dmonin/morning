@@ -177,27 +177,27 @@ monin.forms.Textarea.prototype.reset = function()
  */
 monin.forms.Textarea.prototype.setConfig = function(config)
 {
-    if (goog.isDef(config.delayChangeEvent))
+    if (goog.isDef(config['delayChangeEvent']))
     {
-        this.delayChangeEvent_ = !!config.delayChangeEvent;
+        this.delayChangeEvent_ = !!config['delayChangeEvent'];
     }
 
-    if (goog.isDef(config.className))
+    if (goog.isDef(config['className']))
     {
-        this.addClassName(config.className);
+        this.addClassName(config['className']);
     }
 
-    if (goog.isDef(config.fieldName))
+    if (goog.isDef(config['fieldName']))
     {
-        this.fieldName_ = config.fieldName;
+        this.fieldName_ = config['fieldName'];
     }
 
-    if (goog.isDef(config.placeholder))
+    if (goog.isDef(config['placeholder']))
     {
-        this.placeholder_ = config.placeholder;
+        this.placeholder_ = config['placeholder'];
         if (this.getElement())
         {
-            this.getElement().placeholder = this.placeholder_;
+            this.getElement()['placeholder'] = this.placeholder_;
         }
     }
 };
@@ -219,7 +219,7 @@ monin.forms.Textarea.prototype.setValue = function(value)
 {
     if (this.getElement().value != value)
     {
-        this.getElement().value = value;
+        goog.base(this, 'setValue', value);
         this.value_ = /** @type {string} */ (value);
         this.dispatchEvent(goog.events.EventType.CHANGE);
     }

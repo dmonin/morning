@@ -71,7 +71,13 @@ monin.forms.AbstractControl.prototype.reset = goog.abstractMethod;
  *
  * @param {Object} config
  */
-monin.forms.AbstractControl.prototype.setConfig = goog.abstractMethod;
+monin.forms.AbstractControl.prototype.setConfig = function(config)
+{
+  if (config['fieldName'])
+  {
+    this.fieldName_ = config['fieldName'];
+  }
+};
 
 /**
  * Sets control value

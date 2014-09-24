@@ -100,9 +100,9 @@ monin.forms.Checkbox.prototype.setInvalid = function(isInvalid)
  */
 monin.forms.Checkbox.prototype.setConfig = function(config)
 {
-    if (goog.isDef(config.fieldName))
+    if (goog.isDef(config['fieldName']))
     {
-        this.fieldName_ = config.fieldName;
+        this.fieldName_ = config['fieldName'];
     }
 };
 

@@ -22,7 +22,7 @@ goog.require('monin.fx.dom.PredefinedEffect');
  *
  * Start and End should be 2 dimensional arrays
  *
- * @param {Element} element Dom Node to be used in the animation.
+ * @param {Element|Window} element Dom Node to be used in the animation.
  * @param {Array.<number>} start 2D array for start scroll left and top.
  * @param {Array.<number>} end 2D array for end scroll left and top.
  * @param {number} time Length of animation in milliseconds.

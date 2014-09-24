@@ -50,6 +50,11 @@ monin.ui.CoverBackground = function(opt_image)
      */
     this.image = opt_image || null;
 
+    if (this.image)
+    {
+        this.image.setParentEventTarget(this);
+    }
+
     /**
      * @type {Array.<monin.model.Image>}
      * @private
@@ -129,7 +134,6 @@ monin.ui.CoverBackground.prototype.createDom = function()
             this.imgEl.width = this.image.size.width;
             this.imgEl.height = this.image.size.height;
         }
-
     }
 
     this.decorateInternal(el);
@@ -157,14 +161,21 @@ monin.ui.CoverBackground.prototype.decorateInternal = function(el)
             }
 
             this.image = new monin.model.Image(imgEl.src, size);
-
-            if (!size)
-            {
-                this.image.load(this.handleImageLoad_, this);
-            }
+            this.image.setParentEventTarget(this);
 
             this.imgEl = imgEl;
         }
+    }
+};
+
+/** @inheritDoc */
+monin.ui.CoverBackground.prototype.enterDocument = function()
+{
+    goog.base(this, 'enterDocument');
+
+    if (this.image)
+    {
+        this.image.load(this.handleImageLoad_, this);
     }
 };
 
@@ -203,12 +214,11 @@ monin.ui.CoverBackground.prototype.resize = function(element, srcSize, dstSize)
 
     srcSize.scaleToFit(fitSize);
 
-
     element.width = srcSize.width;
     element.height = srcSize.height;
 
-    element.style.width = srcSize.width + 'px';
-    element.style.height = srcSize.height + 'px';
+    element.style.width = Math.round(srcSize.width) + 'px';
+    element.style.height = Math.round(srcSize.height) + 'px';
 
     element.style.left = Math.floor((dstSize.width - srcSize.width)) / 2 + 'px';
 
@@ -248,6 +258,10 @@ monin.ui.CoverBackground.prototype.setImages = function(images)
 monin.ui.CoverBackground.prototype.setSize = function(coverSize)
 {
     var el = this.getElement();
+    if (!el)
+    {
+        throw new Error("CoverBackground is not yet rendered.");
+    }
     el.style.width = coverSize.width + 'px';
     el.style.height = coverSize.height + 'px';
 
@@ -306,9 +320,12 @@ monin.ui.CoverBackground.prototype.tryImproveImage_ = function()
             break;
         }
     }
+
     if (bestMatchingImage.src != this.image.src)
     {
         this.image = bestMatchingImage;
+        this.image.load();
+        this.image.setParentEventTarget(this);
         this.imgEl.src = this.image.src;
     }
 };

@@ -82,23 +82,23 @@ monin.forms.Select.prototype.reset = function()
  */
 monin.forms.Select.prototype.setConfig = function(config)
 {
-    if (config.caption)
+    if (config['caption'])
     {
-        this.setCaption(config.caption);
+        this.setCaption(config['caption']);
     }
 
-    if (config.options && config.options instanceof Array)
+    if (config['options'] && config['options'] instanceof Array)
     {
-        var options = config.options;
+        var options = config['options'];
         for (var i = 0; i < options.length; i++)
         {
-            this.addItem(new goog.ui.Option(options[i].text, options[i].model));
+            this.addItem(new goog.ui.Option(options[i]['text'], options[i]['model']));
         }
     }
 
-    if (goog.isDef(config.fieldName))
+    if (goog.isDef(config['fieldName']))
     {
-        this.fieldName_ = config.fieldName;
+        this.fieldName_ = config['fieldName'];
     }
 };
 

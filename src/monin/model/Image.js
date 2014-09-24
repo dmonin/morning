@@ -18,6 +18,7 @@
 goog.provide('monin.model.Image');
 goog.require('goog.math.Size');
 goog.require('goog.net.ImageLoader');
+goog.require('goog.events.EventTarget');
 
 /**
  * Image model
@@ -25,9 +26,12 @@ goog.require('goog.net.ImageLoader');
  * @constructor
  * @param {string} src
  * @param {goog.math.Size=} opt_size
+ * @extends {goog.events.EventTarget}
  */
 monin.model.Image = function(src, opt_size)
 {
+    goog.base(this);
+
     /**
      * @type {string}
      */
@@ -55,6 +59,8 @@ monin.model.Image = function(src, opt_size)
     this.afterLoadCallbacks_ = [];
 };
 
+goog.inherits(monin.model.Image, goog.events.EventTarget);
+
 /**
  * @return {monin.model.Image}
  */
@@ -79,26 +85,36 @@ monin.model.Image.prototype.handleLoadComplete_ = function(e)
     goog.array.forEach(this.afterLoadCallbacks_, function(callback) {
         callback(this);
     }, this);
+
+    this.dispatchEvent(goog.events.EventType.LOAD);
 };
 
 /**
  * Loads image
  *
- * @param {Function} callback
- * @param {Object} handler
+ * @param {Function=} opt_callback
+ * @param {Object=} opt_handler
  */
-monin.model.Image.prototype.load = function(callback, handler)
+monin.model.Image.prototype.load = function(opt_callback, opt_handler)
 {
+    if (opt_callback && opt_handler)
+    {
+        opt_callback = goog.bind(opt_callback, opt_handler);
+    }
+
     if (this.isLoaded)
     {
-        if (callback)
+        if (opt_callback)
         {
-            callback.call(handler, this);
+            opt_callback(this);
         }
         return;
     }
 
-    this.afterLoadCallbacks_.push(goog.bind(callback, handler));
+    if (opt_callback)
+    {
+        this.afterLoadCallbacks_.push(opt_callback);
+    }
 
     if (this.isLoading_)
     {

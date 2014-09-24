@@ -34,8 +34,24 @@ monin.ui.FileUploaderHtml5 = function()
      * @private
      */
     this.fileInput_ = null;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.allowMultiple_ = false;
 };
 goog.inherits(monin.ui.FileUploaderHtml5, monin.ui.FileUploader);
+
+/**
+ * @inheritDoc
+ */
+monin.ui.FileUploaderHtml5.prototype.createDom = function()
+{
+    var domHelper = this.getDomHelper();
+    var el = domHelper.createDom('div', 'file-uploader');
+    this.decorateInternal(el);
+};
 
 /** @inheritDoc */
 monin.ui.FileUploaderHtml5.prototype.decorateInternal = function(el)
@@ -45,6 +61,14 @@ monin.ui.FileUploaderHtml5.prototype.decorateInternal = function(el)
     this.fileInput_ = this.getDomHelper().createDom('input', {
         type: 'file'
     });
+    el.appendChild(this.fileInput_);
+    this.fileInput_.style.left = '-9999px';
+    this.fileInput_.style.position = 'absolute';
+
+    if (this.allowMultiple_)
+    {
+        this.setMultiple(this.allowMultiple_);
+    }
 };
 
 /** @inheritDoc */
@@ -59,6 +83,26 @@ monin.ui.FileUploaderHtml5.prototype.enterDocument = function()
 
     this.getHandler().listen(this.fileInput_, goog.events.EventType.CHANGE,
         this.handleSelect_);
+
+
+    var doc = goog.dom.getDocument();
+
+     // Add dragenter listener to the owner document of the element.
+    this.getHandler().listen(doc,
+        goog.events.EventType.DRAGENTER,
+        this.handleDocDragEnter_);
+
+    // Add dragover listener to the owner document of the element only if the
+    // document is not the element itself.
+    this.getHandler().listen(doc,
+      goog.events.EventType.DRAGOVER,
+      this.handleDocDragOver_);
+
+
+    // Add dragover and drop listeners to the element.
+    this.getHandler().listen(this.getElement(),
+                            goog.events.EventType.DRAGOVER,
+                            this.handleElemDragOver_);
 };
 
 
@@ -93,6 +137,33 @@ monin.ui.FileUploaderHtml5.prototype.handleClick_ = function(e)
 };
 
 /**
+ * @param {goog.events.Event} e
+ * @private
+ */
+monin.ui.FileUploaderHtml5.prototype.handleDocDragEnter_ = function(e)
+{
+    //console.log('doc drag enter');
+};
+
+/**
+ * @param {goog.events.Event} e
+ * @private
+ */
+monin.ui.FileUploaderHtml5.prototype.handleDocDragOver_ = function(e)
+{
+    //console.log('doc drag over');
+};
+
+/**
+ * @param  {goog.events.Event} e
+ * @private
+ */
+monin.ui.FileUploaderHtml5.prototype.handleElemDragOver_ = function(e)
+{
+    //console.log('elem drag over');
+};
+
+/**
  * Handles dropped file
  *
  * @param {goog.events.BrowserEvent} e
@@ -112,12 +183,12 @@ monin.ui.FileUploaderHtml5.prototype.handleFileDrop_ = function(e)
 /**
  * Handles upload complete event
  *
- * @param {goog.events.BrowserEvent} e
+ * @param {goog.events.Event} e
  * @private
  */
 monin.ui.FileUploaderHtml5.prototype.handleLoadComplete_ = function(e)
 {
-    var responseText = /** @type {string} */ e.target.responseText;
+    var responseText = /** @type {string} */ (e.target.responseText);
     this.dispatchEvent({
         type: monin.ui.FileUploader.EventType.COMPLETE,
         data: goog.json.parse(responseText)
@@ -180,6 +251,8 @@ monin.ui.FileUploaderHtml5.prototype.send = function(url, files, opt_data)
     this.getHandler().listen(xhr.upload, 'progress', this.handleProgress_);
 
     xhr.send(formData);
+
+    return xhr;
 };
 
 /**
@@ -205,7 +278,12 @@ monin.ui.FileUploaderHtml5.prototype.setDropTarget = function(target)
  */
 monin.ui.FileUploaderHtml5.prototype.setMultiple = function(isMultiple)
 {
-    this.fileInput_.multiple = isMultiple ? 'true' : '';
+    this.allowMultiple_ = isMultiple;
+
+    if (this.fileInput_)
+    {
+        this.fileInput_.multiple = isMultiple ? 'true' : '';
+    }
 };
 
 /**

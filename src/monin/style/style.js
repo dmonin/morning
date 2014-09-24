@@ -141,37 +141,28 @@ monin.style.setTransformOrigin = function(el, transformOrigin)
  * Translates element position
  *
  * @param {Element} el
- * @param {number=} opt_x
- * @param {number=} opt_y
- * @param {goog.math.Coordinate=} opt_initialPosition
+ * @param {number} x
+ * @param {number} y
+ * @param {string=} opt_units
  */
-monin.style.translate = function(el, opt_x, opt_y, opt_initialPosition)
+monin.style.translate = function(el, x, y, opt_units)
 {
-    var x = opt_x || 0;
-    var y = opt_y || 0;
+    var units = opt_units || 'px';
 
     if (Modernizr.csstransforms3d)
     {
-        el.style.msTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
-        el.style.MozTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
-        el.style.webkitTransform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+        el.style.msTransform = 'translate3d(' + x + units + ', ' +
+            y + units + ', 0)';
 
+        el.style.MozTransform = 'translate3d(' + x + units + ', ' +
+            y + units + ', 0)';
+
+        el.style.webkitTransform = 'translate3d(' + x + units + ', ' +
+            y + units + ', 0)';
     }
     else
     {
-        if (opt_initialPosition)
-        {
-            x += opt_initialPosition.x;
-            y += opt_initialPosition.y;
-        }
-        if (typeof opt_x == 'number')
-        {
-            el.style.marginLeft = x + 'px';
-        }
-
-        if (typeof opt_y == 'number')
-        {
-            el.style.marginTop = y + 'px';
-        }
+        el.style.marginLeft = x + units;
+        el.style.marginTop = y +  units;
     }
 };
