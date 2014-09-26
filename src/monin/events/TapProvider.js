@@ -140,8 +140,13 @@ monin.events.TapProvider.prototype.dispose = function()
 {
   goog.dispose(this.handler_);
 
+  this.tapDelay_.stop();
+  goog.dispose(this.handler_);
+
+  this.tapDelay_ = null;
   this.handler_ = null;
   this.element_ = null;
+  this.touchPos_ = null;
 };
 
 /**
