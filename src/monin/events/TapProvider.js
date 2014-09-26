@@ -119,7 +119,7 @@ monin.events.TapProvider.attach = function(el)
 monin.events.TapProvider.prototype.dispatchTap_ = function()
 {
   var timeSinceLastTap = +new Date() - this.lastTap_;
-  if (timeSinceLastTap < 3000)
+  if (timeSinceLastTap < 1500)
   {
     return;
   }
@@ -163,13 +163,6 @@ monin.events.TapProvider.prototype.getElement = function()
 monin.events.TapProvider.prototype.handleClick_ = function(e)
 {
   this.domTarget_ = e.target;
-  var timeSinceLastTap = +new Date() - this.lastTap_;
-
-  if (timeSinceLastTap < 1500)
-  {
-    return;
-  }
-
   this.dispatchTap_();
   this.setHover_(false);
 };
