@@ -136,8 +136,10 @@ monin.events.TapProvider.prototype.dispatchTap_ = function()
 /**
  * Disposes element
  */
-monin.events.TapProvider.prototype.dispose = function()
+monin.events.TapProvider.prototype.disposeInternal = function()
 {
+  goog.base(this, 'disposeInternal');
+
   goog.dispose(this.handler_);
 
   this.tapDelay_.stop();
