@@ -15,7 +15,7 @@
 /**
  * @fileoverview Image model class.
  */
-goog.provide('monin.model.Image');
+goog.provide('monin.models.Image');
 goog.require('goog.math.Size');
 goog.require('goog.net.ImageLoader');
 goog.require('goog.events.EventTarget');
@@ -28,7 +28,7 @@ goog.require('goog.events.EventTarget');
  * @param {goog.math.Size=} opt_size
  * @extends {goog.events.EventTarget}
  */
-monin.model.Image = function(src, opt_size)
+monin.models.Image = function(src, opt_size)
 {
     goog.base(this);
 
@@ -59,15 +59,15 @@ monin.model.Image = function(src, opt_size)
     this.afterLoadCallbacks_ = [];
 };
 
-goog.inherits(monin.model.Image, goog.events.EventTarget);
+goog.inherits(monin.models.Image, goog.events.EventTarget);
 
 /**
- * @return {monin.model.Image}
+ * @return {monin.models.Image}
  */
-monin.model.Image.create = function(data)
+monin.models.Image.create = function(data)
 {
     var size = data['width'] ? new goog.math.Size(data['width'], data['height']) : null;
-    return new monin.model.Image(data['src'], size);
+    return new monin.models.Image(data['src'], size);
 
 };
 
@@ -76,7 +76,7 @@ monin.model.Image.create = function(data)
  * @param  {goog.events.Event} e
  * @private
  */
-monin.model.Image.prototype.handleLoadComplete_ = function(e)
+monin.models.Image.prototype.handleLoadComplete_ = function(e)
 {
     this.size = new goog.math.Size(e.target.naturalWidth, e.target.naturalHeight);
     this.isLoaded = true;
@@ -95,7 +95,7 @@ monin.model.Image.prototype.handleLoadComplete_ = function(e)
  * @param {Function=} opt_callback
  * @param {Object=} opt_handler
  */
-monin.model.Image.prototype.load = function(opt_callback, opt_handler)
+monin.models.Image.prototype.load = function(opt_callback, opt_handler)
 {
     if (opt_callback && opt_handler)
     {

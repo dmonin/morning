@@ -15,7 +15,7 @@
  * @fileoverview Base model class
  * Support event binding for properties changes. Updating properties through update() method forces events fired.
  */
-goog.provide('monin.model.BaseModel');
+goog.provide('monin.models.BaseModel');
 
 goog.require('goog.events.EventTarget');
 
@@ -25,17 +25,17 @@ goog.require('goog.events.EventTarget');
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-monin.model.BaseModel = function()
+monin.models.BaseModel = function()
 {
     goog.base(this);
 };
-goog.inherits(monin.model.BaseModel, goog.events.EventTarget);
+goog.inherits(monin.models.BaseModel, goog.events.EventTarget);
 
 /**
  * @param {goog.events.EventHandler} eh
  * @param {Object} data
  */
-monin.model.BaseModel.prototype.bind = function(eh, data)
+monin.models.BaseModel.prototype.bind = function(eh, data)
 {
     for (var i in data)
     {
@@ -47,7 +47,7 @@ monin.model.BaseModel.prototype.bind = function(eh, data)
  * @param {goog.events.EventHandler} eh
  * @param {Object} data
  */
-monin.model.BaseModel.prototype.unbind = function(eh, data)
+monin.models.BaseModel.prototype.unbind = function(eh, data)
 {
     for (var i in data)
     {
@@ -58,7 +58,7 @@ monin.model.BaseModel.prototype.unbind = function(eh, data)
 /**
  * @param {Object} data
  */
-monin.model.BaseModel.prototype.update = function(data)
+monin.models.BaseModel.prototype.update = function(data)
 {
     var fireChange = false;
     for (var i in data)
