@@ -148,7 +148,6 @@ monin.events.TapProvider.prototype.disposeInternal = function()
   this.tapDelay_ = null;
   this.handler_ = null;
   this.element_ = null;
-  this.touchPos_ = null;
 };
 
 /**
