@@ -73,6 +73,7 @@ monin.ui.Swiper.prototype.decorateInternal = function(el)
     'loop': loop,
     'onSlideTouch': goog.bind(this.onSlideTouch, this),
     'onSlideClick': goog.bind(this.onSlideClick, this),
+    'onTouchEnd': goog.bind(this.onTouchEnd, this),
     'paginationClickable': paginationClickable,
     'slidesPerView': slidesPerView
   };
@@ -162,6 +163,15 @@ monin.ui.Swiper.prototype.onSlideClick = function(e)
 monin.ui.Swiper.prototype.onSlideTouch = function(e)
 {
   this.dispatchEvent(goog.events.EventType.TOUCHSTART);
+};
+
+/**
+ * @param  {goog.events.Event} e
+ * @private
+ */
+monin.ui.Swiper.prototype.onTouchEnd = function(e)
+{
+  this.dispatchEvent(goog.events.EventType.TOUCHEND);
 };
 
 /**
