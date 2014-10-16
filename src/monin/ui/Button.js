@@ -174,6 +174,16 @@ monin.ui.Button.prototype.handleClick = function(e)
 };
 
 /**
+ * Returns true if button is enabled
+ *
+ * @return {boolean}
+ */
+monin.ui.Button.prototype.isEnabled = function()
+{
+  return this.isEnabled_;
+}
+
+/**
 * Specifies whether element is enabled
 *
 * @param {boolean} isEnabled
