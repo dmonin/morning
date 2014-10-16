@@ -228,7 +228,7 @@ monin.events.TapProvider.prototype.handleTouchMove_ = function(e)
     monin.events.getPointerPosition(e));
   var distance = goog.math.Coordinate.distance(pos, this.touchPos_);
 
-  if (distance > 5)
+  if (distance > 2)
   {
     this.tapDelay_.stop();
   }
