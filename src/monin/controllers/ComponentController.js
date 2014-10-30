@@ -50,6 +50,19 @@ monin.controllers.ComponentController.prototype.destroy = function(element, opt_
   }
 };
 
+/** @inheritDoc */
+monin.controllers.ComponentController.prototype.disposeInternal = function()
+{
+  goog.base(this, 'disposeInternal');
+
+  if (goog.DEBUG)
+  {
+    console.log('Disposing components: %o', this.components_.getValues());
+  }
+
+  goog.disposeAll(this.components_.getValues());
+};
+
 /**
  * @param {string} name
  * @return {goog.ui.Component}
