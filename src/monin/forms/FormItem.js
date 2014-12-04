@@ -85,8 +85,7 @@ monin.forms.FormItem.prototype.bind = function(bind)
 
     if (this.getChildCount() !== 1)
     {
-        throw new Error("FormItem:
-            Data binding allowed only for form items with just one control.");
+        throw new Error("FormItem: Data binding allowed only for form items with just one control.");
     }
 
     for (key in bind)
@@ -121,7 +120,7 @@ monin.forms.FormItem.prototype.decorateInternal = function(el)
         {
             if (goog.DEBUG)
             {
-                console.warn('Decorator not found for %o');
+                console.warn('Decorator not found for %o', controlEls[i]);
             }
             continue;
         }
@@ -190,7 +189,7 @@ monin.forms.FormItem.prototype.handleChange_ = function(e)
     for (var key in this.bind_)
     {
         var updateData = {};
-        updateData[key] = val;
+        updateData[key] = value;
         this.bind_[key].update(updateData);
     }
 };
@@ -247,7 +246,7 @@ monin.forms.FormItem.prototype.reset = function()
     this.forEachChild(function(child) {
         if (child.reset)
         {
-            child.rese();
+            child.reset();
         }
     }, this);
 };
