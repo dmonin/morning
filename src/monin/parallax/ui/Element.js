@@ -5,7 +5,7 @@ goog.require('goog.math.Range');
 goog.require('goog.style');
 goog.require('goog.ui.Component');
 goog.require('goog.ui.registry');
-goog.require('monin.parallax.model.ElementConfig');
+goog.require('monin.parallax.models.ElementConfig');
 
 /**
  * @constructor
@@ -16,7 +16,7 @@ monin.parallax.ui.Element = function()
     goog.base(this);
 
     /**
-     * @type {monin.parallax.model.ElementConfig}
+     * @type {monin.parallax.models.ElementConfig}
      * @private
      */
     this.config_ = null;
@@ -126,7 +126,7 @@ monin.parallax.ui.Element.prototype.setActive = function(isActive)
  */
 monin.parallax.ui.Element.prototype.setConfig = function(config, effectFactory)
 {
-    this.config_ = monin.parallax.model.ElementConfig.factory(config);
+    this.config_ = monin.parallax.models.ElementConfig.factory(config);
 
     if (config['range'])
     {
