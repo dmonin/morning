@@ -20,13 +20,13 @@ goog.provide('monin.ui.CoverBackground');
 
 goog.require('goog.math.Size');
 goog.require('goog.ui.Component');
-goog.require('monin.model.Image');
+goog.require('monin.models.Image');
 
 /**
  * Scales and re-positions image to specified size.
  *
  * @constructor
- * @param {monin.model.Image=} opt_image
+ * @param {monin.models.Image=} opt_image
  * @extends {goog.ui.Component}
  */
 monin.ui.CoverBackground = function(opt_image)
@@ -46,7 +46,7 @@ monin.ui.CoverBackground = function(opt_image)
     this.coverSize = null;
 
     /**
-     * @type {monin.model.Image}
+     * @type {monin.models.Image}
      */
     this.image = opt_image || null;
 
@@ -56,7 +56,7 @@ monin.ui.CoverBackground = function(opt_image)
     }
 
     /**
-     * @type {Array.<monin.model.Image>}
+     * @type {Array.<monin.models.Image>}
      * @private
      */
     this.images_ = null;
@@ -160,7 +160,7 @@ monin.ui.CoverBackground.prototype.decorateInternal = function(el)
                 size = new goog.math.Size(width, height);
             }
 
-            this.image = new monin.model.Image(imgEl.src, size);
+            this.image = new monin.models.Image(imgEl.src, size);
             this.image.setParentEventTarget(this);
 
             this.imgEl = imgEl;
@@ -239,7 +239,7 @@ monin.ui.CoverBackground.prototype.resize = function(element, srcSize, dstSize)
 /**
  * Sets images
  *
- * @param {Array.<monin.model.Image>} images
+ * @param {Array.<monin.models.Image>} images
  */
 monin.ui.CoverBackground.prototype.setImages = function(images)
 {
