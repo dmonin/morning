@@ -22,6 +22,7 @@ goog.require('goog.ui.Component');
 goog.require('goog.ui.Component.EventType');
 goog.require('monin.events.TapProvider');
 goog.require('goog.ui.registry');
+goog.require('goog.dom.dataset')
 
 /**
 * Button component
@@ -92,10 +93,17 @@ monin.ui.Button.prototype.decorateInternal = function(el)
 {
   goog.base(this, 'decorateInternal', el);
 
-  var matches = el.className.match('button-([a-z-]+)');
-  if (matches)
+  if (goog.dom.dataset.get(el, 'value'))
   {
-    this.value_ = matches[1];
+    this.value_ = /** @type {string} */ (goog.dom.dataset.get(el, 'value'));
+  }
+  else
+  {
+    var matches = el.className.match('button-([a-z-]+)');
+    if (matches)
+    {
+      this.value_ = matches[1];
+    }
   }
 
   if (this.getHandlerElement())
