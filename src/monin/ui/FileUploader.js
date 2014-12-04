@@ -57,6 +57,7 @@ monin.ui.FileUploader.prototype.send = goog.abstractMethod;
  * @enum {string}
  */
 monin.ui.FileUploader.EventType = {
+    ERROR: 'error',
     PROGRESS: 'progress',
     COMPLETE: 'complete',
     SELECT: 'select'
