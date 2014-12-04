@@ -18,7 +18,6 @@ monin.controllers.ComponentController = function()
    */
   this.components_ = new goog.structs.Map();
 };
-
 goog.inherits(monin.controllers.ComponentController,
   monin.controllers.BaseController);
 
@@ -28,7 +27,8 @@ goog.addSingletonGetter(monin.controllers.ComponentController);
  * @param  {Element} element
  * @param  {string=} opt_selector
  */
-monin.controllers.ComponentController.prototype.destroy = function(element, opt_selector)
+monin.controllers.ComponentController.prototype.destroy = function(element,
+  opt_selector)
 {
   var selector = opt_selector || '.cmp';
   var elements = element.querySelectorAll(selector);
@@ -89,16 +89,17 @@ monin.controllers.ComponentController.prototype.initialize = function(element, o
     var cmp = goog.ui.decorate(elements[i]);
     var name = goog.dom.dataset.get(elements[i], 'name');
 
-    this.components_.set(name, cmp);
-    cmp.setParentEventTarget(this);
-
     if (!cmp)
     {
       console.warn('Couldn\'t initialize component %o', elements[i]);
+      continue;
     }
     else if (goog.DEBUG)
     {
       console.log('Initialized component %s: %o %o', name, cmp, elements[i]);
     }
+
+    this.components_.set(name, cmp);
+    cmp.setParentEventTarget(this);
   }
 };
