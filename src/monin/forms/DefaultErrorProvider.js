@@ -81,6 +81,10 @@ monin.forms.DefaultErrorProvider.prototype.displayError = function(element, mess
 {
     this.getElement().innerHTML = message;
     goog.dom.insertSiblingAfter(this.getElement(), element);
+
+    goog.Timer.callOnce(function() {
+        this.setVisible(true);
+    }, 100, this);
 };
 
 /**
