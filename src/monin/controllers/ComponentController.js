@@ -24,6 +24,8 @@ goog.inherits(monin.controllers.ComponentController,
 goog.addSingletonGetter(monin.controllers.ComponentController);
 
 /**
+ * Destroys component with specified name
+ *
  * @param  {Element} element
  * @param  {string=} opt_selector
  */
@@ -64,6 +66,8 @@ monin.controllers.ComponentController.prototype.disposeInternal = function()
 };
 
 /**
+ * Returns component by specified name
+ *
  * @param {string} name
  * @return {goog.ui.Component}
  */
@@ -75,12 +79,14 @@ monin.controllers.ComponentController.prototype.getComponentByName =
 
 
 /**
+ * Initializes components
+ *
  * @param {Object} element
  * @param {string=} opt_selector
  */
 monin.controllers.ComponentController.prototype.initialize = function(element, opt_selector)
 {
-  element = /** @type {Element} */ (element);
+  element = /** @type {Element} */ (element) || document.body;
   var selector = opt_selector || '.cmp';
   var elements = element.querySelectorAll(selector);
 

@@ -7,9 +7,9 @@ goog.require('monin.routing.RouteMatchEvent');
 
 /**
  * @constructor
- * @param {string} name
- * @param {RegExp} regex
- * @param {string} controllerName
+ * @param {string} name Name of the route
+ * @param {RegExp} regex Regular Expression to be matched against the route
+ * @param {string} controllerName name of controller assigned to the route
  * @extends {monin.routing.Route}
  */
 monin.routing.RegexRoute = function(name, regex, controllerName)
