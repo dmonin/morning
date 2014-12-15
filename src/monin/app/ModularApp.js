@@ -20,7 +20,7 @@ monin.app.ModularApp = function()
   goog.base(this);
 
   /**
-   * @type {monin.controllers.ContentController}
+   * @type {monin.controllers.BaseController}
    */
   this.controller = null;
 
