@@ -197,6 +197,11 @@ monin.events.TapProvider.prototype.handleTouchEvents_ = function(e)
     e.type == goog.events.EventType.TOUCHSTART
   );
 
+  if (isTouchStart && e.getBrowserEvent().touches.length > 1)
+  {
+    return;
+  }
+
   // Tap handling
   if (isTouchStart)
   {
