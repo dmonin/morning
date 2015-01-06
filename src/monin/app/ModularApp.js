@@ -99,7 +99,7 @@ monin.app.ModularApp.prototype.initController_ = function()
 {
   goog.dom.classes.remove(document.body, 'loading');
 
-  var Type = goog.getObjectByName('module.' + this.state_.controllerName);
+  var Type = goog.getObjectByName('app.module.' + this.state_.controllerName);
 
   if (goog.DEBUG)
   {
@@ -133,7 +133,7 @@ monin.app.ModularApp.prototype.loadAndInitController_ = function()
     if (moduleInfo)
     {
       this.moduleManager_.execOnLoad(this.state_.controllerName,
-      this.initController_, this);
+        this.initController_, this);
     }
     else
     {
@@ -184,12 +184,6 @@ monin.app.ModularApp.prototype.setState = function(state)
     {
       goog.dom.classes.add(document.body, 'loading');
 
-      /**
-      * @desc Loading message
-      */
-      var MSG_LOADING = goog.getMsg('loading');
-      this.setTitle(MSG_LOADING);
-
       this.moduleManager_.execOnLoad(this.state_.controllerName,
         this.initController_, this);
     }
@@ -202,16 +196,6 @@ monin.app.ModularApp.prototype.setState = function(state)
   {
     this.controller.setState(state, false);
   }
-};
-
-/**
- * Sets browser title
- *
- * @param {string} title
- */
-monin.app.ModularApp.prototype.setTitle = function(title)
-{
-  document.title = title;
 };
 
 /**
