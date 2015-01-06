@@ -66,6 +66,16 @@ monin.controllers.ComponentController.prototype.disposeInternal = function()
 };
 
 /**
+ * Returns list of all components
+ *
+ * @return {Array.<goog.ui.Component>}
+ */
+monin.controllers.ComponentController.prototype.getAll = function()
+{
+  return this.components_.getValues();
+};
+
+/**
  * Returns component by specified name
  *
  * @param {string} name
