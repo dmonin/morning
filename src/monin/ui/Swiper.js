@@ -37,7 +37,7 @@ monin.ui.Swiper = function()
    * @type {Object}
    * @private
    */
-  this.config_ = null;
+  this.config_ = {};
 };
 
 goog.inherits(monin.ui.Swiper, goog.ui.Component);
@@ -58,25 +58,36 @@ monin.ui.Swiper.prototype.decorateInternal = function(el)
   goog.base(this, 'decorateInternal', el);
 
   var pagination = /** @type {string} */
-    (goog.dom.dataset.get(el, 'pagination'));
+    (goog.dom.dataset.get(el, 'pagination')) != null ?
+    goog.dom.dataset.get(el, 'pagination') : '';
 
   var loop = goog.dom.dataset.get(el, 'loop') == 'true';
   var paginationClickable =
     goog.dom.dataset.get(el, 'paginationclickable') == 'true';
 
-  var slidesPerView = goog.dom.dataset.get(el, 'slidesperview') || 1;
+  var slidesPerView = goog.dom.dataset.get(el, 'slidesperview') || null;
   var watchActiveIndex = goog.dom.dataset.get(el, 'watchactive') == 'true';
 
-  this.config_ = {
-    'mode':'horizontal',
-    'pagination': pagination,
+  var cfg = {
+    'mode': 'horizontal',
     'loop': loop,
     'onSlideTouch': goog.bind(this.onSlideTouch, this),
     'onSlideClick': goog.bind(this.onSlideClick, this),
     'onTouchEnd': goog.bind(this.onTouchEnd, this),
-    'paginationClickable': paginationClickable,
-    'slidesPerView': slidesPerView
+    'paginationClickable': paginationClickable
   };
+
+  if (pagination)
+  {
+    cfg['pagination'] = pagination;
+  }
+
+  if (slidesPerView)
+  {
+    cfg['slidesPerView'] = slidesPerView;
+  }
+
+  this.setConfig(cfg);
 };
 
 /** @inheritDoc */
@@ -84,7 +95,7 @@ monin.ui.Swiper.prototype.enterDocument = function()
 {
   goog.base(this, 'enterDocument');
 
-  if (!monin.ui.Swiper.loaded)
+  if (!monin.ui.Swiper.loaded && !goog.getObjectByName('Swiper'))
   {
     this.load_();
   }
@@ -149,7 +160,6 @@ monin.ui.Swiper.prototype.load_ = function()
 
 /**
  * @param  {goog.events.Event} e
- * @private
  */
 monin.ui.Swiper.prototype.onSlideClick = function(e)
 {
@@ -158,7 +168,6 @@ monin.ui.Swiper.prototype.onSlideClick = function(e)
 
 /**
  * @param  {goog.events.Event} e
- * @private
  */
 monin.ui.Swiper.prototype.onSlideTouch = function(e)
 {
@@ -167,7 +176,6 @@ monin.ui.Swiper.prototype.onSlideTouch = function(e)
 
 /**
  * @param  {goog.events.Event} e
- * @private
  */
 monin.ui.Swiper.prototype.onTouchEnd = function(e)
 {
@@ -182,6 +190,15 @@ monin.ui.Swiper.prototype.reInit = function()
   this.swiper_.reInit();
 };
 
+/**
+ * Sets the config
+ *
+ * @param {Object} cfg
+ */
+monin.ui.Swiper.prototype.setConfig = function(cfg)
+{
+  goog.mixin(this.config_, cfg);
+};
 
 /**
  * Swipes to next item
