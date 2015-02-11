@@ -241,8 +241,8 @@ monin.ui.Button.prototype.setValue = function(value)
 };
 
 /**
-* Register this control so it can be created from markup.
-*/
+ * Register this control so it can be created from markup.
+ */
 goog.ui.registry.setDecoratorByClassName(
   'button',
   function() {
