@@ -24,6 +24,7 @@ goog.require('goog.ui.Component');
 goog.require('monin.net.ExternalApi');
 goog.require('goog.dom.dataset');
 goog.require('goog.Timer');
+goog.require('goog.ui.registry');
 
 /**
  * @constructor
