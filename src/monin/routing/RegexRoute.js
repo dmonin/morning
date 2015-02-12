@@ -35,12 +35,15 @@ goog.inherits(monin.routing.RegexRoute, monin.routing.Route);
 /** @inheritDoc */
 monin.routing.RegexRoute.prototype.match = function(token)
 {
-  if (token.match(this.regex))
+  var matches = token.match(this.regex);
+  if (matches)
   {
     this.dispatchEvent(
       new monin.routing.RouteMatchEvent(
         monin.routing.Route.EventType.ROUTE_MATCH,
-        token, this
+        token, this, {
+          matches: matches
+        }
       )
     );
   }
