@@ -120,7 +120,7 @@ monin.events.TapProvider.attach = function(el)
 monin.events.TapProvider.prototype.dispatchTap_ = function()
 {
   var timeSinceLastTap = +new Date() - this.lastTap_;
-  if (timeSinceLastTap < 1500)
+  if (timeSinceLastTap < 500)
   {
     return;
   }
