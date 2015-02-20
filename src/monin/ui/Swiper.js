@@ -75,6 +75,7 @@ monin.ui.Swiper.prototype.decorateInternal = function(el)
     'onSlideTouch': goog.bind(this.onSlideTouch, this),
     'onSlideClick': goog.bind(this.onSlideClick, this),
     'onTouchEnd': goog.bind(this.onTouchEnd, this),
+    'onSlideChangeEnd': goog.bind(this.onSlideChangeEnd, this),
     'paginationClickable': paginationClickable
   };
 
@@ -120,6 +121,16 @@ monin.ui.Swiper.prototype.disposeInternal = function()
 };
 
 /**
+ * Returns currently active slide
+ *
+ * @return {Element}
+ */
+monin.ui.Swiper.prototype.getActiveSlide = function()
+{
+  return this.swiper_.activeSlide();
+};
+
+/**
  * Returns the touched/clicked slide (slide instance, HTMLElement). For use only
  * with "onSlideTouch" and "onSlideClick" callbacks.
  *
@@ -148,6 +159,7 @@ monin.ui.Swiper.prototype.getClickedSlideIndex = function()
 monin.ui.Swiper.prototype.handleSwiperReady_ = function(e)
 {
   this.swiper_ = new Swiper(this.getElement(), this.config_);
+  console.log(this.swiper_);
 };
 
 /**
@@ -181,6 +193,14 @@ monin.ui.Swiper.prototype.onSlideTouch = function(e)
 monin.ui.Swiper.prototype.onTouchEnd = function(e)
 {
   this.dispatchEvent(goog.events.EventType.TOUCHEND);
+};
+
+/**
+ * @param  {goog.events.Event} e
+ */
+monin.ui.Swiper.prototype.onSlideChangeEnd = function(e)
+{
+  this.dispatchEvent(monin.ui.Swiper.EventType.SLIDE_CHANGE_END);
 };
 
 /**
@@ -228,6 +248,13 @@ monin.ui.Swiper.prototype.swipeTo = function(index, speed, runCallbacks)
   {
     this.swiper_.swipeTo(index, speed, runCallbacks);
   }
+};
+
+/**
+ * @enum {string}
+ */
+monin.ui.Swiper.EventType = {
+  SLIDE_CHANGE_END: 'slidechangeend'
 };
 
 /**
