@@ -98,6 +98,14 @@ monin.events.TapProvider = function(element)
    * @private
    */
   this.domTarget_ = null;
+
+  /**
+   * Defines whether event is caused by click
+   *
+   * @type {boolean}
+   * @private
+   */
+  this.isClick_ = false;
 };
 goog.inherits(monin.events.TapProvider, goog.events.EventTarget);
 
@@ -119,8 +127,9 @@ monin.events.TapProvider.attach = function(el)
  */
 monin.events.TapProvider.prototype.dispatchTap_ = function()
 {
+  var minDelay = this.isClick_ ? 1500 : 300;
   var timeSinceLastTap = +new Date() - this.lastTap_;
-  if (timeSinceLastTap < 500)
+  if (timeSinceLastTap < minDelay)
   {
     return;
   }
@@ -170,7 +179,9 @@ monin.events.TapProvider.prototype.getElement = function()
 monin.events.TapProvider.prototype.handleClick_ = function(e)
 {
   this.domTarget_ = e.target;
+  this.isClick_ = true;
   this.dispatchTap_();
+  this.isClick_ = false;
   this.setHover_(false);
 };
 
