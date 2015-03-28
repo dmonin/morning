@@ -237,6 +237,14 @@ monin.ui.FileUploaderHtml5.prototype.handleSelect_ = function(e)
   });
 };
 
+/**
+ * Resets selected value
+ */
+monin.ui.FileUploaderHtml5.prototype.resetValue = function()
+{
+  this.fileInput_.value = '';
+};
+
 /** @inheritDoc */
 monin.ui.FileUploaderHtml5.prototype.send = function(url, files, opt_data)
 {

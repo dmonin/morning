@@ -26,7 +26,7 @@ goog.require('monin.fx.WindowScroll');
 
 /**
  * @constructor
- * @extends {monin.controllers.ComponentController}
+ * @extends {monin.controllers.BaseController}
  */
 monin.controllers.ContentController = function()
 {
@@ -51,7 +51,7 @@ monin.controllers.ContentController = function()
   /**
    * Controls initialization of components.
    *
-   * @type {goog.structs.Map}
+   * @type {monin.controllers.ComponentController}
    * @private
    */
   this.componentController_ = new monin.controllers.ComponentController();
@@ -183,7 +183,7 @@ monin.controllers.ContentController.prototype.setState = function(state, isIniti
 
 goog.exportSymbol('app.module.content', monin.controllers.ContentController);
 
-if (les.MODULAR)
+if (monin.MODULAR)
 {
-    goog.module.ModuleManager.getInstance().setLoaded('content');
+  goog.module.ModuleManager.getInstance().setLoaded('content');
 }
