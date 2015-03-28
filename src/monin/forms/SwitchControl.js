@@ -28,6 +28,7 @@ goog.require('monin.forms.IControl');
  *
  * @extends {monin.forms.AbstractControl}
  * @implements {monin.forms.IControl}
+ * @constructor
  */
 monin.forms.SwitchControl = function()
 {
@@ -89,7 +90,7 @@ monin.forms.SwitchControl.prototype.setChecked_ = function(isChecked)
   if (isChecked != this.isChecked_)
   {
     this.isChecked_ = isChecked;
-    goog.dom.classes.toggle(this.getElement(), 'on', this.isChecked_);
+    goog.dom.classes.enable(this.getElement(), 'on', this.isChecked_);
 
     this.dispatchEvent(goog.events.EventType.CHANGE);
   }
