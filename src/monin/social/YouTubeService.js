@@ -16,7 +16,7 @@
  * @fileoverview YouTube Service API
  */
 
-goog.provide('monin.service.YouTubeService');
+goog.provide('monin.social.YouTubeService');
 
 goog.require('goog.net.Jsonp');
 
@@ -25,12 +25,12 @@ goog.require('goog.net.Jsonp');
  *
  * @constructor
  */
-monin.service.YouTubeService = function()
+monin.social.YouTubeService = function()
 {
 
 };
 
-goog.addSingletonGetter(monin.service.YouTubeService);
+goog.addSingletonGetter(monin.social.YouTubeService);
 
 /**
  * Returns link to embed player
@@ -39,7 +39,7 @@ goog.addSingletonGetter(monin.service.YouTubeService);
  * @param {Object=} opt_data Player configuration parameters
  * @return {string}
  */
-monin.service.YouTubeService.prototype.getEmbedUrl = function(videoId, opt_data)
+monin.social.YouTubeService.prototype.getEmbedUrl = function(videoId, opt_data)
 {
     var url = 'http://www.youtube.com/embed/' + videoId;
     if (opt_data)
@@ -60,7 +60,7 @@ monin.service.YouTubeService.prototype.getEmbedUrl = function(videoId, opt_data)
  * @param {Function} callback Callback function
  * @param {Object=} opt_handler Optional callback context
  */
-monin.service.YouTubeService.prototype.getVideoData = function(videoId, callback,
+monin.social.YouTubeService.prototype.getVideoData = function(videoId, callback,
     opt_handler)
 {
     if (opt_handler)
@@ -81,7 +81,7 @@ monin.service.YouTubeService.prototype.getVideoData = function(videoId, callback
  * @param {string} videoUrl  Link to YouTube Video
  * @return {string}
  */
-monin.service.YouTubeService.prototype.getVideoIdFromUrl = function(videoUrl)
+monin.social.YouTubeService.prototype.getVideoIdFromUrl = function(videoUrl)
 {
     var re = /https?:\/\/(www\.|m\.)?youtube.com.*v=([0-9a-z_-]+)/i;
     var matches = videoUrl.match(re);

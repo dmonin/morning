@@ -16,7 +16,7 @@
  * @fileoverview Vimeo API Service
  */
 
-goog.provide('monin.service.VimeoService');
+goog.provide('monin.social.VimeoService');
 
 goog.require('goog.net.Jsonp');
 
@@ -25,9 +25,9 @@ goog.require('goog.net.Jsonp');
  *
  * @constructor
  */
-monin.service.VimeoService = function()
+monin.social.VimeoService = function()
 {
-    var oembedUrl = monin.service.VimeoService.OEMBED_API_URL;
+    var oembedUrl = monin.social.VimeoService.OEMBED_API_URL;
 
     /**
      * @type {goog.net.Jsonp}
@@ -36,7 +36,7 @@ monin.service.VimeoService = function()
     this.oembedJsonp_ = new goog.net.Jsonp(oembedUrl);
 };
 
-goog.addSingletonGetter(monin.service.VimeoService);
+goog.addSingletonGetter(monin.social.VimeoService);
 
 /**
  * Returns a video ID by specified Vimeo link, if video id couldn't be regonized
@@ -45,7 +45,7 @@ goog.addSingletonGetter(monin.service.VimeoService);
  * @param {string} videoUrl Link to Vimeo Video
  * @return {string}
  */
-monin.service.VimeoService.prototype.getVideoIdFromUrl = function(videoUrl)
+monin.social.VimeoService.prototype.getVideoIdFromUrl = function(videoUrl)
 {
     var re = /https?:\/\/(www\.)?vimeo.com\/([0-9]+)$/i;
     var matches = videoUrl.match(re);
@@ -65,7 +65,7 @@ monin.service.VimeoService.prototype.getVideoIdFromUrl = function(videoUrl)
  * @param {Object=} opt_data Player configuration parameters
  * @return {string}
  */
-monin.service.VimeoService.prototype.getEmbedUrl = function(videoId, opt_data)
+monin.social.VimeoService.prototype.getEmbedUrl = function(videoId, opt_data)
 {
     var url = 'http://player.vimeo.com/video/' + videoId + '/';
     if (opt_data)
@@ -86,7 +86,7 @@ monin.service.VimeoService.prototype.getEmbedUrl = function(videoId, opt_data)
  * @param {Function} callback Callback function
  * @param {Object=} opt_handler Optional callback context
  */
-monin.service.VimeoService.prototype.getVideoData = function(videoId, callback,
+monin.social.VimeoService.prototype.getVideoData = function(videoId, callback,
     opt_handler)
 {
     if (opt_handler)
@@ -94,7 +94,7 @@ monin.service.VimeoService.prototype.getVideoData = function(videoId, callback,
         callback = goog.bind(callback, opt_handler);
     }
 
-    var url = monin.service.VimeoService.VIDEO_API_URL.replace('{video_id}', String(videoId));
+    var url = monin.social.VimeoService.VIDEO_API_URL.replace('{video_id}', String(videoId));
 
     var jsonp = new goog.net.Jsonp(url);
     jsonp.send(null, function(data) {
@@ -106,9 +106,9 @@ monin.service.VimeoService.prototype.getVideoData = function(videoId, callback,
 /**
  * @const
  */
-monin.service.VimeoService.VIDEO_API_URL = 'http://vimeo.com/api/v2/video/{video_id}.json';
+monin.social.VimeoService.VIDEO_API_URL = 'http://vimeo.com/api/v2/video/{video_id}.json';
 
 /**
  * @const
  */
-monin.service.VimeoService.OEMBED_API_URL = 'http://vimeo.com/api/oembed.json';
+monin.social.VimeoService.OEMBED_API_URL = 'http://vimeo.com/api/oembed.json';
