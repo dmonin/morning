@@ -65,3 +65,5 @@ monin.controllers.BaseController.prototype.getHandler = function()
 {
     return this.handler_;
 };
+
+monin.controllers.BaseController.prototype.setState = goog.nullFunction;

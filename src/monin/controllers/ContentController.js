@@ -142,6 +142,9 @@ monin.controllers.ContentController.prototype.initialize = function(config)
   this.getHandler().listen(this.xhr_, goog.net.EventType.COMPLETE,
     this.handleLoadComplete);
 
+  config = config || {};
+  config['container'] = config['container'] || 'body';
+
   this.contentElement_ = document.documentElement.querySelector(
     config['container']);
   this.componentController_.initialize(this.contentElement_);
