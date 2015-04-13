@@ -66,4 +66,10 @@ monin.controllers.BaseController.prototype.getHandler = function()
     return this.handler_;
 };
 
+/**
+ * Sets the controller state
+ *
+ * @param {Object} state Object which describes current state.
+ * @param {boolean} isInitial Defines whether state is initial.
+ */
 monin.controllers.BaseController.prototype.setState = goog.nullFunction;
