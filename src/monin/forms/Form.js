@@ -76,11 +76,21 @@ monin.forms.Form.prototype.addFormItem = function(label, className, controlConfi
     {
         throw new Error('Decorator not found for control type "' + className + '"');
     }
+
     control.setConfig(controlConfig);
-    formItem.setControl(control);
+    formItem.addChild(control, true);
     this.addChild(formItem, true);
 
     return formItem;
+};
+
+/**
+ * @inheritDoc
+ */
+monin.forms.Form.prototype.createDom = function()
+{
+    var form = this.getDomHelper().createDom('form', 'form');
+    this.decorateInternal(form);
 };
 
 /** @inheritDoc */
@@ -93,18 +103,6 @@ monin.forms.Form.prototype.decorateInternal = function(el)
         var formItem = goog.ui.registry.getDecorator(itemEl);
         this.addChild(formItem);
         formItem.decorate(itemEl);
-
-        if (goog.DEBUG)
-        {
-            if (formItem.getControl())
-            {
-                console.info('Form: Initialized Control %s: %o %o', formItem, formItem.getControl().getFieldName(), formItem.getControl());
-            }
-            else
-            {
-                console.warn('Form: no control found for form item: %o', formItem);
-            }
-        }
     }, this);
 };
 
@@ -130,14 +128,19 @@ monin.forms.Form.prototype.disposeInternal = function()
 monin.forms.Form.prototype.getControlByName = function(name)
 {
     var found = null;
-    this.forEachChild(function(child) {
-        if (child.getFieldName && child.getFieldName() == name)
+    this.forEachChild(function(formItem) {
+        if (formItem.getFieldName && formItem.getFieldName() == name)
         {
-            found = child;
+            found = formItem;
         }
-        else if (child instanceof monin.forms.FormItem && child.getControl().getFieldName() == name)
+        else if (formItem instanceof monin.forms.FormItem)
         {
-            found = child.getControl();
+            formItem.forEachChild(function(child) {
+                if (child.getFieldName && child.getFieldName() == name)
+                {
+                    found = child;
+                }
+            }, this);
         }
 
     }, this);
@@ -154,10 +157,15 @@ monin.forms.Form.prototype.getControlByName = function(name)
 monin.forms.Form.prototype.getFormItemByName = function(name)
 {
     var found = null;
-    this.forEachChild(function(child) {
-        if (child instanceof monin.forms.FormItem && child.getControl().getFieldName() == name)
+    this.forEachChild(function(formItem) {
+        if (formItem instanceof monin.forms.FormItem)
         {
-            found = child;
+            formItem.forEachChild(function(child) {
+                if (child.getFieldName && child.getFieldName() == name)
+                {
+                    found = formItem;
+                }
+            });
         }
 
     }, this);
@@ -176,11 +184,7 @@ monin.forms.Form.prototype.getData = function()
     this.forEachChild(function(child) {
         if (child instanceof monin.forms.FormItem)
         {
-            control = child.getControl();
-            if (control)
-            {
-                data[control.getFieldName()] = control.getValue();
-            }
+            child.populateWithData(data);
         }
         else if (child.getFieldName)
         {
@@ -269,10 +273,29 @@ monin.forms.Form.prototype.validate = function()
 };
 
 /**
+ * Returns form data as object
+ *
+ * @param {Object} data
+ */
+monin.forms.Form.prototype.setData = function(data)
+{
+    var control;
+    this.forEachChild(function(child) {
+        if (child instanceof monin.forms.FormItem)
+        {
+            child.populateWithData(data);
+        }
+        else if (child.getFieldName)
+        {
+            control.setValue(data[child.getFieldName()]);
+        }
+    }, this);
+};
+
+/**
  * Unbinds model
  *
  * @param {Object} bind
- * @private
  */
 monin.forms.Form.prototype.unbind = function(bind)
 {

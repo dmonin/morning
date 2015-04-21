@@ -208,7 +208,10 @@ monin.forms.CharacterLimiter.prototype.handleKeyDown_ = function(e)
 
     if (this.textarea_.value.length >= this.maxLength_ &&
             !goog.array.contains(allowedKeys, e.keyCode) &&
-            !(e.ctrlKey && e.keyCode == 'A'))
+            !(e.ctrlKey && e.keyCode == 'A') &&
+            !(e.ctrlKey && e.keyCode == 'V') &&
+            !(e.ctrlKey && e.keyCode == 'X') &&
+            !(e.ctrlKey && e.keyCode == 'C'))
     {
         e.preventDefault();
     }

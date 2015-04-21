@@ -18,9 +18,11 @@
     @include box-sizing(border-box);
     border: 0px none;
     border-bottom: 1px solid #f5f5f5;
+    border-radius: 0px;
     height: 40px;
     padding: 2px 5px;
     width: 400px;
+    -webkit-appearance: none;
 
     &::-webkit-input-placeholder {
         color: #ccc;

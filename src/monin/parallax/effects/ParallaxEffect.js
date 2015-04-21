@@ -32,7 +32,7 @@ monin.parallax.effects.ParallaxEffect.prototype.apply = function(element, offset
     {
         case 'top':
             var y = -this.ratio * offset * 1000;
-            monin.style.translate(element.getElement(), undefined, y, position);
+            monin.style.translate(element.getElement(), position.x + 0, position.y + y);
             break;
     }
 

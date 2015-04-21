@@ -33,9 +33,9 @@ goog.addDependency('../../../monin/src/monin/measure/Length.js', ['monin.measure
 goog.addDependency('../../../monin/src/monin/measure/Temperature.js', ['monin.measure.Temperature'], ['monin.measure.AbstractMeasure']);
 goog.addDependency('../../../monin/src/monin/mobile/ViewportScale.js', ['monin.mobile.ViewportScale'], ['goog.dom', 'goog.math.Size', 'goog.style', 'monin.mobile']);
 goog.addDependency('../../../monin/src/monin/mobile/mobile.js', ['monin.mobile'], ['goog.math.Size']);
-goog.addDependency('../../../monin/src/monin/model/BaseModel.js', ['monin.model.BaseModel'], ['goog.events.EventTarget']);
-goog.addDependency('../../../monin/src/monin/model/Collection.js', ['monin.model.Collection', 'monin.model.Collection.ChangeEvent', 'monin.model.Collection.MoveEvent'], ['goog.array', 'goog.events']);
-goog.addDependency('../../../monin/src/monin/model/Image.js', ['monin.model.Image'], ['goog.math.Size', 'goog.net.ImageLoader']);
+goog.addDependency('../../../monin/src/monin/model/BaseModel.js', ['monin.models.BaseModel'], ['goog.events.EventTarget']);
+goog.addDependency('../../../monin/src/monin/model/Collection.js', ['monin.models.Collection', 'monin.models.Collection.ChangeEvent', 'monin.models.Collection.MoveEvent'], ['goog.array', 'goog.events']);
+goog.addDependency('../../../monin/src/monin/model/Image.js', ['monin.models.Image'], ['goog.math.Size', 'goog.net.ImageLoader']);
 goog.addDependency('../../../monin/src/monin/net/EncryptedXhr.js', ['monin.net.EncryptedXhr'], ['goog.json', 'goog.net.XhrIo', 'monin.crypt.Aes']);
 goog.addDependency('../../../monin/src/monin/net/ExternalApi.js', ['monin.net.ExternalApi'], ['goog.async.ConditionalDelay']);
 goog.addDependency('../../../monin/src/monin/net/Navigator.js', ['monin.net.Navigator'], ['goog.Timer', 'goog.async.ConditionalDelay', 'goog.dom.iframe', 'goog.events.EventTarget', 'goog.net.XhrIo']);
@@ -47,9 +47,9 @@ goog.addDependency('../../../monin/src/monin/parallax/effects/Effect.js', ['moni
 goog.addDependency('../../../monin/src/monin/parallax/effects/EffectFactory.js', ['monin.parallax.effects.EffectFactory'], ['monin.parallax.effects.CounterEffect', 'monin.parallax.effects.ParallaxEffect', 'monin.parallax.effects.StyleEffect']);
 goog.addDependency('../../../monin/src/monin/parallax/effects/ParallaxEffect.js', ['monin.parallax.effects.ParallaxEffect'], ['monin.parallax.effects.Effect', 'monin.style']);
 goog.addDependency('../../../monin/src/monin/parallax/effects/StyleEffect.js', ['monin.parallax.effects.StyleEffect'], ['monin.parallax.effects.Effect']);
-goog.addDependency('../../../monin/src/monin/parallax/model/ElementConfig.js', ['monin.parallax.model.ElementConfig'], ['monin.model.BaseModel']);
+goog.addDependency('../../../monin/src/monin/parallax/model/ElementConfig.js', ['monin.parallax.models.ElementConfig'], ['monin.models.BaseModel']);
 goog.addDependency('../../../monin/src/monin/parallax/model/SceneConfig.js', ['monin.parallax.model.SceneConfig'], []);
-goog.addDependency('../../../monin/src/monin/parallax/ui/Element.js', ['monin.parallax.ui.Element'], ['goog.math.Coordinate', 'goog.math.Range', 'goog.style', 'goog.ui.Component', 'goog.ui.registry', 'monin.parallax.model.ElementConfig']);
+goog.addDependency('../../../monin/src/monin/parallax/ui/Element.js', ['monin.parallax.ui.Element'], ['goog.math.Coordinate', 'goog.math.Range', 'goog.style', 'goog.ui.Component', 'goog.ui.registry', 'monin.parallax.models.ElementConfig']);
 goog.addDependency('../../../monin/src/monin/parallax/ui/ImageElement.js', ['monin.parallax.ui.ImageElement'], ['goog.net.ImageLoader', 'goog.style', 'goog.ui.registry', 'goog.uri.utils', 'monin.parallax.ui.Element']);
 goog.addDependency('../../../monin/src/monin/parallax/ui/ParallaxContainer.js', ['monin.parallax.ui.ParallaxContainer'], ['goog.dom.dataset', 'goog.events.KeyCodes', 'goog.events.MouseWheelHandler', 'goog.fx.anim', 'goog.net.XhrIo', 'goog.storage.Storage', 'goog.storage.mechanism.mechanismfactory', 'goog.structs.Map', 'goog.ui.Component', 'monin.events']);
 goog.addDependency('../../../monin/src/monin/parallax/ui/Scene.js', ['monin.parallax.ui.Scene'], ['goog.dom.classes', 'goog.fx.Animation', 'goog.fx.easing', 'goog.ui.Component', 'goog.ui.registry', 'monin.parallax.model.SceneConfig']);
@@ -59,7 +59,7 @@ goog.addDependency('../../../monin/src/monin/ui/ArrowButtonRenderer.js', ['monin
 goog.addDependency('../../../monin/src/monin/ui/ArrowNavigation.js', ['monin.ui.ArrowNavigation', 'monin.ui.ArrowNavigationEvent'], ['goog.dom.classes', 'goog.ui.Component']);
 goog.addDependency('../../../monin/src/monin/ui/Button.js', ['monin.ui.Button'], ['goog.style', 'goog.ui.Component', 'goog.ui.Component.EventType', 'monin.ui.HoverEffect']);
 goog.addDependency('../../../monin/src/monin/ui/Countdown.js', ['monin.ui.CountDown'], ['goog.Timer', 'goog.dom.dataset', 'goog.string', 'goog.ui.Component', 'goog.ui.registry']);
-goog.addDependency('../../../monin/src/monin/ui/CoverBackground.js', ['monin.ui.CoverBackground'], ['goog.math.Size', 'goog.ui.Component', 'monin.model.Image']);
+goog.addDependency('../../../monin/src/monin/ui/CoverBackground.js', ['monin.ui.CoverBackground'], ['goog.math.Size', 'goog.ui.Component', 'monin.models.Image']);
 goog.addDependency('../../../monin/src/monin/ui/DatePicker.js', ['monin.ui.DatePicker', 'monin.ui.DatePicker.SelectionMode', 'monin.ui.DatePickerEvent'], ['goog.date', 'goog.date.Date', 'goog.date.DateRange', 'goog.date.Interval', 'goog.dom', 'goog.i18n.DateTimeFormat', 'goog.i18n.DateTimeSymbols', 'goog.ui.Component']);
 goog.addDependency('../../../monin/src/monin/ui/DraggableGallery.js', ['monin.ui.DraggableGallery'], ['goog.fx.anim', 'goog.fx.anim.Animated', 'goog.math.Coordinate', 'goog.ui.Component', 'monin.events']);
 goog.addDependency('../../../monin/src/monin/ui/DraggableGalleryItem.js', ['monin.ui.DraggableGalleryItem', 'monin.ui.IDraggableItemPhotoRenderer'], ['goog.style']);

@@ -20,6 +20,7 @@ goog.provide('monin.validation.FormValidation');
 goog.provide('monin.validation.FormValidationError');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventTarget');
+goog.require('monin.validation.Validator');
 goog.require('monin.validation.FormValidationResult');
 
 /**

@@ -15,7 +15,6 @@
 /**
  * @fileoverview Date Picker component. Allows to select single date or date range.
  */
-
 goog.provide('monin.ui.DatePicker');
 goog.provide('monin.ui.DatePicker.SelectionMode');
 goog.provide('monin.ui.DatePickerEvent');
@@ -44,6 +43,7 @@ monin.ui.DatePicker = function()
      * Selection mode (Start date, End date, or both dates at the same time, i.e. Start date = End Date (single date mode)
      *
      * @type {monin.ui.DatePicker.SelectionMode}
+     * @private
      */
     this.selectionMode_ = monin.ui.DatePicker.SelectionMode.BOTH;
 
@@ -134,10 +134,15 @@ monin.ui.DatePicker.maxDate_ = null;
  * @enum {string}
  */
 monin.ui.DatePicker.EventType = {
+    MONTH_CHANGE: 'month_change',
+    NEXT_MONTH: 'next_month',
+    PREVIOUS_MONTH: 'previous_month',
     CHANGE: 'change',
     HIDE: 'hide',
     SELECT: 'select',
-    SHOW: 'show'
+    SHOW: 'show',
+    HIGHLIGHT: 'highlight',
+    UNHIGHLIGHT: 'unhighlight'
 };
 
 /**
@@ -274,6 +279,8 @@ monin.ui.DatePicker.prototype.previousMonth = function()
 {
     this.activeMonth_.add(new goog.date.Interval(goog.date.Interval.MONTHS, -1));
     this.updateCalendarGrid_();
+
+    this.dispatchEvent(monin.ui.DatePicker.EventType.PREVIOUS_MONTH);
 };
 
 /**
@@ -283,6 +290,8 @@ monin.ui.DatePicker.prototype.nextMonth = function()
 {
     this.activeMonth_.add(new goog.date.Interval(goog.date.Interval.MONTHS, 1));
     this.updateCalendarGrid_();
+
+    this.dispatchEvent(monin.ui.DatePicker.EventType.NEXT_MONTH);
 };
 
 /**
@@ -306,7 +315,6 @@ monin.ui.DatePicker.prototype.createDom = function()
 {
     goog.base(this, 'createDom');
     this.decorateInternal(this.getElement());
-
 };
 
 /** @inheritDoc */
@@ -417,7 +425,8 @@ monin.ui.DatePicker.prototype.isInRange_ = function(date, start, end)
  */
 monin.ui.DatePicker.prototype.handleGridMouseDown_ = function(e)
 {
-    var startEnd = this.getStartEnd(e.target);
+    var target = /** @type {Element} */ (e.target);
+    var startEnd = this.getStartEnd(target);
     if (!startEnd)
     {
         return;
@@ -428,13 +437,6 @@ monin.ui.DatePicker.prototype.handleGridMouseDown_ = function(e)
         startEnd[1]);
 
     this.dispatchEvent(evt);
-
-    // dates are equal
-    if (startEnd[0].equals(this.startDate_) && startEnd[1].equals(this.endDate_))
-    {
-        return;
-    }
-
     this.selectRange(startEnd[0], startEnd[1]);
 };
 
@@ -446,14 +448,19 @@ monin.ui.DatePicker.prototype.handleGridMouseDown_ = function(e)
  */
 monin.ui.DatePicker.prototype.handleGridOver_ = function(e)
 {
-    var startEnd = this.getStartEnd(e.target);
+    var target = /** @type {Element} */ (e.target);
+    var startEnd = this.getStartEnd(target);
     if (!startEnd)
     {
         return;
     }
 
     var highlight = this.selectionMode_ == monin.ui.DatePicker.SelectionMode.START ? startEnd[0] : startEnd[1];
-    this.redrawCalendarGrid_(startEnd[0], startEnd[1], highlight);
+    this.highlight(startEnd[0], startEnd[1], highlight);
+
+    this.dispatchEvent(new monin.ui.DatePickerEvent(
+        monin.ui.DatePicker.EventType.HIGHLIGHT,
+        this, startEnd[0], startEnd[1]));
 };
 
 /**
@@ -481,9 +488,23 @@ monin.ui.DatePicker.prototype.handlePrevClick_ = function(e)
 };
 
 /**
+ * Draws calendar view from in memory representation and applies class names
+ * depending on the selection, weekday and whatever the day belongs to the
+ * active month or not.
+ * @param {goog.date.Date=} opt_start selected start.
+ * @param {goog.date.Date=} opt_end selected end.
+ * @param {goog.date.Date=} opt_highlight highlight date.
+ */
+monin.ui.DatePicker.prototype.highlight = function(opt_start, opt_end,
+    opt_highlight)
+{
+    this.redrawCalendarGrid_(opt_start, opt_end, opt_highlight);
+};
+
+/**
  * Returns new start end
- * @return Array.
- * @private
+ * @param {Element} target
+ * @return Array.<goog.date.Date>
  */
 monin.ui.DatePicker.prototype.getStartEnd = function(target)
 {
@@ -541,6 +562,10 @@ monin.ui.DatePicker.prototype.handleGridOut_ = function(e)
     }
 
     this.redrawCalendarGrid_();
+
+    this.dispatchEvent(new monin.ui.DatePickerEvent(
+        monin.ui.DatePicker.EventType.UNHIGHLIGHT,
+        this, null, null));
 };
 
 /**
@@ -572,13 +597,13 @@ monin.ui.DatePicker.prototype.selectRange = function(start, end)
 {
     var changeEvent = new monin.ui.DatePickerEvent(
         monin.ui.DatePicker.EventType.CHANGE, this, start, end);
+
     if (this.dispatchEvent(changeEvent))
     {
         this.startDate_ = start;
         this.endDate_ = end;
 
         this.redrawCalendarGrid_(start, end);
-
     }
 };
 
@@ -638,7 +663,8 @@ monin.ui.DatePicker.prototype.updateCalendarGrid_ = function()
  * @param {goog.date.Date=} opt_highlight highlight date.
  * @private
  */
-monin.ui.DatePicker.prototype.redrawCalendarGrid_ = function(opt_start, opt_end, opt_highlight)
+monin.ui.DatePicker.prototype.redrawCalendarGrid_ = function(opt_start, opt_end,
+    opt_highlight)
 {
     if (!this.getElement())
     {
@@ -765,8 +791,6 @@ monin.ui.DatePicker.prototype.setVisible = function(position)
         this.dispatchEvent(monin.ui.DatePicker.EventType.HIDE);
     }
 };
-
-
 
 /**
  * Object representing a date picker event.

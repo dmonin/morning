@@ -60,7 +60,7 @@
         goog.require("monin.validation.RequiredFieldValidator");
         goog.require("monin.validation.EmailValidator");
         goog.require('monin.forms.DefaultErrorProvider');
-        goog.require("monin.model.BaseModel");
+        goog.require("monin.models.BaseModel");
         goog.require('goog.json');
         goog.require('goog.events');
         goog.require('monin.ui.Button');
@@ -76,7 +76,7 @@
             this.lastname = "";
             this.email = "";
         };
-        goog.inherits(User, monin.model.BaseModel);
+        goog.inherits(User, monin.models.BaseModel);
 
         User.prototype.serialize = function()
         {

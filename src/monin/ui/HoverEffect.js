@@ -15,6 +15,7 @@
 /**
  * @fileoverview Touch / Desktop element hover handling.
  * Adds / Removes "hover" class to element on touch(start|end) / mouse(over|out) events.
+ *
  */
 
 goog.provide('monin.ui.HoverEffect');
@@ -23,6 +24,7 @@ goog.require('goog.dom.classes');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventTarget');
 goog.require('monin.mobile');
+goog.require('monin.events');
 
 /**
  * Touch / Desktop element hover handling
@@ -31,6 +33,7 @@ goog.require('monin.mobile');
  *
  * @constructor
  * @extends {goog.events.EventTarget}
+ * @deprecated
  */
 monin.ui.HoverEffect = function(element)
 {
@@ -49,11 +52,12 @@ monin.ui.HoverEffect = function(element)
 
     if (monin.mobile.isTouchDevice())
     {
-        this.handler_.listen(element, goog.events.EventType.TOUCHSTART,
-            this.handleTouchEvents_);
+        monin.events.listenPointerEvent(this.handler_, element,
+            goog.events.EventType.POINTERDOWN, this.handleTouchEvents_);
 
-        this.handler_.listen(element, goog.events.EventType.TOUCHEND,
-            this.handleTouchEvents_);
+
+        monin.events.listenPointerEvent(this.handler_, element,
+            goog.events.EventType.POINTERUP, this.handleTouchEvents_);
     }
     else
     {
@@ -104,7 +108,8 @@ monin.ui.HoverEffect.prototype.getElement = function()
  */
 monin.ui.HoverEffect.prototype.handleTouchEvents_ = function(e)
 {
-    this.setHover_(e.type == 'touchstart');
+    this.setHover_(e.type == goog.events.EventType.POINTERDOWN ||
+        e.type == goog.events.EventType.TOUCHSTART);
 };
 
 /**

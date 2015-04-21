@@ -49,14 +49,6 @@ monin.forms.FormItem = function()
     this.bind_ = null;
 
     /**
-     * User Control
-     *
-     * @type {goog.ui.Component}
-     * @private
-     */
-    this.control_ = null;
-
-    /**
      * Binding handler, manages listeners attached to change events
      *
      * @type {goog.events.EventHandler}
@@ -80,17 +72,26 @@ monin.forms.FormItem.prototype.createDom = function()
 };
 
 /**
- * @param {Object} bind
+ * Binds form item to data model (allowed only if form item has just one
+ * control)
+ *
+ * @param {Object} bind Binding object
  * @return {monin.forms.FormItem}
  */
 monin.forms.FormItem.prototype.bind = function(bind)
 {
     this.bind_ = bind;
     var key, model;
+
+    if (this.getChildCount() !== 1)
+    {
+        throw new Error("FormItem: Data binding allowed only for form items with just one control.");
+    }
+
     for (key in bind)
     {
         model = bind[key];
-        var control = /** @type {monin.forms.IControl} */ (this.control_);
+        var control = this.getChildAt(0);
 
         if (control)
         {
@@ -111,29 +112,25 @@ monin.forms.FormItem.prototype.decorateInternal = function(el)
 {
     goog.base(this, 'decorateInternal', el);
 
-    if (this.getControl())
+    var controlEls = this.getElementsByClass('form-control');
+    for (var i = 0; i < controlEls.length; i++)
     {
-        return;
+        var control = goog.ui.registry.getDecorator(controlEls[i]);
+        if (!control)
+        {
+            if (goog.DEBUG)
+            {
+                console.warn('Decorator not found for %o', controlEls[i]);
+            }
+            continue;
+        }
+        this.addChild(control);
+        control.decorate(controlEls[i]);
     }
 
-    var controlEl = this.getElementByClass('form-control');
-
-    if (controlEl)
+    if (goog.DEBUG && controlEls.length === 0)
     {
-        this.control_ = goog.ui.registry.getDecorator(controlEl);
-        if (this.control_)
-        {
-            this.addChild(this.control_);
-            this.control_.decorate(controlEl);
-        }
-        else
-        {
-            console.warn('Decorator not found for %o', controlEl);
-        }
-    }
-    else if (goog.DEBUG)
-    {
-        console.warn('No control found: %o', controlEl);
+        console.warn('No control found: %o', el);
     }
 
 };
@@ -162,36 +159,59 @@ monin.forms.FormItem.prototype.getContentElement = function()
 };
 
 /**
- * Returns form item control
+ * Returns control with specified field name.
  *
- * @return {goog.ui.Component}
+ * @param  {string} name
+ * @return {monin.forms.IControl}
  */
-monin.forms.FormItem.prototype.getControl = function()
+monin.forms.FormItem.prototype.getControlByName = function(name)
 {
-    return this.control_;
+    var control = null;
+    this.forEachChild(function(child) {
+        if (child.getFieldName && child.getFieldName() == name)
+        {
+            control = child;
+        }
+    });
+
+    return control;
 };
 
 /**
- * Handles change event and updates attached models
+ * Handles change event and updates attached models.
  *
  * @param {goog.events.Event} e
  */
 monin.forms.FormItem.prototype.handleChange_ = function(e)
 {
-    var val = e.target.getValue();
+    var value = e.target.getValue();
 
     for (var key in this.bind_)
     {
         var updateData = {};
-        updateData[key] = val;
+        updateData[key] = value;
         this.bind_[key].update(updateData);
     }
 };
 
-
+/**
+ * Populates data object with controls data.
+ *
+ * @param {Object} data
+ */
+monin.forms.FormItem.prototype.populateWithData = function(data)
+{
+    this.forEachChild(function(child) {
+        var control = /** @type {monin.forms.IControl} */ (child);
+        if (control.getFieldName)
+        {
+            data[control.getFieldName()] = control.getValue();
+        }
+    });
+};
 
 /**
- * Unbinds models
+ * Unbinds models.
  *
  * @param {Object} bind
  * @return {monin.forms.FormItem}
@@ -200,7 +220,7 @@ monin.forms.FormItem.prototype.unbind = function(bind)
 {
     this.bind_ = bind;
     var key, model;
-    var control = /** @type {monin.forms.IControl} */ (this.control_);
+    var control = /** @type {monin.forms.IControl} */ (this.getChildAt(0));
     for (key in bind)
     {
         model = bind[key];
@@ -219,45 +239,20 @@ monin.forms.FormItem.prototype.unbind = function(bind)
 };
 
 /**
- * Unbinds all event listeners
- *
- * @return {monin.forms.FormItem}
- */
-monin.forms.FormItem.prototype.unbindAll = function()
-{
-    this.bindHandler_.removeAll();
-    return this;
-};
-
-/**
- * Resets form controls to their default values
+ * Resets form controls to their default values.
  */
 monin.forms.FormItem.prototype.reset = function()
 {
-    if (this.control_)
-    {
-        this.control_.reset();
-    }
+    this.forEachChild(function(child) {
+        if (child.reset)
+        {
+            child.reset();
+        }
+    }, this);
 };
 
 /**
- * Sets form item control
- *
- * @param {goog.ui.Component} control
- */
-monin.forms.FormItem.prototype.setControl = function(control)
-{
-    if (this.control_)
-    {
-        this.removeChild(this.control_, true);
-    }
-
-    this.control_ = control;
-    this.addChild(this.control_, true);
-};
-
-/**
- * Sets form item label
+ * Sets form item label.
  *
  * @param {string} label
  */
@@ -273,17 +268,29 @@ monin.forms.FormItem.prototype.setLabel = function(label)
 };
 
 /**
- * Sets / Removes invalid state
+ * Sets or removes invalid state.
  *
  * @param {boolean} isInvalid
  */
 monin.forms.FormItem.prototype.setInvalid = function(isInvalid)
 {
-    var control = this.getControl();
-    if (control)
-    {
-        control.setInvalid(isInvalid);
-    }
+    this.forEachChild(function(child) {
+        if (child.setInvalid)
+        {
+            child.setInvalid(isInvalid);
+        }
+    }, this);
+};
+
+/**
+ * Unbinds all event listeners.
+ *
+ * @return {monin.forms.FormItem}
+ */
+monin.forms.FormItem.prototype.unbindAll = function()
+{
+    this.bindHandler_.removeAll();
+    return this;
 };
 
 /**

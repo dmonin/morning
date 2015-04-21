@@ -16,9 +16,9 @@
  * @fileoverview Collection of BaseModel classes.
  * Maintains event propagation from each model to collection.
  */
-goog.provide('monin.model.Collection');
-goog.provide('monin.model.Collection.ChangeEvent');
-goog.provide('monin.model.Collection.MoveEvent');
+goog.provide('monin.models.Collection');
+goog.provide('monin.models.Collection.ChangeEvent');
+goog.provide('monin.models.Collection.MoveEvent');
 goog.require('goog.array');
 goog.require('goog.events');
 
@@ -29,7 +29,7 @@ goog.require('goog.events');
  * @template T
  * @extends {goog.events.EventTarget}
  */
-monin.model.Collection = function()
+monin.models.Collection = function()
 {
     goog.base(this);
 
@@ -45,7 +45,7 @@ monin.model.Collection = function()
      */
     this.handler_ = new goog.events.EventHandler(this);
 };
-goog.inherits(monin.model.Collection, goog.events.EventTarget);
+goog.inherits(monin.models.Collection, goog.events.EventTarget);
 
 /**
  * Whether the collection contains the given object.
@@ -54,7 +54,7 @@ goog.inherits(monin.model.Collection, goog.events.EventTarget);
  * @param {boolean=} opt_idCompare
  * @return {boolean} true if obj is present.
  */
-monin.model.Collection.prototype.contains = function(obj, opt_idCompare)
+monin.models.Collection.prototype.contains = function(obj, opt_idCompare)
 {
     if (opt_idCompare)
     {
@@ -71,7 +71,7 @@ monin.model.Collection.prototype.contains = function(obj, opt_idCompare)
  *
  * @return {number}
  */
-monin.model.Collection.prototype.count = function()
+monin.models.Collection.prototype.count = function()
 {
     return this.data_.length;
 };
@@ -88,7 +88,7 @@ monin.model.Collection.prototype.count = function()
  * @param {Object=} opt_obj The object to be used as the value of 'this'
  *     within f.
  */
-monin.model.Collection.prototype.forEach = function(f, opt_obj)
+monin.models.Collection.prototype.forEach = function(f, opt_obj)
 {
     goog.array.forEach(this.data_, f, opt_obj);
 };
@@ -104,7 +104,7 @@ monin.model.Collection.prototype.forEach = function(f, opt_obj)
  * @param {Object=} opt_obj The object to be used as the value of 'this'
  *     within f.
  */
-monin.model.Collection.prototype.forEachRight = function(f, opt_obj)
+monin.models.Collection.prototype.forEachRight = function(f, opt_obj)
 {
     goog.array.forEachRight(this.data_, f, opt_obj);
 };
@@ -112,7 +112,7 @@ monin.model.Collection.prototype.forEachRight = function(f, opt_obj)
 /**
  * @return {*}
  */
-monin.model.Collection.prototype.getAt = function(index)
+monin.models.Collection.prototype.getAt = function(index)
 {
     return this.data_[index];
 };
@@ -123,7 +123,7 @@ monin.model.Collection.prototype.getAt = function(index)
  * @param {number} id
  * @return {*}
  */
-monin.model.Collection.prototype.getById = function(id)
+monin.models.Collection.prototype.getById = function(id)
 {
     var found = null;
     goog.array.forEach(this.data_, function(item) {
@@ -141,13 +141,13 @@ monin.model.Collection.prototype.getById = function(id)
  *
  * @param {T} item Value to add.
  */
-monin.model.Collection.prototype.insert = function(item)
+monin.models.Collection.prototype.insert = function(item)
 {
     item.setParentEventTarget(this);
     goog.array.insert(this.data_, item);
 
     this.dispatchEvent({
-        type: monin.model.Collection.EventType.INSERT,
+        type: monin.models.Collection.EventType.INSERT,
         item: item,
         index: this.data_.length - 1
     });
@@ -160,13 +160,13 @@ monin.model.Collection.prototype.insert = function(item)
  * @param {number=} index The index at which to insert the object. If omitted,
  *      treated as 0. A negative index is counted from the end of the array.
  */
-monin.model.Collection.prototype.insertAt = function(item, index)
+monin.models.Collection.prototype.insertAt = function(item, index)
 {
     item.setParentEventTarget(this);
     goog.array.insertAt(this.data_, item, index);
 
     this.dispatchEvent({
-        type: monin.model.Collection.EventType.INSERT,
+        type: monin.models.Collection.EventType.INSERT,
         item: item,
         index: index
     });
@@ -178,7 +178,7 @@ monin.model.Collection.prototype.insertAt = function(item, index)
  * @param {T} item
  * @return {number}
  */
-monin.model.Collection.prototype.indexOf = function(item)
+monin.models.Collection.prototype.indexOf = function(item)
 {
     return goog.array.indexOf(this.data_, item);
 };
@@ -187,7 +187,7 @@ monin.model.Collection.prototype.indexOf = function(item)
  * @param {number} oldIndex
  * @param {number} newIndex
  */
-monin.model.Collection.prototype.move = function(oldIndex, newIndex)
+monin.models.Collection.prototype.move = function(oldIndex, newIndex)
 {
     if (oldIndex == newIndex)
     {
@@ -200,7 +200,7 @@ monin.model.Collection.prototype.move = function(oldIndex, newIndex)
     goog.array.insertAt(this.data_, item, newIndex);
 
     this.dispatchEvent({
-        type: monin.model.Collection.EventType.MOVE,
+        type: monin.models.Collection.EventType.MOVE,
         oldIndex: oldIndex,
         newIndex: newIndex
     });
@@ -211,7 +211,7 @@ monin.model.Collection.prototype.move = function(oldIndex, newIndex)
  * @param {T} item Object to remove.
  * @return {boolean} True if an element was removed.
  */
-monin.model.Collection.prototype.remove = function(item)
+monin.models.Collection.prototype.remove = function(item)
 {
     var index = this.indexOf(item);
     return this.removeAt(index);
@@ -222,7 +222,7 @@ monin.model.Collection.prototype.remove = function(item)
  * @param {number} index The index to remove.
  * @return {boolean} True if an element was removed.
  */
-monin.model.Collection.prototype.removeAt = function(index)
+monin.models.Collection.prototype.removeAt = function(index)
 {
 
     var item = this.data_[index],
@@ -232,7 +232,7 @@ monin.model.Collection.prototype.removeAt = function(index)
     {
         item.setParentEventTarget(null);
         this.dispatchEvent({
-            type: monin.model.Collection.EventType.REMOVE,
+            type: monin.models.Collection.EventType.REMOVE,
             index: index,
             item: item
         });
@@ -246,7 +246,7 @@ monin.model.Collection.prototype.removeAt = function(index)
  *
  * @return Array.<Object>
  */
-monin.model.Collection.prototype.serialize = function()
+monin.models.Collection.prototype.serialize = function()
 {
    var data = [];
    goog.array.forEach(this.data_, function(item) {
@@ -259,7 +259,7 @@ monin.model.Collection.prototype.serialize = function()
  * Events associated with collection
  * @enum {string}
  */
-monin.model.Collection.EventType = {
+monin.models.Collection.EventType = {
     INSERT: 'insert',
     CHANGE: goog.events.EventType.CHANGE,
     MOVE: 'move',
@@ -274,7 +274,7 @@ monin.model.Collection.EventType = {
  *     declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
  * @extends {goog.events.Event}
  */
-monin.model.Collection.ChangeEvent = function(type, opt_target)
+monin.models.Collection.ChangeEvent = function(type, opt_target)
 {
     goog.base(this, type, opt_target);
 
@@ -288,7 +288,7 @@ monin.model.Collection.ChangeEvent = function(type, opt_target)
      */
     this.index = 0;
 };
-goog.inherits(monin.model.Collection.ChangeEvent, goog.events.Event);
+goog.inherits(monin.models.Collection.ChangeEvent, goog.events.Event);
 
 /**
  * @constructor
@@ -298,7 +298,7 @@ goog.inherits(monin.model.Collection.ChangeEvent, goog.events.Event);
  *     declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
  * @extends {goog.events.Event}
  */
-monin.model.Collection.MoveEvent = function(type, opt_target)
+monin.models.Collection.MoveEvent = function(type, opt_target)
 {
     goog.base(this, type, opt_target);
 
@@ -312,4 +312,4 @@ monin.model.Collection.MoveEvent = function(type, opt_target)
      */
     this.newIndex = 0;
 };
-goog.inherits(monin.model.Collection.MoveEvent, goog.events.Event);
+goog.inherits(monin.models.Collection.MoveEvent, goog.events.Event);

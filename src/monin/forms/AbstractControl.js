@@ -20,6 +20,7 @@
 goog.provide('monin.forms.AbstractControl');
 
 goog.require('goog.ui.Component');
+goog.require('monin.forms.IControl');
 goog.require('goog.dom.classes');
 
 /**
@@ -70,7 +71,13 @@ monin.forms.AbstractControl.prototype.reset = goog.abstractMethod;
  *
  * @param {Object} config
  */
-monin.forms.AbstractControl.prototype.setConfig = goog.abstractMethod;
+monin.forms.AbstractControl.prototype.setConfig = function(config)
+{
+  if (config['fieldName'])
+  {
+    this.fieldName_ = config['fieldName'];
+  }
+};
 
 /**
  * Sets control value

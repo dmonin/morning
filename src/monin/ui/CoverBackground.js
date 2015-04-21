@@ -20,13 +20,13 @@ goog.provide('monin.ui.CoverBackground');
 
 goog.require('goog.math.Size');
 goog.require('goog.ui.Component');
-goog.require('monin.model.Image');
+goog.require('monin.models.Image');
 
 /**
  * Scales and re-positions image to specified size.
  *
  * @constructor
- * @param {monin.model.Image=} opt_image
+ * @param {monin.models.Image=} opt_image
  * @extends {goog.ui.Component}
  */
 monin.ui.CoverBackground = function(opt_image)
@@ -46,12 +46,17 @@ monin.ui.CoverBackground = function(opt_image)
     this.coverSize = null;
 
     /**
-     * @type {monin.model.Image}
+     * @type {monin.models.Image}
      */
     this.image = opt_image || null;
 
+    if (this.image)
+    {
+        this.image.setParentEventTarget(this);
+    }
+
     /**
-     * @type {Array.<monin.model.Image>}
+     * @type {Array.<monin.models.Image>}
      * @private
      */
     this.images_ = null;
@@ -129,7 +134,6 @@ monin.ui.CoverBackground.prototype.createDom = function()
             this.imgEl.width = this.image.size.width;
             this.imgEl.height = this.image.size.height;
         }
-
     }
 
     this.decorateInternal(el);
@@ -156,15 +160,22 @@ monin.ui.CoverBackground.prototype.decorateInternal = function(el)
                 size = new goog.math.Size(width, height);
             }
 
-            this.image = new monin.model.Image(imgEl.src, size);
-
-            if (!size)
-            {
-                this.image.load(this.handleImageLoad_, this);
-            }
+            this.image = new monin.models.Image(imgEl.src, size);
+            this.image.setParentEventTarget(this);
 
             this.imgEl = imgEl;
         }
+    }
+};
+
+/** @inheritDoc */
+monin.ui.CoverBackground.prototype.enterDocument = function()
+{
+    goog.base(this, 'enterDocument');
+
+    if (this.image)
+    {
+        this.image.load(this.handleImageLoad_, this);
     }
 };
 
@@ -203,12 +214,11 @@ monin.ui.CoverBackground.prototype.resize = function(element, srcSize, dstSize)
 
     srcSize.scaleToFit(fitSize);
 
-
     element.width = srcSize.width;
     element.height = srcSize.height;
 
-    element.style.width = srcSize.width + 'px';
-    element.style.height = srcSize.height + 'px';
+    element.style.width = Math.round(srcSize.width) + 'px';
+    element.style.height = Math.round(srcSize.height) + 'px';
 
     element.style.left = Math.floor((dstSize.width - srcSize.width)) / 2 + 'px';
 
@@ -229,7 +239,7 @@ monin.ui.CoverBackground.prototype.resize = function(element, srcSize, dstSize)
 /**
  * Sets images
  *
- * @param {Array.<monin.model.Image>} images
+ * @param {Array.<monin.models.Image>} images
  */
 monin.ui.CoverBackground.prototype.setImages = function(images)
 {
@@ -248,6 +258,10 @@ monin.ui.CoverBackground.prototype.setImages = function(images)
 monin.ui.CoverBackground.prototype.setSize = function(coverSize)
 {
     var el = this.getElement();
+    if (!el)
+    {
+        throw new Error("CoverBackground is not yet rendered.");
+    }
     el.style.width = coverSize.width + 'px';
     el.style.height = coverSize.height + 'px';
 
@@ -273,7 +287,7 @@ monin.ui.CoverBackground.prototype.setSize = function(coverSize)
  */
 monin.ui.CoverBackground.prototype.setVisible = function(isVisible)
 {
-    if (!this.isInDocument())
+    if (!this.getElement())
     {
         return;
     }
@@ -306,9 +320,12 @@ monin.ui.CoverBackground.prototype.tryImproveImage_ = function()
             break;
         }
     }
+
     if (bestMatchingImage.src != this.image.src)
     {
         this.image = bestMatchingImage;
+        this.image.load();
+        this.image.setParentEventTarget(this);
         this.imgEl.src = this.image.src;
     }
 };

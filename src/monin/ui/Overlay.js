@@ -29,6 +29,11 @@ goog.require('goog.ui.Component');
 monin.ui.Overlay = function()
 {
     goog.base(this);
+
+    /**
+     * @type {boolean}
+     */
+    this.closeOnClick = true;
 };
 goog.inherits(monin.ui.Overlay, goog.ui.Component);
 
@@ -46,6 +51,8 @@ monin.ui.Overlay.prototype.createDom = function()
 /** @inheritDoc */
 monin.ui.Overlay.prototype.enterDocument = function()
 {
+    goog.base(this, 'enterDocument');
+
     this.getHandler().listen(this.getElement(), goog.events.EventType.CLICK,
         this.handleClick_);
 };
@@ -58,8 +65,12 @@ monin.ui.Overlay.prototype.enterDocument = function()
  */
 monin.ui.Overlay.prototype.handleClick_ = function(e)
 {
-    this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
-    this.setVisible(false);
+    if (this.closeOnClick)
+    {
+        this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
+        this.setVisible(false);
+    }
+
 };
 
 /**

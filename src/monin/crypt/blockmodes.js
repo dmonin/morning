@@ -116,7 +116,7 @@ monin.crypt.blockmodes.pad.zeroPadding.unpad = function (cipher, message)
  * bytes are required to complete the block.
  *
  * @param {Object} cipher
- * @param {string} message
+ * @param {Array.<number>} message
  */
 monin.crypt.blockmodes.pad.iso7816.pad = function (cipher, message)
 {
@@ -163,7 +163,7 @@ monin.crypt.blockmodes.pad.iso7816.unpad = function (cipher, message)
  * last block which contains the number of padding bytes.
  *
  * @param {Object} cipher
- * @param {string} message
+ * @param {Array.<number>} message
  */
 monin.crypt.blockmodes.pad.ansix923.pad = function(cipher, message)
 {
@@ -196,7 +196,7 @@ monin.crypt.blockmodes.pad.ansix923.unpad = function (cipher,message)
  * byte of the last block which contains the number of padding bytes.
  *
  * @param {Object} cipher
- * @param {string} message
+ * @param {Arra.<number>} message
  */
 monin.crypt.blockmodes.pad.iso10126.pad = function (cipher, message)
 {
@@ -214,7 +214,7 @@ monin.crypt.blockmodes.pad.iso10126.pad = function (cipher, message)
  * byte of the last block which contains the number of padding bytes.
  *
  * @param {Object} cipher
- * @param {Array.<string>} message
+ * @param {Array.<number>} message
  */
 monin.crypt.blockmodes.pad.iso10126.unpad = function (cipher, message)
 {
@@ -229,7 +229,8 @@ monin.crypt.blockmodes.pad.iso10126.unpad = function (cipher, message)
  * byte of the last block which contains the number of padding bytes.
  *
  * @param {Object} cipher
- * @param {string} message
+ *
+ * @param {Array.<number>} message
  */
 monin.crypt.blockmodes.pad.pkcs7.pad = function(cipher, message)
 {

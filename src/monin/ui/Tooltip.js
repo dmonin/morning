@@ -123,7 +123,6 @@ monin.ui.Tooltip = function()
      * @private
      */
     this.hideDelay_ = new goog.async.Delay(this.hide_, 3000, this);
-
 };
 goog.inherits(monin.ui.Tooltip, goog.ui.Component);
 
@@ -551,7 +550,7 @@ monin.ui.Tooltip.prototype.positionateToElement = function(selector,
  *
  * @param {!goog.math.Coordinate} position
  * @param {goog.math.Coordinate=} opt_animOffset
- * @private
+ * @protected
  */
 monin.ui.Tooltip.prototype.setPosition = function(position,
     opt_animOffset)
@@ -671,15 +670,6 @@ monin.ui.Tooltip.prototype.setVisible = function(isVisible)
     }
 
     goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
-    if (!isVisible)
-    {
-//        goog.dom.classes.remove(this.getElement(),
-//            'left', 'bottom', 'top', 'right',
-//            'align-right', 'align-left');
-
-        this.getElement().style.left = '-1000px';
-        this.getElement().style.top = '-1000px';
-    }
 };
 
 /**

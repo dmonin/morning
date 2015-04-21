@@ -3,7 +3,7 @@ var sunShape = "M71.997,51.999h-3.998c-1.105,0-2-0.895-2-1.999s0.895-2,2-2h3.998
 
 // Background
 var size = new goog.math.Size(1700, 1275);
-var bgImage = new monin.model.Image("assets/img/bg.jpg", size);
+var bgImage = new monin.models.Image("assets/img/bg.jpg", size);
 var coverBackground = new monin.ui.CoverBackground(bgImage);
 coverBackground.render(document.body);
 coverBackground.setVisible(true);

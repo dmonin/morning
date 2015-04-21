@@ -1,5 +1,3 @@
-// Based on https://code.google.com/p/canvg/
-
 /**
  * @fileoverview Canvas Box with Shape.
  */

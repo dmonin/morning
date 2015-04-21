@@ -16,7 +16,7 @@
  * @fileoverview Swiffy Animation, small sized vector animations.
  * @see https://www.google.com/doubleclick/studio/swiffy/
  *
- * Export SWF in ActionScript 2.0 with following code in first frame:
+ * Export SWF in ActionScript 2.0 with following code in the first frame:
  * _root.stop();
  * _root.onEnterFrame = function(){
  *   if(_level0.gotoframe) {
@@ -24,10 +24,21 @@
  *   }
  *   _level0.gotoframe = undefined;
  * }
+ *
+ * Alternatively export SWF in ActionScript 3.0 with following code in
+ * the first frame:
+ *
+ * stop();
+ * addEventListener(Event.ENTER_FRAME, onEnterFrame);
+ * function onEnterFrame(e:Event):void {
+ *   if(stage.loaderInfo.parameters["gotoframe"]) {
+ *     gotoAndStop(stage.loaderInfo.parameters["gotoframe"]);
+ *   }
+ *   stage.loaderInfo.parameters["gotoframe"] = undefined;
+ * }
+ *
  */
-
 goog.provide('monin.ui.Swiffy');
-goog.require('monin.parallax.ui.Element');
 goog.require('goog.dom.dataset');
 goog.require('goog.net.XhrIo');
 goog.require('goog.Timer');
@@ -263,3 +274,12 @@ monin.ui.Swiffy.prototype.stop = function()
 {
     this.timer_.stop();
 };
+
+/**
+ * Register this control so it can be created from markup.
+ */
+goog.ui.registry.setDecoratorByClassName(
+    'swiffy',
+    function() {
+      return new monin.ui.Swiffy();
+    });

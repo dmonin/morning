@@ -1,5 +1,3 @@
-// Based on https://code.google.com/p/canvg/
-
 goog.provide('monin.canvas.SvgPathRenderer');
 
 goog.require('goog.math.Coordinate');
