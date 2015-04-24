@@ -142,6 +142,17 @@ monin.ui.Swiper.prototype.getClickedSlide = function()
 };
 
 /**
+ * Returns index of currently displayed slide
+ *
+ * @return {number}
+ */
+monin.ui.Swiper.prototype.getActiveIndex = function()
+{
+  return this.swiper_.activeLoopIndex;
+};
+
+
+/**
  * Returns the index number of touched/clicked slide. For use only with
  * "onSlideTouch" and "onSlideClick" callbacks.
  *
