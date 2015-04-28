@@ -65,7 +65,7 @@ monin.style.getTransform = function(el)
 /**
  * Applies element filter
  *
- * @param {Element} el
+ * @param {Element|Node} el
  * @param {string} filter
  */
 monin.style.setFilter = function(el, filter)
