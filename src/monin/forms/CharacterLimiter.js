@@ -166,7 +166,7 @@ monin.forms.CharacterLimiter.prototype.enterDocument = function()
  */
 monin.forms.CharacterLimiter.prototype.handleBlur_ = function(e)
 {
-    goog.dom.classes.remove(this.getElement(), 'focused');
+    goog.dom.classlist.remove(this.getElement(), 'focused');
 };
 
 /**
@@ -177,7 +177,7 @@ monin.forms.CharacterLimiter.prototype.handleBlur_ = function(e)
  */
 monin.forms.CharacterLimiter.prototype.handleFocus_ = function(e)
 {
-    goog.dom.classes.add(this.getElement(), 'focused');
+    goog.dom.classlist.add(this.getElement(), 'focused');
     this.update_();
 };
 

@@ -20,7 +20,7 @@ goog.provide('monin.ui.Tooltip');
 goog.provide('monin.ui.Tooltip.Direction');
 
 goog.require('goog.array');
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('monin.fx.dom.Slide');
 goog.require('goog.fx.easing');
 goog.require('goog.math.Coordinate');
@@ -257,7 +257,7 @@ monin.ui.Tooltip.prototype.decorateInternal = function(el)
  */
 monin.ui.Tooltip.prototype.enableExtraClassName = function(className, isEnabled)
 {
-    goog.dom.classes.enable(this.getElement(), className, isEnabled);
+    goog.dom.classlist.enable(this.getElement(), className, isEnabled);
 };
 
 /** @inheritDoc */
@@ -523,7 +523,7 @@ monin.ui.Tooltip.prototype.isOwner = function(owner)
  */
 monin.ui.Tooltip.prototype.isVisible = function()
 {
-    return goog.dom.classes.has(this.getElement(), 'visible');
+    return goog.dom.classlist.contains(this.getElement(), 'visible');
 };
 
 /**
@@ -651,7 +651,7 @@ monin.ui.Tooltip.prototype.setSimple = function(isSimple)
 
     if (this.getElement() !== null)
     {
-        goog.dom.classes.enable(this.getElement(), 'simple', isSimple);
+        goog.dom.classlist.enable(this.getElement(), 'simple', isSimple);
     }
 };
 
@@ -669,7 +669,7 @@ monin.ui.Tooltip.prototype.setVisible = function(isVisible)
         return;
     }
 
-    goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+    goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
 };
 
 /**
@@ -679,7 +679,7 @@ monin.ui.Tooltip.prototype.setVisible = function(isVisible)
  */
 monin.ui.Tooltip.prototype.updateDirectionClass_ = function()
 {
-    var el = this.getElement(), classes = goog.dom.classes;
+    var el = this.getElement(), classes = goog.dom.classlist;
     if (!el)
     {
         return;

@@ -18,7 +18,7 @@
 goog.provide('monin.ui.FileUploaderHtml4');
 
 goog.require('goog.Uri');
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.json');
 goog.require('goog.structs.Map');
 goog.require('goog.style');

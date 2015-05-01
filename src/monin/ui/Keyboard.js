@@ -1,7 +1,7 @@
 goog.provide('monin.ui.Keyboard');
 
 goog.require('goog.ui.Component');
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.dom.dataset');
 goog.require('goog.structs.Map');
 goog.require('goog.structs.Map');
@@ -58,7 +58,7 @@ monin.ui.Keyboard.prototype.handleKey_ = function(e)
     var key = /** @type {Element} */ (this.keys_.get(e.keyCode));
     if (key)
     {
-        goog.dom.classes.enable(key, 'active', e.type == goog.events.EventType.KEYDOWN);
+        goog.dom.classlist.enable(key, 'active', e.type == goog.events.EventType.KEYDOWN);
         if (this.hideDelay_)
         {
             this.hideDelay_.start();
@@ -80,7 +80,7 @@ monin.ui.Keyboard.prototype.hideAfterUse = function(delay)
  */
 monin.ui.Keyboard.prototype.setVisible = function(isVisible)
 {
-    goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+    goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
 
     if (isVisible)
     {

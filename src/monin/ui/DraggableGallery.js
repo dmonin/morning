@@ -226,7 +226,7 @@ monin.ui.DraggableGallery.prototype.handlePointerDown_ = function(e)
             this.handleSelectionStart_);
     }
 
-    goog.dom.classes.add(document.body, 'draggable-gallery-dragging', 'unselectable');
+    goog.dom.classlist.add(document.body, 'draggable-gallery-dragging', 'unselectable');
 };
 
 /**
@@ -395,7 +395,7 @@ monin.ui.DraggableGallery.prototype.startDragging_ = function()
 monin.ui.DraggableGallery.prototype.stopDragging_ = function()
 {
     this.isDragging_ = false;
-    goog.dom.classes.remove(document.body, 'draggable-gallery-dragging', 'unselectable');
+    goog.dom.classlist.remove(document.body, 'draggable-gallery-dragging', 'unselectable');
 };
 
 /**

@@ -19,7 +19,7 @@
 
 goog.provide('monin.events.TapProvider');
 
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventTarget');
 goog.require('monin.mobile');
@@ -278,7 +278,7 @@ monin.events.TapProvider.prototype.handleMouseEvents_ = function(e)
  */
 monin.events.TapProvider.prototype.setHover_ = function(isTouched)
 {
-  goog.dom.classes.enable(this.element_, 'hover', isTouched);
+  goog.dom.classlist.enable(this.element_, 'hover', isTouched);
 
   var evtType = isTouched ? goog.ui.Component.EventType.HIGHLIGHT :
     goog.ui.Component.EventType.UNHIGHLIGHT;

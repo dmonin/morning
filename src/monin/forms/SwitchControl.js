@@ -90,7 +90,7 @@ monin.forms.SwitchControl.prototype.setChecked_ = function(isChecked)
   if (isChecked != this.isChecked_)
   {
     this.isChecked_ = isChecked;
-    goog.dom.classes.enable(this.getElement(), 'on', this.isChecked_);
+    goog.dom.classlist.enable(this.getElement(), 'on', this.isChecked_);
 
     this.dispatchEvent(goog.events.EventType.CHANGE);
   }

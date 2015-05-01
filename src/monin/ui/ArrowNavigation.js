@@ -18,7 +18,7 @@
 goog.provide('monin.ui.ArrowNavigation');
 goog.provide('monin.ui.ArrowNavigationEvent');
 
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.ui.registry');
 goog.require('goog.ui.Component');
 
@@ -100,7 +100,7 @@ monin.ui.ArrowNavigation.prototype.enterDocument = function()
  */
 monin.ui.ArrowNavigation.prototype.handleMouseDown_ = function(e)
 {
-    if (!goog.dom.classes.has(e.target, 'active') || e.button == 2)
+    if (!goog.dom.classlist.contains(e.target, 'active') || e.button == 2)
     {
         return;
     }
@@ -108,11 +108,11 @@ monin.ui.ArrowNavigation.prototype.handleMouseDown_ = function(e)
     e.preventDefault();
 
     var dir = 0;
-    if (goog.dom.classes.has(e.target, 'nav-prev'))
+    if (goog.dom.classlist.contains(e.target, 'nav-prev'))
     {
         dir = -1;
     }
-    else if (goog.dom.classes.has(e.target, 'nav-next'))
+    else if (goog.dom.classlist.contains(e.target, 'nav-next'))
     {
         dir = 1;
     }
@@ -135,8 +135,8 @@ monin.ui.ArrowNavigation.prototype.handleMouseDown_ = function(e)
  */
 monin.ui.ArrowNavigation.prototype.setActive = function(left, right)
 {
-    goog.dom.classes.enable(this.prev_, 'active', left);
-    goog.dom.classes.enable(this.next_, 'active', right);
+    goog.dom.classlist.enable(this.prev_, 'active', left);
+    goog.dom.classlist.enable(this.next_, 'active', right);
 };
 
 /**
@@ -146,7 +146,7 @@ monin.ui.ArrowNavigation.prototype.setActive = function(left, right)
  */
 monin.ui.ArrowNavigation.prototype.setVisible = function(isVisible)
 {
-    goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+    goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
 };
 
 /**

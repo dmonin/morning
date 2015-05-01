@@ -21,7 +21,7 @@ goog.provide('monin.forms.AbstractControl');
 
 goog.require('goog.ui.Component');
 goog.require('monin.forms.IControl');
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 
 /**
  * Abstract form control
@@ -92,5 +92,5 @@ monin.forms.AbstractControl.prototype.setValue = goog.abstractMethod;
  */
 monin.forms.AbstractControl.prototype.setInvalid = function(isInvalid)
 {
-    goog.dom.classes.enable(this.getElement(), 'invalid', isInvalid);
+    goog.dom.classlist.enable(this.getElement(), 'invalid', isInvalid);
 };

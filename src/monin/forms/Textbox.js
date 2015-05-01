@@ -103,7 +103,7 @@ monin.forms.Textbox.prototype.decorateInternal = function(el)
 
     if (this.className_)
     {
-        goog.dom.classes.add(el, this.className_);
+        goog.dom.classlist.add(el, this.className_);
     }
 };
 
@@ -260,7 +260,7 @@ monin.forms.Textbox.prototype.setPlaceholder = function(placeholder)
  */
 monin.forms.Textbox.prototype.setInvalid = function(isInvalid)
 {
-    goog.dom.classes.enable(this.getElement(), 'invalid', isInvalid);
+    goog.dom.classlist.enable(this.getElement(), 'invalid', isInvalid);
 };
 
 /**

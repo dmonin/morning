@@ -20,7 +20,7 @@
 
 goog.provide('monin.ui.HoverEffect');
 
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventTarget');
 goog.require('monin.mobile');
@@ -138,7 +138,7 @@ monin.ui.HoverEffect.prototype.handleMouseEvents_ = function(e)
  */
 monin.ui.HoverEffect.prototype.setHover_ = function(isHover)
 {
-    goog.dom.classes.enable(this.element_, 'hover', isHover);
+    goog.dom.classlist.enable(this.element_, 'hover', isHover);
     if (isHover)
     {
         this.dispatchEvent(goog.ui.Component.EventType.HIGHLIGHT);

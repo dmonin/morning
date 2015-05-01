@@ -681,7 +681,7 @@ monin.parallax.ui.ParallaxContainer.prototype.setSize = function(size)
  */
 monin.parallax.ui.ParallaxContainer.prototype.setVisible = function(isVisible)
 {
-    goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+    goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
 };
 
 /**

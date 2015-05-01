@@ -20,7 +20,7 @@ goog.provide('monin.forms.DefaultErrorProvider');
 
 goog.require('goog.Timer');
 goog.require('goog.dom');
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.ui.Component');
 goog.require('monin.forms.Textbox');
 goog.require('monin.forms.IErrorProvider');
@@ -94,5 +94,5 @@ monin.forms.DefaultErrorProvider.prototype.displayError = function(element, mess
  */
 monin.forms.DefaultErrorProvider.prototype.setVisible = function(isVisible)
 {
-    goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+    goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
 };
