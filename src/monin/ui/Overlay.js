@@ -85,6 +85,6 @@ monin.ui.Overlay.prototype.setVisible = function(isVisible)
         this.render(document.body);
     }
 
-    goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
-    goog.dom.classes.enable(document.body, 'body-overlay', isVisible);
+    goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
+    goog.dom.classlist.enable(document.body, 'body-overlay', isVisible);
 };

@@ -17,7 +17,7 @@
  */
 goog.provide('monin.ui.ToggleButton');
 
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.ui.registry');
 goog.require('monin.ui.Button');
 
@@ -114,6 +114,6 @@ monin.ui.ToggleButton.prototype.setPressed = function(isPressed)
     this.isPressed_ = isPressed;
     if (this.getElement() !== null)
     {
-        goog.dom.classes.enable(this.getElement(), 'pressed', isPressed);
+        goog.dom.classlist.enable(this.getElement(), 'pressed', isPressed);
     }
 };

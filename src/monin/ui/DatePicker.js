@@ -508,10 +508,10 @@ monin.ui.DatePicker.prototype.highlight = function(opt_start, opt_end,
  */
 monin.ui.DatePicker.prototype.getStartEnd = function(target)
 {
-    var classes = goog.dom.classes,
+    var classes = goog.dom.classlist,
         baseClass = this.getBaseCssClass();
-    if (!classes.has(target, goog.getCssName(baseClass, 'date')) ||
-        classes.has(target, goog.getCssName(baseClass, 'disabled')))
+    if (!classes.contains(target, goog.getCssName(baseClass, 'date')) ||
+        classes.contains(target, goog.getCssName(baseClass, 'disabled')))
     {
         return null;
     }
@@ -556,7 +556,7 @@ monin.ui.DatePicker.prototype.getStartEnd = function(target)
  */
 monin.ui.DatePicker.prototype.handleGridOut_ = function(e)
 {
-    if (!goog.dom.classes.has(e.target, goog.getCssName(this.getBaseCssClass(), 'date')))
+    if (!goog.dom.classlist.contains(e.target, goog.getCssName(this.getBaseCssClass(), 'date')))
     {
         return;
     }
@@ -729,7 +729,7 @@ monin.ui.DatePicker.prototype.redrawCalendarGrid_ = function(opt_start, opt_end,
             // Set cell text to the date and apply classes.
             goog.dom.setTextContent(el, date.getDate());
 
-            goog.dom.classes.set(el, classes.join(' '));
+            goog.dom.classlist.set(el, classes.join(' '));
         }
 
         // Hide the either the last one or last two weeks if they contain no days

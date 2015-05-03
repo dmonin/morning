@@ -291,7 +291,7 @@ monin.ui.CoverBackground.prototype.setVisible = function(isVisible)
     {
         return;
     }
-    goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+    goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
 };
 
 /**

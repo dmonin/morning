@@ -18,7 +18,7 @@
 
 goog.provide('monin.ui.UnitConverter');
 
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.dom.dataset');
 goog.require('goog.string');
 goog.require('goog.ui.Component');
@@ -162,7 +162,7 @@ monin.ui.UnitConverter.prototype.getType = function()
  */
 monin.ui.UnitConverter.prototype.handleClick_ = function(e)
 {
-    if (!goog.dom.classes.has(e.target, 'unit-type'))
+    if (!goog.dom.classlist.contains(e.target, 'unit-type'))
     {
         return;
     }
@@ -225,7 +225,7 @@ monin.ui.UnitConverter.prototype.setType = function(type)
 
     goog.array.forEach(tooltipTypes, function(tooltipType) {
         isActive = goog.dom.dataset.get(tooltipType, 'unittype') == type;
-        goog.dom.classes.enable(tooltipType, 'selected', isActive);
+        goog.dom.classlist.enable(tooltipType, 'selected', isActive);
     });
 
     this.setHtml_(String(value));
@@ -279,7 +279,7 @@ monin.ui.UnitConverter.prototype.setValue = function(value, opt_unitType)
  */
 monin.ui.UnitConverter.prototype.setVisible = function(isVisible)
 {
-    goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+    goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
 };
 
 monin.ui.UnitConverter.EventType = {

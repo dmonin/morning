@@ -1,5 +1,5 @@
 goog.provide('monin.parallax.ui.Scene');
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.fx.Animation');
 goog.require('goog.fx.easing');
 goog.require('goog.ui.Component');

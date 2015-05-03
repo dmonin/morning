@@ -1,6 +1,6 @@
 goog.provide('monin.app.ModularApp');
 
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.module.ModuleLoader');
 goog.require('goog.module.ModuleManager');
 goog.require('goog.events.EventTarget');
@@ -97,7 +97,7 @@ monin.app.ModularApp.prototype.initialize = function(config)
  */
 monin.app.ModularApp.prototype.initController_ = function()
 {
-  goog.dom.classes.remove(document.body, 'loading');
+  goog.dom.classlist.remove(document.body, 'loading');
 
   var Type = goog.getObjectByName('app.module.' + this.state_.controllerName);
 
@@ -182,7 +182,7 @@ monin.app.ModularApp.prototype.setState = function(state)
 
     if (monin.MODULAR)
     {
-      goog.dom.classes.add(document.body, 'loading');
+      goog.dom.classlist.add(document.body, 'loading');
 
       this.moduleManager_.execOnLoad(this.state_.controllerName,
         this.initController_, this);

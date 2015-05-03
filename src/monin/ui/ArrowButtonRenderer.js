@@ -20,7 +20,7 @@ goog.provide('monin.ui.ArrowButtonRenderer');
 
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.ui.Button');
 goog.require('goog.ui.ButtonRenderer');
 goog.require('goog.ui.ControlContent');
@@ -99,7 +99,7 @@ monin.ui.ArrowButtonRenderer.prototype.canDecorate = function(element) {
 
 /** @override */
 monin.ui.ArrowButtonRenderer.prototype.decorate = function(button, element) {
-    goog.dom.classes.add(element, goog.ui.INLINE_BLOCK_CLASSNAME,
+    goog.dom.classlist.add(element, goog.ui.INLINE_BLOCK_CLASSNAME,
         this.getCssClass());
     return monin.ui.ArrowButtonRenderer.superClass_.decorate.call(this, button,
         element);

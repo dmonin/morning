@@ -84,7 +84,7 @@ monin.forms.Textarea.prototype.decorateInternal = function(el)
 
     if (this.className_)
     {
-        goog.dom.classes.add(el, this.className_);
+        goog.dom.classlist.add(el, this.className_);
     }
 
 };
@@ -209,7 +209,7 @@ monin.forms.Textarea.prototype.setConfig = function(config)
  */
 monin.forms.Textarea.prototype.setInvalid = function(isInvalid)
 {
-    goog.dom.classes.enable(this.getElement(), 'invalid', isInvalid);
+    goog.dom.classlist.enable(this.getElement(), 'invalid', isInvalid);
 };
 
 /**

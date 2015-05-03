@@ -108,7 +108,7 @@ monin.ui.Button.prototype.decorateInternal = function(el)
 
   if (this.getHandlerElement())
   {
-    this.isEnabled_ = goog.dom.classes.has(this.getHandlerElement(), 'enabled');
+    this.isEnabled_ = goog.dom.classlist.contains(this.getHandlerElement(), 'enabled');
   }
 };
 
@@ -201,7 +201,7 @@ monin.ui.Button.prototype.setEnabled = function(isEnabled)
   this.isEnabled_ = isEnabled;
   if (this.getElement())
   {
-    goog.dom.classes.enable(this.getElement(), 'enabled', isEnabled);
+    goog.dom.classlist.enable(this.getElement(), 'enabled', isEnabled);
   }
 };
 
@@ -212,7 +212,7 @@ monin.ui.Button.prototype.setEnabled = function(isEnabled)
 */
 monin.ui.Button.prototype.setVisible = function(isVisible)
 {
-  goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
+  goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
 };
 
 /**
