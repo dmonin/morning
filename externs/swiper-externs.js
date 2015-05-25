@@ -25,6 +25,16 @@ Swiper.prototype.swipeNext = function() {};
  */
 Swiper.prototype.swipePrev = function() {};
 
+/**
+ *
+ */
+Swiper.prototype.swipeTo = function(index, speed, runCallbacks) {};
+
+/**
+ *
+ */
+Swiper.prototype.reInit = function() {};
+
 
 /**
  * @type {number}
@@ -36,6 +46,10 @@ Swiper.prototype.clickedSlideIndex = 0;
  */
 Swiper.prototype.clickedSlide = null;
 
+/**
+ * @type {Element}
+ */
+Swiper.prototype.width = null;
 
 /**
  * @return {Element}
