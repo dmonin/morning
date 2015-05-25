@@ -104,7 +104,8 @@ monin.ui.ArrowNavigation.prototype.enterDocument = function()
  */
 monin.ui.ArrowNavigation.prototype.handleMouseDown_ = function(e)
 {
-  if (!goog.dom.classlist.contains(e.target, 'active') || e.button == 2)
+  var target = /** @type {Element} */ (e.target);
+  if (!goog.dom.classlist.contains(target, 'active') || e.button == 2)
   {
     return;
   }
@@ -112,11 +113,11 @@ monin.ui.ArrowNavigation.prototype.handleMouseDown_ = function(e)
   e.preventDefault();
 
   var dir = 0;
-  if (goog.dom.classlist.contains(e.target, 'nav-prev'))
+  if (goog.dom.classlist.contains(target, 'nav-prev'))
   {
     dir = -1;
   }
-  else if (goog.dom.classlist.contains(e.target, 'nav-next'))
+  else if (goog.dom.classlist.contains(target, 'nav-next'))
   {
     dir = 1;
   }
