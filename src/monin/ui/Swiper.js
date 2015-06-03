@@ -177,7 +177,6 @@ monin.ui.Swiper.prototype.getClickedSlideIndex = function()
 monin.ui.Swiper.prototype.handleSwiperReady_ = function(e)
 {
   this.swiper_ = new Swiper(this.getElement(), this.config_);
-  console.debug(typeof this.swiper_);
 };
 
 /**
