@@ -181,6 +181,7 @@ monin.forms.FormItem.prototype.getControlByName = function(name)
  * Handles change event and updates attached models.
  *
  * @param {goog.events.Event} e
+ * @private
  */
 monin.forms.FormItem.prototype.handleChange_ = function(e)
 {
@@ -206,6 +207,22 @@ monin.forms.FormItem.prototype.populateWithData = function(data)
         if (control.getFieldName)
         {
             data[control.getFieldName()] = control.getValue();
+        }
+    });
+};
+
+/**
+ * Sets form data
+ *
+ * @param {Object} data
+ */
+monin.forms.FormItem.prototype.setData = function(data)
+{
+    this.forEachChild(function(child) {
+        var control = /** @type {monin.forms.IControl} */ (child);
+        if (control.getFieldName)
+        {
+            control.setValue(data[control.getFieldName()]);
         }
     });
 };
