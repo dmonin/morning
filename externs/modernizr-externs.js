@@ -42,3 +42,8 @@ Modernizr.video = false;
  * @type {boolean}
  */
 Modernizr.csscolumns = false;
+
+/**
+ * @type {boolean}
+ */
+Modernizr.touch = false;
