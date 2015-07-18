@@ -28,6 +28,7 @@ goog.inherits(monin.routing.Route, goog.events.EventTarget);
  * Checks whether route matches
  *
  * @param {string} token
+ * @return {boolean}
  */
 monin.routing.Route.prototype.match = goog.abstractMethod;
 

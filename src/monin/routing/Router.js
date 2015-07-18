@@ -37,11 +37,16 @@ monin.routing.Router.prototype.addRoute = function(route)
  * Matches a route agains specified url token
  *
  * @param  {string} token
+ * @return {boolean}
  */
 monin.routing.Router.prototype.match = function(token)
 {
   for (var i = 0; i < this.routes_.length; i++)
   {
-    this.routes_[i].match(token);
+    if (this.routes_[i].match(token)) {
+      return true;
+    }
   }
+
+  return false;
 };
