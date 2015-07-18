@@ -46,5 +46,9 @@ monin.routing.RegexRoute.prototype.match = function(token)
         }
       )
     );
+
+    return true;
   }
+
+  return false;
 };
