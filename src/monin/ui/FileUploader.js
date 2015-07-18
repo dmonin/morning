@@ -67,6 +67,9 @@ monin.ui.FileUploader.EventType = {
  * File model
  *
  * @constructor
+ * @param {string} name
+ * @param {number} size
+ * @param {Object} original
  */
 monin.ui.FileUploader.File = function(name, size, original)
 {

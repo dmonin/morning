@@ -119,7 +119,8 @@ monin.ui.FileUploaderHtml5.prototype.filesFactory_ = function(fileData)
 
   for (var i = 0; i < fileData.length; i++)
   {
-    files.push(new monin.ui.FileUploader.File(fileData[i]['name'], fileData[i]['size'], fileData[i]));
+    files.push(new monin.ui.FileUploader.File(fileData[i]['name'],
+      fileData[i]['size'], fileData[i]));
   }
 
   return files;
@@ -190,14 +191,18 @@ monin.ui.FileUploaderHtml5.prototype.handleLoadComplete_ = function(e)
 {
   try
   {
-    var response = /** @type {string} */ (e.target.getResponseJson());
+    var response = /** @type {string} */ goog.json.parse(e.target.responseText);
     this.dispatchEvent({
       type: monin.ui.FileUploader.EventType.COMPLETE,
       data: response
     });
   }
-  catch(exc)
+  catch (exc)
   {
+    if (goog.DEBUG)
+    {
+      console.warn('File upload error: ' + exc.message);
+    }
     this.dispatchEvent({
       type: monin.ui.FileUploader.EventType.ERROR,
       data: response
@@ -215,7 +220,8 @@ monin.ui.FileUploaderHtml5.prototype.handleLoadComplete_ = function(e)
 monin.ui.FileUploaderHtml5.prototype.handleProgress_ = function(e)
 {
   var browserEvt = e.getBrowserEvent();
-  var progress = browserEvt['total'] > 0 ? (browserEvt['loaded'] / browserEvt['total']) : 0;
+  var progress = browserEvt['total'] > 0 ?
+    (browserEvt['loaded'] / browserEvt['total']) : 0;
 
   this.dispatchEvent({
     type: monin.ui.FileUploader.EventType.PROGRESS,

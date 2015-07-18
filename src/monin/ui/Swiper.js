@@ -39,8 +39,13 @@ monin.ui.Swiper = function()
    * @private
    */
   this.config_ = {};
-};
 
+  /**
+   * @type {Swiper}
+   * @private
+   */
+  this.swiper_ = null;
+};
 goog.inherits(monin.ui.Swiper, goog.ui.Component);
 
 /**
@@ -74,9 +79,11 @@ monin.ui.Swiper.prototype.decorateInternal = function(el)
     'loop': loop,
     'onSlideTouch': goog.bind(this.onSlideTouch, this),
     'onSlideClick': goog.bind(this.onSlideClick, this),
+    'onTouchMove': goog.bind(this.onTouchMove, this),
     'onTouchEnd': goog.bind(this.onTouchEnd, this),
     'onSlideChangeEnd': goog.bind(this.onSlideChangeEnd, this),
-    'paginationClickable': paginationClickable
+    'paginationClickable': paginationClickable,
+    'onSetWrapperTransform': this.onSetWrapperTransform.bind(this)
   };
 
   if (pagination)
@@ -138,7 +145,7 @@ monin.ui.Swiper.prototype.getActiveSlide = function()
  */
 monin.ui.Swiper.prototype.getClickedSlide = function()
 {
-  return this.swiper_.clickedSlide;
+  return this.swiper_ ? this.swiper_.clickedSlide : null;
 };
 
 /**
@@ -182,6 +189,25 @@ monin.ui.Swiper.prototype.load_ = function()
 };
 
 /**
+ * Handles an event when Swiper is moved
+ *
+ * @param  {monin.ui.Swiper} swiper
+ * @param  {Object} coords
+ */
+monin.ui.Swiper.prototype.onSetWrapperTransform = function(swiper, coords)
+{
+  this.dispatchEvent({
+    type: monin.ui.Swiper.EventType.SET_WRAPPER_TRANSFORM,
+    coords: {
+      x: coords['x'],
+      y: coords['y'],
+      z: coords['z']
+    },
+    width: this.swiper_ ? this.swiper_.width : 0
+  });
+};
+
+/**
  * @param  {goog.events.Event} e
  */
 monin.ui.Swiper.prototype.onSlideClick = function(e)
@@ -196,6 +222,15 @@ monin.ui.Swiper.prototype.onSlideTouch = function(e)
 {
   this.dispatchEvent(goog.events.EventType.TOUCHSTART);
 };
+
+/**
+ * @param  {goog.events.Event} e
+ */
+monin.ui.Swiper.prototype.onTouchMove = function(e)
+{
+  this.dispatchEvent(goog.events.EventType.TOUCHMOVE);
+};
+
 
 /**
  * @param  {goog.events.Event} e
@@ -264,7 +299,8 @@ monin.ui.Swiper.prototype.swipeTo = function(index, speed, runCallbacks)
  * @enum {string}
  */
 monin.ui.Swiper.EventType = {
-  SLIDE_CHANGE_END: 'slidechangeend'
+  SLIDE_CHANGE_END: 'slidechangeend',
+  SET_WRAPPER_TRANSFORM: 'setwrappertransform'
 };
 
 /**

@@ -283,7 +283,7 @@ monin.forms.Form.prototype.setData = function(data)
     this.forEachChild(function(child) {
         if (child instanceof monin.forms.FormItem)
         {
-            child.populateWithData(data);
+            child.setData(data);
         }
         else if (child.getFieldName)
         {
