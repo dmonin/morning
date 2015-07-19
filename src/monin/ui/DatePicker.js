@@ -57,7 +57,7 @@ monin.ui.DatePicker = function()
 
     /**
      * Weekday na
-     * @type {[type]}
+     * @type {Array.<string>}
      * @private
      */
     this.wdayNames_ = this.symbols_.NARROWWEEKDAYS;
@@ -556,7 +556,9 @@ monin.ui.DatePicker.prototype.getStartEnd = function(target)
  */
 monin.ui.DatePicker.prototype.handleGridOut_ = function(e)
 {
-    if (!goog.dom.classlist.contains(e.target, goog.getCssName(this.getBaseCssClass(), 'date')))
+    var target = /** @type {Element} */ (e.target);
+    if (!goog.dom.classlist.contains(target,
+        goog.getCssName(this.getBaseCssClass(), 'date')))
     {
         return;
     }
