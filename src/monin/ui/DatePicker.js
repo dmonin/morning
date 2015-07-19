@@ -56,28 +56,32 @@ monin.ui.DatePicker = function()
     this.symbols_ = goog.i18n.DateTimeSymbols_en_ISO;
 
     /**
-     * Weekday na
+     * Weekday names.
+     *
      * @type {Array.<string>}
      * @private
      */
     this.wdayNames_ = this.symbols_.NARROWWEEKDAYS;
 
     /**
-     * Start date
+     * Start date.
+     *
      * @type {goog.date.Date}
      * @private
      */
     this.startDate_ = new goog.date.Date();
 
     /**
-     * End date
+     * End date.
+     *
      * @type {goog.date.Date}
      * @private
      */
     this.endDate_ = new goog.date.Date();
 
     /**
-     * Highlightede date
+     * Highlightede date.
+     *
      * @type {goog.date.Date}
      * @private
      */
@@ -85,6 +89,7 @@ monin.ui.DatePicker = function()
 
     /**
      * Active month.
+     *
      * @type {goog.date.Date}
      * @private
      */
@@ -95,6 +100,7 @@ monin.ui.DatePicker = function()
 
     /**
      * Class names to apply to the weekday columns.
+     *
      * @type {Array.<string>}
      * @private
      */
@@ -103,6 +109,14 @@ monin.ui.DatePicker = function()
     goog.getCssName(this.getBaseCssClass(), 'wkend-start');
     this.wdayStyles_[this.symbols_.WEEKENDRANGE[1]] =
     goog.getCssName(this.getBaseCssClass(), 'wkend-end');
+
+    /**
+     * Defines whether date picker is currently visible.
+     *
+     * @type {boolean}
+     * @private
+     */
+    this.isVisible_ = false;
 };
 goog.inherits(monin.ui.DatePicker, goog.ui.Component);
 
@@ -589,6 +603,16 @@ monin.ui.DatePicker.prototype.getDateFromTarget_ = function(cell)
 };
 
 /**
+ * Returns true if calendar is currently visible.
+ *
+ * @return {boolean}
+ */
+monin.ui.DatePicker.prototype.isVisible = function()
+{
+    return this.isVisible_;
+};
+
+/**
  * Selects specified interval
  *
  * @param {goog.date.Date} start
@@ -786,11 +810,13 @@ monin.ui.DatePicker.prototype.setVisible = function(position)
         this.activeMonth_ = date.clone();
         this.activeMonth_.setDate(1);
         this.updateCalendarGrid_();
+        this.isVisible_ = true;
     }
     else
     {
         style.setStyle(element, 'visibility', 'hidden');
         this.dispatchEvent(monin.ui.DatePicker.EventType.HIDE);
+        this.isVisible_ = false;
     }
 };
 

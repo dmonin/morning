@@ -43,8 +43,6 @@ monin.forms.Textbox = function(content, opt_renderer, opt_domHelper)
     goog.base(this, content, opt_renderer ||
         monin.forms.TextboxRenderer.getInstance(), opt_domHelper);
 
-    this.addClassName('form-control');
-
     /**
      * Delay after which change event is fired
      *
