@@ -185,14 +185,18 @@ monin.forms.FormItem.prototype.getControlByName = function(name)
  */
 monin.forms.FormItem.prototype.handleChange_ = function(e)
 {
-    var value = e.target.getValue();
-
-    for (var key in this.bind_)
+    if (e.target.getValue)
     {
-        var updateData = {};
-        updateData[key] = value;
-        this.bind_[key].update(updateData);
+        var value = e.target.getValue();
+
+        for (var key in this.bind_)
+        {
+            var updateData = {};
+            updateData[key] = value;
+            this.bind_[key].update(updateData);
+        }
     }
+
 };
 
 /**
