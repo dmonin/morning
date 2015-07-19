@@ -21,6 +21,7 @@ goog.provide('monin.forms.SwitchControl');
 goog.require('monin.forms.AbstractControl');
 goog.require('goog.ui.registry');
 goog.require('monin.forms.IControl');
+goog.require('goog.dom.dataset');
 
 
 /**
@@ -43,6 +44,21 @@ monin.forms.SwitchControl = function()
   this.isChecked_ = false;
 };
 goog.inherits(monin.forms.SwitchControl, monin.forms.AbstractControl);
+
+
+/**
+ * @inheritDoc
+ */
+monin.forms.SwitchControl.prototype.decorateInternal = function(el)
+{
+  goog.base(this, 'decorateInternal', el);
+
+  var name = goog.dom.dataset.get(el, 'name');
+  if (name)
+  {
+    this.fieldName_ = name;
+  }
+};
 
 /** @inheritDoc */
 monin.forms.SwitchControl.prototype.enterDocument = function()
