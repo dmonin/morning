@@ -122,8 +122,14 @@ monin.controllers.ComponentController.prototype.initialize =
 
   for (var i = 0; i < elements.length; i++)
   {
-    var cmp = goog.ui.decorate(elements[i]);
     var name = goog.dom.dataset.get(elements[i], 'name');
+
+    // Component already initialized.
+    if (this.components_.get(name))
+    {
+      continue;
+    }
+    var cmp = goog.ui.decorate(elements[i]);
 
     if (!cmp)
     {
