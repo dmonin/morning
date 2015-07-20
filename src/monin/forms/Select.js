@@ -46,7 +46,22 @@ monin.forms.Select.prototype.decorateInternal = function(el)
     goog.base(this, 'decorateInternal', el);
 
     this.fieldName_ = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
+
+    // set value if data-value is set
+    var value = goog.dom.dataset.get(el, 'value');
+    if (value) {
+        var items = this.getSelectionModel().getItems();
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (item.getValue() == value ||
+                goog.dom.dataset.get(item.getElement(), 'value') == value) {
+                console.log("match");
+                this.setSelectedIndex(i);
+            }
+        }
+    }
 };
+
 
 /**
  * Returns field name
@@ -65,8 +80,36 @@ monin.forms.Select.prototype.getFieldName = function()
  */
 monin.forms.Select.prototype.getValue = function()
 {
-    return this.getSelectedItem() ?
-                this.getSelectedItem().getValue() : null;
+    var selectedItem = this.getSelectedItem();
+
+    if (selectedItem) {
+        return this.getItemValue(selectedItem);
+    }
+
+    return null;
+};
+
+
+/**
+ * Returns value of item
+ *
+ * @param {goog.ui.MenuItem} item
+ * @return {*}
+ */
+monin.forms.Select.prototype.getItemValue = function(item)
+{
+    var val = item.getValue();
+
+    if (val && val != item.getCaption()) {
+        return val;
+    }
+
+    var el = item.getElement();
+    if (el) {
+        return goog.dom.dataset.get(el, 'value');
+    }
+
+    return val;
 };
 
 /**
