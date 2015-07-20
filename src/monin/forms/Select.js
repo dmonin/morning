@@ -55,7 +55,6 @@ monin.forms.Select.prototype.decorateInternal = function(el)
             var item = items[i];
             if (item.getValue() == value ||
                 goog.dom.dataset.get(item.getElement(), 'value') == value) {
-                console.log("match");
                 this.setSelectedIndex(i);
             }
         }
