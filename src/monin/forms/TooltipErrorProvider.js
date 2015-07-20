@@ -19,6 +19,8 @@
 
 goog.provide('monin.forms.TooltipErrorProvider');
 goog.require('monin.forms.IErrorProvider');
+goog.require('monin.fx.WindowScroll');
+goog.require('goog.fx.easing');
 
 /**
  * @param {monin.ui.Tooltip} tooltip
@@ -42,6 +44,14 @@ monin.forms.TooltipErrorProvider = function(tooltip)
      * @private
      */
     this.hideDelay_ = new goog.async.Delay(this.hideTooltipDelayed_, 3000, this);
+
+    /**
+     *
+     * @type {monin.fx.WindowScroll}
+     * @private
+     */
+    this.scroll_ = new monin.fx.WindowScroll(window, [0, 0], [0, 0], 1000,
+        goog.fx.easing.inAndOut);
 };
 
 /**
@@ -90,6 +100,14 @@ monin.forms.TooltipErrorProvider.prototype.displayError = function(element, mess
     if (element.type == 'text')
     {
         element.focus();
+    }
+    else
+    {
+        var pos = goog.style.getPageOffset(element);
+        var docScroll = goog.dom.getDocumentScroll();
+        this.scroll_.setStartPoint([docScroll.x, docScroll.y]);
+        this.scroll_.setEndPoint([pos.x, pos.y]);
+        this.scroll_.play();
     }
 
     this.hideDelay_.start();
