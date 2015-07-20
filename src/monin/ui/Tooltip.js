@@ -685,9 +685,9 @@ monin.ui.Tooltip.prototype.updateDirectionClass_ = function()
         return;
     }
 
-    classes.remove(el,
-        'left', 'bottom', 'top', 'right',
-        'align-right', 'align-left');
+    classes.removeAll(el,
+        ['left', 'bottom', 'top', 'right',
+        'align-right', 'align-left']);
 
     var direction = this.direction_,
         directionEnum = monin.ui.Tooltip.Direction;
