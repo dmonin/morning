@@ -104,8 +104,13 @@ monin.forms.Select.prototype.getItemValue = function(item)
     }
 
     var el = item.getElement();
-    if (el) {
-        return goog.dom.dataset.get(el, 'value');
+    if (el)
+    {
+        var dataValue = goog.dom.dataset.get(el, 'value');
+        if (dataValue)
+        {
+            return dataValue;
+        }
     }
 
     return val;
