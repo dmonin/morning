@@ -27,6 +27,8 @@ goog.require('goog.dom');
 goog.require('goog.i18n.DateTimeFormat');
 goog.require('goog.i18n.DateTimeSymbols');
 goog.require('goog.ui.Component');
+goog.require('goog.ui.registry');
+goog.require('goog.dom.classlist');
 
 
 /**
@@ -53,7 +55,7 @@ monin.ui.DatePicker = function()
      * @type {Object}
      * @private
      */
-    this.symbols_ = goog.i18n.DateTimeSymbols_en_ISO;
+    this.symbols_ = goog.i18n.DateTimeSymbols;
 
     /**
      * Weekday names.
@@ -125,7 +127,7 @@ goog.inherits(monin.ui.DatePicker, goog.ui.Component);
  * @type {string}
  * @private
  */
-monin.ui.DatePicker.BASE_CSS_CLASS_ = goog.getCssName('uc-date-picker');
+monin.ui.DatePicker.BASE_CSS_CLASS_ = goog.getCssName('date-picker');
 
 
 /**
@@ -283,6 +285,16 @@ monin.ui.DatePicker.prototype.setFirstWeekday = function(wday)
 {
     this.activeMonth_.setFirstDayOfWeek(wday);
     this.updateCalendarGrid_();
+    this.redrawWeekdays_();
+};
+
+/**
+ * Sets weekday names.
+ * @param {Array.<string>} weekdayNames
+ */
+monin.ui.DatePicker.prototype.setWeekdayNames = function(weekdayNames)
+{
+    this.wdayNames_ = weekdayNames;
     this.redrawWeekdays_();
 };
 
@@ -782,11 +794,13 @@ monin.ui.DatePicker.prototype.redrawWeekdays_ = function()
         return;
     }
 
+    var firstDayOfWeek = this.activeMonth_.getFirstDayOfWeek();
+
     for (var x = 0; x < 7; x++)
     {
         var el = this.elTable_[0][x];
-        var wday = (x + this.activeMonth_.getFirstDayOfWeek() + 7) % 7;
-        goog.dom.setTextContent(el, this.wdayNames_[wday % 7]);
+        var wday = (x - firstDayOfWeek + 1) % 7;
+        goog.dom.setTextContent(el, this.wdayNames_[wday]);
     }
 };
 
@@ -847,3 +861,11 @@ monin.ui.DatePickerEvent = function(type, target, startDate, endDate)
     this.endDate = endDate;
 };
 goog.inherits(monin.ui.DatePickerEvent, goog.events.Event);
+
+
+
+// Register a decorator factory function for goog.ui.Buttons.
+goog.ui.registry.setDecoratorByClassName('date-picker',
+  function() {
+    return new monin.ui.DatePicker();
+  });
