@@ -167,15 +167,20 @@ monin.parallax.ui.ParallaxContainer.prototype.decorateInternal = function(el)
 
   // Initializing scenes
   var sceneElements = this.getElementsByClass('scene');
+  if (sceneElements.length == 0)
+  {
+    sceneElements = [this.getElement()];
+  }
   var cmp, sceneName;
 
   for (var i = 0; i < sceneElements.length; i++)
   {
     cmp = this.sceneFactory_(sceneElements[i]);
-    if (goog.DEBUG && !cmp)
+    if (!cmp)
     {
-      console.error('Component couldn\'t be fetched %o', sceneElements[i]);
+      cmp = new monin.parallax.ui.Scene();
     }
+
     this.addChild(cmp);
     cmp.decorate(sceneElements[i]);
 
@@ -422,7 +427,7 @@ monin.parallax.ui.ParallaxContainer.prototype.getSize = function()
 };
 
 /**
- * @private
+ *
  */
 monin.parallax.ui.ParallaxContainer.prototype.onAnimationFrame = function()
 {
@@ -452,6 +457,7 @@ monin.parallax.ui.ParallaxContainer.prototype.onAnimationFrame = function()
 
 /**
  * @param {goog.events.BrowserEvent} e
+ * @private
  */
 monin.parallax.ui.ParallaxContainer.prototype.handleKey_ = function(e)
 {
@@ -609,14 +615,17 @@ monin.parallax.ui.ParallaxContainer.prototype.setTargetPosition = function(newPo
 /**
  * @param {Element} el
  * @return {goog.ui.Component}
+ * @private
  */
 monin.parallax.ui.ParallaxContainer.prototype.sceneFactory_ = function(el)
 {
-  return goog.ui.registry.getDecorator(el);
+  return el != this.getElement() ? goog.ui.registry.getDecorator(el) : null;
 };
 
 
 /**
+ * Snaps scrolling to specified position.
+ *
  * @private
  */
 monin.parallax.ui.ParallaxContainer.prototype.snap_ = function()
@@ -634,6 +643,8 @@ monin.parallax.ui.ParallaxContainer.prototype.snap_ = function()
 };
 
 /**
+ * Stricting scroll position.
+ *
  * @private
  */
 monin.parallax.ui.ParallaxContainer.prototype.strictPos_ = function()

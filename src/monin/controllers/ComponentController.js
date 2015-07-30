@@ -125,7 +125,7 @@ monin.controllers.ComponentController.prototype.initialize =
     var name = goog.dom.dataset.get(elements[i], 'name');
 
     // Component already initialized.
-    if (this.components_.get(name))
+    if (name && this.components_.get(name))
     {
       continue;
     }

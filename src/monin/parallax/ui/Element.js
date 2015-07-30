@@ -183,14 +183,3 @@ monin.parallax.ui.Element.prototype.update = function(offset, size, position)
 monin.parallax.ui.Element.EventType = {
   LOAD: 'elementload'
 };
-
-
-/**
- * Register this control so it can be created from markup.
- */
-goog.ui.registry.setDecoratorByClassName(
-  'prlx-default-element',
-  function() {
-    return new monin.parallax.ui.Element();
-  }
-);

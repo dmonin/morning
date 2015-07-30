@@ -1,12 +1,12 @@
 {
-    "scene-start" :
+    "parallax" :
     {
         "position": 0,
         "navigationName": "",
         "label": "Start",
         "range": [0, 1000],
         "elements": {
-            "something-moving": {
+            "something-rotating": {
                 "effects": [
                 {
                     "type": "style",
@@ -17,11 +17,7 @@
                     "unit": "px",
                     "range" : [0, 1],
                     "easing": "both"
-                }
-              ]
-            },
-            "something-rotating": {
-                "effects": [
+                },
                 {
                     "type": "style",
                     "property": "rotate",
@@ -31,13 +27,17 @@
                     "unit": "px",
                     "range" : [0, 1],
                     "easing": "both"
-                },
+                }
+              ]
+            },
+            "something-moving": {
+                "effects": [
                 {
                     "type": "style",
                     "property": "translate",
-                    "from": [300, 0],
+                    "from": [0, 0],
                     "decimals": 2,
-                    "to": [500, 0],
+                    "to": [-150, 350],
                     "unit": "px",
                     "range" : [0, 1],
                     "easing": "both"

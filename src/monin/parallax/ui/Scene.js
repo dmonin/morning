@@ -85,9 +85,9 @@ monin.parallax.ui.Scene.prototype.decorateInternal = function(el)
   for (var i = 0; i < elements.length; i++)
   {
     cmp = goog.ui.registry.getDecorator(elements[i]);
-    if (goog.DEBUG && !cmp)
+    if (!cmp)
     {
-      console.error('Can\'t find component: ', elements[i]);
+      cmp = new monin.parallax.ui.Element();
     }
 
     this.addChild(cmp);
@@ -338,13 +338,3 @@ monin.parallax.ui.Scene.EventType = {
   PROGRESS: 'scene:progress',
   COMPLETE: 'scene:complete'
 };
-
-
-/**
- * Register this control so it can be created from markup.
- */
-goog.ui.registry.setDecoratorByClassName(
-  'scene-default',
-  function() {
-    return new monin.parallax.ui.Scene();
-  });
