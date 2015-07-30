@@ -8,23 +8,23 @@ goog.require('monin.fx.easing');
  */
 monin.parallax.effects.Effect = function()
 {
-    /**
-     * @type {goog.math.Range}
-     * @protected
-     */
-    this.range = null;
+  /**
+   * @type {goog.math.Range}
+   * @protected
+   */
+  this.range = null;
 
-    /**
-     * @type {boolean}
-     * @protected
-     */
-    this.strictToRange = false;
+  /**
+   * @type {boolean}
+   * @protected
+   */
+  this.strictToRange = false;
 
-    /**
-     * @type {boolean}
-     * @protected
-     */
-    this.isActive = true;
+  /**
+   * @type {boolean}
+   * @protected
+   */
+  this.isActive = true;
 };
 
 /**
@@ -36,12 +36,12 @@ monin.parallax.effects.Effect = function()
  */
 monin.parallax.effects.Effect.prototype.apply = function(element, offset, size, position)
 {
-    if (!this.isInRange(offset) && this.strictToRange)
-    {
-        return false;
-    }
+  if (!this.isInRange(offset) && this.strictToRange)
+  {
+    return false;
+  }
 
-    return true;
+  return true;
 };
 
 /**
@@ -49,21 +49,21 @@ monin.parallax.effects.Effect.prototype.apply = function(element, offset, size, 
  */
 monin.parallax.effects.Effect.prototype.easingFactory = function(type)
 {
-    switch (type)
-    {
-        case 'in':
-            return goog.fx.easing.easeIn;
-        case 'out':
-            return goog.fx.easing.easeOut;
-        case 'both':
-            return goog.fx.easing.inAndOut;
-        case 'elasticOut':
-            return monin.fx.easing.elasticOut;
-        case 'elasticIn':
-            return monin.fx.easing.elasticIn;
-    }
+  switch (type)
+  {
+    case 'in':
+      return goog.fx.easing.easeIn;
+    case 'out':
+      return goog.fx.easing.easeOut;
+    case 'both':
+      return goog.fx.easing.inAndOut;
+    case 'elasticOut':
+      return monin.fx.easing.elasticOut;
+    case 'elasticIn':
+      return monin.fx.easing.elasticIn;
+  }
 
-    return null;
+  return null;
 };
 
 /**
@@ -73,7 +73,7 @@ monin.parallax.effects.Effect.prototype.easingFactory = function(type)
  */
 monin.parallax.effects.Effect.prototype.isInRange = function(offset)
 {
-    return goog.math.Range.containsPoint(this.range, offset);
+  return goog.math.Range.containsPoint(this.range, offset);
 };
 
 /**
@@ -81,7 +81,7 @@ monin.parallax.effects.Effect.prototype.isInRange = function(offset)
  */
 monin.parallax.effects.Effect.prototype.setActive = function(isActive)
 {
-    this.isActive = isActive;
+  this.isActive = isActive;
 };
 
 /**
@@ -91,12 +91,12 @@ monin.parallax.effects.Effect.prototype.setActive = function(isActive)
  */
 monin.parallax.effects.Effect.prototype.setConfig = function(config)
 {
-    if (config['range'])
-    {
-        this.range = new goog.math.Range(config['range'][0], config['range'][1]);
-    }
+  if (config['range'])
+  {
+    this.range = new goog.math.Range(config['range'][0], config['range'][1]);
+  }
 
-    this.strictToRange = !!config['strictToRange'];
+  this.strictToRange = !!config['strictToRange'];
 };
 
 /**
@@ -106,11 +106,11 @@ monin.parallax.effects.Effect.prototype.setConfig = function(config)
  */
 monin.parallax.effects.Effect.prototype.strictRange = function(offset)
 {
-    if (this.range)
-    {
-        offset = Math.max(offset, this.range.start);
-        offset = Math.min(offset, this.range.end);
-    }
+  if (this.range)
+  {
+    offset = Math.max(offset, this.range.start);
+    offset = Math.min(offset, this.range.end);
+  }
 
-    return offset;
+  return offset;
 };

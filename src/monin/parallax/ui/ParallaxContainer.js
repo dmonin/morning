@@ -20,88 +20,88 @@ goog.require('monin.parallax.effects.EffectFactory');
  */
 monin.parallax.ui.ParallaxContainer = function()
 {
-    goog.base(this);
+  goog.base(this);
 
-    /**
-     * @type {goog.math.Size}
-     * @private
-     */
-    this.size_ = null;
+  /**
+   * @type {goog.math.Size}
+   * @private
+   */
+  this.size_ = null;
 
-    /**
-     * @type {number}
-     * @private
-     */
-    this.scrollPos_ = 0;
+  /**
+   * @type {number}
+   * @private
+   */
+  this.scrollPos_ = 0;
 
-    /**
-     * @type {number}
-     * @private
-     */
-    this.endScrollPos_ = 0;
+  /**
+   * @type {number}
+   * @private
+   */
+  this.endScrollPos_ = 0;
 
-    /**
-     * @type {number}
-     * @private
-     */
-    this.bottomPosition_ = 0;
+  /**
+   * @type {number}
+   * @private
+   */
+  this.bottomPosition_ = 0;
 
-    /**
-     * @type {goog.structs.Map}
-     * @private
-     */
-    this.scenes_ = new goog.structs.Map();
+  /**
+   * @type {goog.structs.Map}
+   * @private
+   */
+  this.scenes_ = new goog.structs.Map();
 
-    /**
-     * @type {goog.net.XhrIo}
-     * @private
-     */
-    this.xhrIo_ = new goog.net.XhrIo();
+  /**
+   * @type {goog.net.XhrIo}
+   * @private
+   */
+  this.xhrIo_ = new goog.net.XhrIo();
 
-    /**
-     * @type {boolean}
-     */
-    this.smoothScrolling = true;
+  /**
+   * @type {boolean}
+   */
+  this.smoothScrolling = true;
 
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.initialized_ = false;
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this.initialized_ = false;
 
-    /**
-     * @type {monin.parallax.effects.EffectFactory}
-     * @private
-     */
-    this.effectFactory_ = new monin.parallax.effects.EffectFactory();
+  /**
+   * @type {monin.parallax.effects.EffectFactory}
+   * @private
+   */
+  this.effectFactory_ = new monin.parallax.effects.EffectFactory();
 
-    /**
-     * @type {goog.async.Delay}
-     * @private
-     */
-    this.snapDelay_ = new goog.async.Delay(this.snap_, 1000, this);
+  /**
+   * @type {goog.async.Delay}
+   * @private
+   */
+  this.snapDelay_ = new goog.async.Delay(this.snap_, 1000, this);
 
-    /**
-     * @type {boolean}
-     */
-    this.snappable = true;
+  /**
+   * @type {boolean}
+   */
+  this.snappable = true;
 
-    /**
-     * @type {number}
-     */
-    this.speedFactor = 8;
+  /**
+   * @type {number}
+   */
+  this.speedFactor = 8;
 
-    /**
-     * @type {monin.parallax.AbstractScrollStrategy}
-     * @private
-     */
-    this.scrollStrategy_ = null;
+  /**
+   * @type {monin.parallax.AbstractScrollStrategy}
+   * @private
+   */
+  this.scrollStrategy_ = null;
 
-    /**
-     * @type {number}
-     * @private
-     */
-    this.minScroll_ = 0;
+  /**
+   * @type {number}
+   * @private
+   */
+  this.minScroll_ = 0;
 };
 
 goog.inherits(monin.parallax.ui.ParallaxContainer, goog.ui.Component);
@@ -112,10 +112,10 @@ goog.inherits(monin.parallax.ui.ParallaxContainer, goog.ui.Component);
  */
 monin.parallax.ui.ParallaxContainer.prototype.addScene = function(name, scene)
 {
-    if (!this.scenes_.containsValue(scene))
-    {
-        this.scenes_.set(name, scene);
-    }
+  if (!this.scenes_.containsValue(scene))
+  {
+    this.scenes_.set(name, scene);
+  }
 };
 
 /**
@@ -123,130 +123,130 @@ monin.parallax.ui.ParallaxContainer.prototype.addScene = function(name, scene)
  */
 monin.parallax.ui.ParallaxContainer.prototype.calculateBottom_ = function()
 {
-    if (goog.DEBUG)
-    {
-        console.info('ParallaxContainer: Calculating bottom position...');
-    }
+  if (goog.DEBUG)
+  {
+    console.info('ParallaxContainer: Calculating bottom position...');
+  }
 
-    var bottom = 0;
-    goog.array.forEach(this.scenes_.getValues(), function(scene) {
-        bottom = Math.max(scene.getBottom(this.size_), bottom);
-    }, this);
+  var bottom = 0;
+  goog.array.forEach(this.scenes_.getValues(), function(scene) {
+    bottom = Math.max(scene.getBottom(this.size_), bottom);
+  }, this);
 
-    if (this.bottomPosition_ != bottom)
-    {
-        this.bottomPosition_ = bottom;
-        this.dispatchEvent({
-            type: monin.parallax.ui.ParallaxContainer.EventType.MAX_POSITION_CHANGED,
-            max: bottom
-        });
-    }
+  if (this.bottomPosition_ != bottom)
+  {
+    this.bottomPosition_ = bottom;
+    this.dispatchEvent({
+      type: monin.parallax.ui.ParallaxContainer.EventType.MAX_POSITION_CHANGED,
+      max: bottom
+    });
+  }
 };
 
 /** @inheritDoc */
 monin.parallax.ui.ParallaxContainer.prototype.createDom = function()
 {
-    var domHelper = this.getDomHelper();
-    var el = domHelper.createDom('div', 'parallax-container');
-    this.decorateInternal(el);
+  var domHelper = this.getDomHelper();
+  var el = domHelper.createDom('div', 'parallax-container');
+  this.decorateInternal(el);
 };
 
 /** @inheritDoc */
 monin.parallax.ui.ParallaxContainer.prototype.decorateInternal = function(el)
 {
-    goog.base(this, 'decorateInternal', el);
+  goog.base(this, 'decorateInternal', el);
 
-    // Initializing scroll strategy
-    var scrollType = goog.dom.dataset.get(el, 'scroll') || 'window';
-    scrollType = 'scroll-strategy-' + scrollType;
-    this.scrollStrategy_ = /** @type {monin.parallax.AbstractScrollStrategy} */
-        (monin.parallax.registry.getStrategy(scrollType));
-    this.scrollStrategy_.attach(el);
+  // Initializing scroll strategy
+  var scrollType = goog.dom.dataset.get(el, 'scroll') || 'window';
+  scrollType = 'scroll-strategy-' + scrollType;
+  this.scrollStrategy_ = /** @type {monin.parallax.AbstractScrollStrategy} */
+    (monin.parallax.registry.getStrategy(scrollType));
+  this.scrollStrategy_.attach(el);
 
-    this.minScroll_ = Number(goog.dom.dataset.get(el, 'min')) || 0;
+  this.minScroll_ = Number(goog.dom.dataset.get(el, 'min')) || 0;
 
-    // Initializing scenes
-    var sceneElements = this.getElementsByClass('scene');
-    var cmp, sceneName;
+  // Initializing scenes
+  var sceneElements = this.getElementsByClass('scene');
+  var cmp, sceneName;
 
-    for (var i = 0; i < sceneElements.length; i++)
+  for (var i = 0; i < sceneElements.length; i++)
+  {
+    cmp = this.sceneFactory_(sceneElements[i]);
+    if (goog.DEBUG && !cmp)
     {
-        cmp = this.sceneFactory_(sceneElements[i]);
-        if (goog.DEBUG && !cmp)
-        {
-            console.error('Component couldn\'t be fetched %o', sceneElements[i]);
-        }
-        this.addChild(cmp);
-        cmp.decorate(sceneElements[i]);
+      console.error('Component couldn\'t be fetched %o', sceneElements[i]);
+    }
+    this.addChild(cmp);
+    cmp.decorate(sceneElements[i]);
 
-        cmp.name = goog.dom.dataset.get(sceneElements[i], 'name');
+    cmp.name = goog.dom.dataset.get(sceneElements[i], 'name');
 
-        if (!cmp.name)
-        {
-            if (goog.DEBUG)
-            {
-                console.warn('Scene %o element omits data-name attribute.', sceneElements[i]);
-            }
-            throw new Error('Scene element omits data-name attribute.');
-        }
-
-        this.scenes_.set(cmp.name, cmp);
+    if (!cmp.name)
+    {
+      if (goog.DEBUG)
+      {
+        console.warn('Scene %o element omits data-name attribute.', sceneElements[i]);
+      }
+      throw new Error('Scene element omits data-name attribute.');
     }
 
-    // Initializing animation config
-    var config = goog.dom.dataset.get(el, 'config');
-    if (config)
-    {
-        this.loadConfig(config);
-    }
-    else if (goog.DEBUG)
-    {
-        console.warn('data-config attribute is not provided %o', el);
-    }
+    this.scenes_.set(cmp.name, cmp);
+  }
 
-    if (goog.DEBUG)
-    {
-        console.info('ParallaxContainer: Scenes initialized');
-    }
+  // Initializing animation config
+  var config = goog.dom.dataset.get(el, 'config');
+  if (config)
+  {
+    this.loadConfig(config);
+  }
+  else if (goog.DEBUG)
+  {
+    console.warn('data-config attribute is not provided %o', el);
+  }
+
+  if (goog.DEBUG)
+  {
+    console.info('ParallaxContainer: Scenes initialized');
+  }
 };
 
 /** @inheritDoc */
 monin.parallax.ui.ParallaxContainer.prototype.disposeInternal = function()
 {
-    goog.base(this, 'disposeInternal');
+  goog.base(this, 'disposeInternal');
 
-    goog.disposeAll(
-        this.scrollStrategy_,
-        this.snapDelay_,
-        this.effectFactory_,
-        this.xhrIo_,
-        this.scenes_.getValues());
+  goog.disposeAll(
+    this.scrollStrategy_,
+    this.snapDelay_,
+    this.effectFactory_,
+    this.xhrIo_,
+    this.scenes_.getValues());
 
-    goog.disposeAll(this.removeChildren(true));
+  goog.disposeAll(this.removeChildren(true));
 };
 
 /** @inheritDoc */
 monin.parallax.ui.ParallaxContainer.prototype.enterDocument = function()
 {
-    goog.base(this, 'enterDocument');
+  goog.base(this, 'enterDocument');
 
-    this.getHandler().listen(this,
-        monin.parallax.ui.Scene.EventType.UPDATE_REQUIRED,
-        this.handleSceneUpdateRequired_);
+  this.getHandler().listen(this,
+    monin.parallax.ui.Scene.EventType.UPDATE_REQUIRED,
+    this.handleSceneUpdateRequired_);
 
-    this.getHandler().listen(this.getElement(),
-        goog.events.EventType.TOUCHSTART,
-        this.handleTouchStart_);
+  this.getHandler().listen(this.getElement(),
+    goog.events.EventType.TOUCHSTART,
+    this.handleTouchStart_);
 
-    this.getHandler().listen(document,
-        goog.events.EventType.KEYDOWN,
-        this.handleKey_);
+  this.getHandler().listen(document,
+    goog.events.EventType.KEYDOWN,
+    this.handleKey_);
 
-    this.getHandler().listen(this.scrollStrategy_,
-        goog.events.EventType.SCROLL,
-        this.handleScroll_);
+  this.getHandler().listen(this.scrollStrategy_,
+    goog.events.EventType.SCROLL,
+    this.handleScroll_);
 
-    goog.fx.anim.registerAnimation(this);
+  goog.fx.anim.registerAnimation(this);
 };
 
 /**
@@ -254,7 +254,7 @@ monin.parallax.ui.ParallaxContainer.prototype.enterDocument = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.getMaxPosition = function()
 {
-    return this.bottomPosition_;
+  return this.bottomPosition_;
 };
 
 /**
@@ -263,53 +263,53 @@ monin.parallax.ui.ParallaxContainer.prototype.getMaxPosition = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.handleConfigLoad_ = function(e)
 {
-    var config = e.target.getResponseJson();
+  var config = e.target.getResponseJson();
 
-    if (goog.DEBUG)
+  if (goog.DEBUG)
+  {
+    console.info('ParallaxContainer: Config Loaded');
+  }
+
+  for (var key in config)
+  {
+    var sceneConfig = config[key];
+    var scene = this.scenes_.get(key);
+    if (!scene)
     {
-        console.info('ParallaxContainer: Config Loaded');
+      throw new Error('Scene with ID: ' + key + ', couldn\'t be found.');
     }
 
-    for (var key in config)
+    scene.setConfig(sceneConfig, this.effectFactory_);
+    if (sceneConfig['addEffects'])
     {
-        var sceneConfig = config[key];
-        var scene = this.scenes_.get(key);
-        if (!scene)
-        {
-            throw new Error('Scene with ID: ' + key + ', couldn\'t be found.');
-        }
-
-        scene.setConfig(sceneConfig, this.effectFactory_);
-        if (sceneConfig['addEffects'])
-        {
-            this.addEffects_(sceneConfig['position'],
-                sceneConfig['addEffects']);
-        }
+      this.addEffects_(sceneConfig['position'],
+        sceneConfig['addEffects']);
     }
+  }
 
-    if (goog.DEBUG)
-    {
-        console.info('ParallaxContainer: Config Updated');
-    }
+  if (goog.DEBUG)
+  {
+    console.info('ParallaxContainer: Config Updated');
+  }
 
-    this.calculateBottom_();
+  this.calculateBottom_();
 
-    if (this.size_)
-    {
-        this.setSize(this.size_);
-    }
+  if (this.size_)
+  {
+    this.setSize(this.size_);
+  }
 
-    this.initialized_ = true;
+  this.initialized_ = true;
 
 
-    if (goog.DEBUG)
-    {
-        console.info('ParallaxContainer: Performing first update...');
-    }
+  if (goog.DEBUG)
+  {
+    console.info('ParallaxContainer: Performing first update...');
+  }
 
-    this.updateScenes_();
+  this.updateScenes_();
 
-    this.dispatchEvent(monin.parallax.ui.ParallaxContainer.EventType.INITIALIZED);
+  this.dispatchEvent(monin.parallax.ui.ParallaxContainer.EventType.INITIALIZED);
 
 };
 
@@ -319,12 +319,12 @@ monin.parallax.ui.ParallaxContainer.prototype.handleConfigLoad_ = function(e)
  */
 monin.parallax.ui.ParallaxContainer.prototype.handleScroll_ = function(e)
 {
-    this.setTargetPosition(e.position);
+  this.setTargetPosition(e.position);
 
-    if (!this.smoothScrolling)
-    {
-        this.onAnimationFrame();
-    }
+  if (!this.smoothScrolling)
+  {
+    this.onAnimationFrame();
+  }
 };
 
 /**
@@ -332,9 +332,9 @@ monin.parallax.ui.ParallaxContainer.prototype.handleScroll_ = function(e)
  */
 monin.parallax.ui.ParallaxContainer.prototype.loadConfig = function(url)
 {
-    this.getHandler().listenOnce(this.xhrIo_, goog.net.EventType.COMPLETE,
-        this.handleConfigLoad_);
-    this.xhrIo_.send(url);
+  this.getHandler().listenOnce(this.xhrIo_, goog.net.EventType.COMPLETE,
+    this.handleConfigLoad_);
+  this.xhrIo_.send(url);
 };
 
 /**
@@ -342,15 +342,15 @@ monin.parallax.ui.ParallaxContainer.prototype.loadConfig = function(url)
  */
 monin.parallax.ui.ParallaxContainer.prototype.getCurrentScene = function()
 {
-    var found = null;
-    goog.array.forEach(this.scenes_.getValues(), function(scene) {
-        if (typeof scene.getConfig().navigationName != 'undefined' && scene.getPosition() <= this.endScrollPos_)
-        {
-            found = scene;
-        }
-    }, this);
+  var found = null;
+  goog.array.forEach(this.scenes_.getValues(), function(scene) {
+    if (typeof scene.getConfig().navigationName != 'undefined' && scene.getPosition() <= this.endScrollPos_)
+    {
+      found = scene;
+    }
+  }, this);
 
-    return found;
+  return found;
 };
 
 /**
@@ -358,17 +358,17 @@ monin.parallax.ui.ParallaxContainer.prototype.getCurrentScene = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.getLoadProgress = function()
 {
-    var loadProgress = 0;
-    var sceneCount = 0;
-    this.forEachChild(function(child) {
-        if (child instanceof monin.parallax.ui.Scene)
-        {
-            loadProgress += child.getLoadProgress();
-            sceneCount++;
-        }
-    }, this);
+  var loadProgress = 0;
+  var sceneCount = 0;
+  this.forEachChild(function(child) {
+    if (child instanceof monin.parallax.ui.Scene)
+    {
+      loadProgress += child.getLoadProgress();
+      sceneCount++;
+    }
+  }, this);
 
-    return loadProgress / sceneCount;
+  return loadProgress / sceneCount;
 };
 
 /**
@@ -376,7 +376,7 @@ monin.parallax.ui.ParallaxContainer.prototype.getLoadProgress = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.getPosition = function()
 {
-    return this.endScrollPos_;
+  return this.endScrollPos_;
 };
 
 /**
@@ -385,7 +385,7 @@ monin.parallax.ui.ParallaxContainer.prototype.getPosition = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.getScene = function(sceneName)
 {
-    return /** @type {monin.parallax.ui.Scene} */ (this.scenes_.get(sceneName));
+  return /** @type {monin.parallax.ui.Scene} */ (this.scenes_.get(sceneName));
 };
 
 /**
@@ -393,7 +393,7 @@ monin.parallax.ui.ParallaxContainer.prototype.getScene = function(sceneName)
  */
 monin.parallax.ui.ParallaxContainer.prototype.getScenes = function()
 {
-    return this.scenes_.getValues();
+  return this.scenes_.getValues();
 };
 
 /**
@@ -402,15 +402,15 @@ monin.parallax.ui.ParallaxContainer.prototype.getScenes = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.getSceneByNavigationName = function(sceneName)
 {
-    var found = null;
-    goog.array.forEach(this.scenes_.getValues(), function(scene) {
-        if (scene.getConfig().navigationName == sceneName)
-        {
-            found = scene;
-        }
-    }, this);
+  var found = null;
+  goog.array.forEach(this.scenes_.getValues(), function(scene) {
+    if (scene.getConfig().navigationName == sceneName)
+    {
+      found = scene;
+    }
+  }, this);
 
-    return found;
+  return found;
 };
 
 /**
@@ -418,7 +418,7 @@ monin.parallax.ui.ParallaxContainer.prototype.getSceneByNavigationName = functio
  */
 monin.parallax.ui.ParallaxContainer.prototype.getSize = function()
 {
-    return this.size_;
+  return this.size_;
 };
 
 /**
@@ -426,28 +426,28 @@ monin.parallax.ui.ParallaxContainer.prototype.getSize = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.onAnimationFrame = function()
 {
-    if (this.scrollPos_ == this.endScrollPos_)
-    {
-        return;
-    }
+  if (this.scrollPos_ == this.endScrollPos_)
+  {
+    return;
+  }
 
-    var delta = (this.endScrollPos_ - this.scrollPos_) / this.speedFactor;
+  var delta = (this.endScrollPos_ - this.scrollPos_) / this.speedFactor;
 
-    if (Math.abs(delta) < 1 || !this.smoothScrolling)
-    {
-        this.scrollPos_ = this.endScrollPos_;
-    }
-    else
-    {
-        this.scrollPos_ += delta;
-    }
+  if (Math.abs(delta) < 1 || !this.smoothScrolling)
+  {
+    this.scrollPos_ = this.endScrollPos_;
+  }
+  else
+  {
+    this.scrollPos_ += delta;
+  }
 
-    this.updateScenes_();
+  this.updateScenes_();
 
-    this.dispatchEvent({
-        type: monin.parallax.ui.ParallaxContainer.EventType.SCROLL_POSITION_CHANGED,
-        position: this.scrollPos_
-    });
+  this.dispatchEvent({
+    type: monin.parallax.ui.ParallaxContainer.EventType.SCROLL_POSITION_CHANGED,
+    position: this.scrollPos_
+  });
 };
 
 /**
@@ -455,30 +455,30 @@ monin.parallax.ui.ParallaxContainer.prototype.onAnimationFrame = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.handleKey_ = function(e)
 {
-    switch (e.keyCode)
-    {
-        case goog.events.KeyCodes.HOME:
-            this.setTargetPosition(0);
-            break;
-        case goog.events.KeyCodes.END:
-            this.setTargetPosition(this.bottomPosition_);
-            break;
-        case goog.events.KeyCodes.PAGE_UP:
-            this.setTargetPosition(this.endScrollPos_ - this.size_.height);
-            break;
-        case goog.events.KeyCodes.PAGE_DOWN:
-            this.setTargetPosition(this.endScrollPos_ + this.size_.height);
-            break;
+  switch (e.keyCode)
+  {
+    case goog.events.KeyCodes.HOME:
+      this.setTargetPosition(0);
+      break;
+    case goog.events.KeyCodes.END:
+      this.setTargetPosition(this.bottomPosition_);
+      break;
+    case goog.events.KeyCodes.PAGE_UP:
+      this.setTargetPosition(this.endScrollPos_ - this.size_.height);
+      break;
+    case goog.events.KeyCodes.PAGE_DOWN:
+      this.setTargetPosition(this.endScrollPos_ + this.size_.height);
+      break;
 
-        case goog.events.KeyCodes.RIGHT:
-        case goog.events.KeyCodes.DOWN:
-            this.setTargetPosition(this.endScrollPos_ + 30);
-            break;
-        case goog.events.KeyCodes.UP:
-        case goog.events.KeyCodes.LEFT:
-            this.setTargetPosition(this.endScrollPos_ - 30);
-            break;
-    }
+    case goog.events.KeyCodes.RIGHT:
+    case goog.events.KeyCodes.DOWN:
+      this.setTargetPosition(this.endScrollPos_ + 30);
+      break;
+    case goog.events.KeyCodes.UP:
+    case goog.events.KeyCodes.LEFT:
+      this.setTargetPosition(this.endScrollPos_ - 30);
+      break;
+  }
 };
 
 /**
@@ -487,15 +487,15 @@ monin.parallax.ui.ParallaxContainer.prototype.handleKey_ = function(e)
  */
 monin.parallax.ui.ParallaxContainer.prototype.handleTouchStart_ = function(e)
 {
-    e.preventDefault();
+  e.preventDefault();
 
-    this.touchStartPos_ = /** @type {goog.math.Coordinate} */ (monin.events.getPointerPosition(e));
+  this.touchStartPos_ = /** @type {goog.math.Coordinate} */ (monin.events.getPointerPosition(e));
 
-    this.getHandler().listen(document.body, goog.events.EventType.TOUCHMOVE,
-        this.handleTouchMove_);
+  this.getHandler().listen(document.body, goog.events.EventType.TOUCHMOVE,
+    this.handleTouchMove_);
 
-    this.getHandler().listen(document.body, goog.events.EventType.TOUCHEND,
-        this.handleTouchEnd_);
+  this.getHandler().listen(document.body, goog.events.EventType.TOUCHEND,
+    this.handleTouchEnd_);
 };
 
 /**
@@ -504,16 +504,16 @@ monin.parallax.ui.ParallaxContainer.prototype.handleTouchStart_ = function(e)
  */
 monin.parallax.ui.ParallaxContainer.prototype.handleTouchMove_ = function(e)
 {
-    var touchPos = /** @type {goog.math.Coordinate!} */ (monin.events.getPointerPosition(e));
-    var previousPos = /** @type {goog.math.Coordinate!} */ (this.touchStartPos_);
-    var delta = goog.math.Coordinate.difference(previousPos, touchPos);
-    if (Math.abs(delta.y) > Math.abs(delta.x))
-    {
-        this.endScrollPos_ = this.endScrollPos_ + delta.y * 2;
-        this.strictPos_();
-    }
+  var touchPos = /** @type {goog.math.Coordinate!} */ (monin.events.getPointerPosition(e));
+  var previousPos = /** @type {goog.math.Coordinate!} */ (this.touchStartPos_);
+  var delta = goog.math.Coordinate.difference(previousPos, touchPos);
+  if (Math.abs(delta.y) > Math.abs(delta.x))
+  {
+    this.endScrollPos_ = this.endScrollPos_ + delta.y * 2;
+    this.strictPos_();
+  }
 
-    this.touchStartPos_ = touchPos;
+  this.touchStartPos_ = touchPos;
 };
 
 /**
@@ -522,11 +522,11 @@ monin.parallax.ui.ParallaxContainer.prototype.handleTouchMove_ = function(e)
  */
 monin.parallax.ui.ParallaxContainer.prototype.handleTouchEnd_ = function(e)
 {
-    this.getHandler().unlisten(document.body, goog.events.EventType.TOUCHMOVE,
-        this.handleTouchMove_);
+  this.getHandler().unlisten(document.body, goog.events.EventType.TOUCHMOVE,
+    this.handleTouchMove_);
 
-    this.getHandler().unlisten(document.body, goog.events.EventType.TOUCHEND,
-        this.handleTouchEnd_);
+  this.getHandler().unlisten(document.body, goog.events.EventType.TOUCHEND,
+    this.handleTouchEnd_);
 };
 
 /**
@@ -535,9 +535,9 @@ monin.parallax.ui.ParallaxContainer.prototype.handleTouchEnd_ = function(e)
  */
 monin.parallax.ui.ParallaxContainer.prototype.handleSceneUpdateRequired_ = function(e)
 {
-    this.calculateBottom_();
-    this.strictPos_();
-    this.updateScenes_();
+  this.calculateBottom_();
+  this.strictPos_();
+  this.updateScenes_();
 };
 
 /**
@@ -545,14 +545,14 @@ monin.parallax.ui.ParallaxContainer.prototype.handleSceneUpdateRequired_ = funct
  */
 monin.parallax.ui.ParallaxContainer.prototype.moveToNext = function()
 {
-    var found = false;
-    goog.array.forEach(this.scenes_.getValues(), function(scene) {
-        if (!found && scene.getConfig().snappable && scene.getPosition() > this.endScrollPos_)
-        {
-            this.setTargetPosition(scene.getPosition());
-            found = true;
-        }
-    }, this);
+  var found = false;
+  goog.array.forEach(this.scenes_.getValues(), function(scene) {
+    if (!found && scene.getConfig().snappable && scene.getPosition() > this.endScrollPos_)
+    {
+      this.setTargetPosition(scene.getPosition());
+      found = true;
+    }
+  }, this);
 };
 
 /**
@@ -560,14 +560,14 @@ monin.parallax.ui.ParallaxContainer.prototype.moveToNext = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.moveToPrevious = function()
 {
-    var found = false;
-    goog.array.forEachRight(this.scenes_.getValues(), function(scene) {
-        if (!found && scene.getConfig().snappable && scene.getPosition() < this.endScrollPos_)
-        {
-            this.setTargetPosition(scene.getPosition());
-            found = true;
-        }
-    }, this);
+  var found = false;
+  goog.array.forEachRight(this.scenes_.getValues(), function(scene) {
+    if (!found && scene.getConfig().snappable && scene.getPosition() < this.endScrollPos_)
+    {
+      this.setTargetPosition(scene.getPosition());
+      found = true;
+    }
+  }, this);
 };
 
 /**
@@ -575,7 +575,7 @@ monin.parallax.ui.ParallaxContainer.prototype.moveToPrevious = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.setEffectFactory = function(effectFactory)
 {
-    this.effectFactory_ = effectFactory;
+  this.effectFactory_ = effectFactory;
 };
 
 /**
@@ -583,9 +583,9 @@ monin.parallax.ui.ParallaxContainer.prototype.setEffectFactory = function(effect
  */
 monin.parallax.ui.ParallaxContainer.prototype.setPosition = function(newPos)
 {
-    this.scrollPos_ = newPos - 1;
-    this.endScrollPos_ = newPos;
-    this.strictPos_();
+  this.scrollPos_ = newPos - 1;
+  this.endScrollPos_ = newPos;
+  this.strictPos_();
 };
 
 /**
@@ -593,17 +593,17 @@ monin.parallax.ui.ParallaxContainer.prototype.setPosition = function(newPos)
  */
 monin.parallax.ui.ParallaxContainer.prototype.setTargetPosition = function(newPos)
 {
-    if (newPos != this.endScrollPos_)
-    {
-        this.dispatchEvent({
-            type: monin.parallax.ui.ParallaxContainer.EventType.TARGET_SCROLL_POSITION_CHANGED,
-            position: newPos
-        });
-        this.snapDelay_.start();
-    }
+  if (newPos != this.endScrollPos_)
+  {
+    this.dispatchEvent({
+      type: monin.parallax.ui.ParallaxContainer.EventType.TARGET_SCROLL_POSITION_CHANGED,
+      position: newPos
+    });
+    this.snapDelay_.start();
+  }
 
-    this.endScrollPos_ = newPos;
-    this.strictPos_();
+  this.endScrollPos_ = newPos;
+  this.strictPos_();
 };
 
 /**
@@ -612,7 +612,7 @@ monin.parallax.ui.ParallaxContainer.prototype.setTargetPosition = function(newPo
  */
 monin.parallax.ui.ParallaxContainer.prototype.sceneFactory_ = function(el)
 {
-    return goog.ui.registry.getDecorator(el);
+  return goog.ui.registry.getDecorator(el);
 };
 
 
@@ -621,16 +621,16 @@ monin.parallax.ui.ParallaxContainer.prototype.sceneFactory_ = function(el)
  */
 monin.parallax.ui.ParallaxContainer.prototype.snap_ = function()
 {
-    if (!this.snappable)
+  if (!this.snappable)
+  {
+    return;
+  }
+  goog.array.forEach(this.scenes_.getValues(), function(scene) {
+    if (scene.getConfig().snappable && Math.abs(scene.getPosition() - this.scrollPos_) < 500)
     {
-        return;
+      this.setTargetPosition(scene.getPosition());
     }
-    goog.array.forEach(this.scenes_.getValues(), function(scene) {
-        if (scene.getConfig().snappable && Math.abs(scene.getPosition() - this.scrollPos_) < 500)
-        {
-            this.setTargetPosition(scene.getPosition());
-        }
-    }, this);
+  }, this);
 };
 
 /**
@@ -638,20 +638,20 @@ monin.parallax.ui.ParallaxContainer.prototype.snap_ = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.strictPos_ = function()
 {
-    var endScrollPos = Math.max(this.minScroll_,
-        Math.min(this.bottomPosition_, this.endScrollPos_));
+  var endScrollPos = Math.max(this.minScroll_,
+    Math.min(this.bottomPosition_, this.endScrollPos_));
 
-    var isChanged = this.endScrollPos_ != endScrollPos;
+  var isChanged = this.endScrollPos_ != endScrollPos;
 
-    this.endScrollPos_ = endScrollPos;
+  this.endScrollPos_ = endScrollPos;
 
-    if (isChanged)
-    {
-        this.dispatchEvent({
-            type: monin.parallax.ui.ParallaxContainer.EventType.TARGET_SCROLL_POSITION_CHANGED,
-            position: this.endScrollPos_
-        });
-    }
+  if (isChanged)
+  {
+    this.dispatchEvent({
+      type: monin.parallax.ui.ParallaxContainer.EventType.TARGET_SCROLL_POSITION_CHANGED,
+      position: this.endScrollPos_
+    });
+  }
 
 };
 
@@ -660,24 +660,24 @@ monin.parallax.ui.ParallaxContainer.prototype.strictPos_ = function()
  */
 monin.parallax.ui.ParallaxContainer.prototype.setSize = function(size)
 {
-    if (this.size_ && goog.math.Size.equals(this.size_, size))
-    {
-        return;
-    }
+  if (this.size_ && goog.math.Size.equals(this.size_, size))
+  {
+    return;
+  }
 
-    this.size_ = size;
+  this.size_ = size;
 
-    this.getElement().style.width = size.width + 'px';
-    this.getElement().style.height = size.height + 'px';
+  this.getElement().style.width = size.width + 'px';
+  this.getElement().style.height = size.height + 'px';
 
-    goog.array.forEach(this.scenes_.getValues(), function(scene) {
-        scene.adjustToSize(this.size_);
-    }, this);
+  goog.array.forEach(this.scenes_.getValues(), function(scene) {
+    scene.adjustToSize(this.size_);
+  }, this);
 
 
-    this.calculateBottom_();
-    this.strictPos_();
-    this.updateScenes_();
+  this.calculateBottom_();
+  this.strictPos_();
+  this.updateScenes_();
 };
 
 /**
@@ -685,7 +685,7 @@ monin.parallax.ui.ParallaxContainer.prototype.setSize = function(size)
  */
 monin.parallax.ui.ParallaxContainer.prototype.setVisible = function(isVisible)
 {
-    goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
+  goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
 };
 
 /**
@@ -695,25 +695,25 @@ monin.parallax.ui.ParallaxContainer.prototype.setVisible = function(isVisible)
  */
 monin.parallax.ui.ParallaxContainer.prototype.addEffects_ = function(pos, config)
 {
-    var parts, element, scene, effect, effectsCfg;
-    for (var key in config)
+  var parts, element, scene, effect, effectsCfg;
+  for (var key in config)
+  {
+    parts = key.split('/');
+    scene = this.scenes_.get(parts[0]);
+    if (!scene)
     {
-        parts = key.split('/');
-        scene = this.scenes_.get(parts[0]);
-        if (!scene)
-        {
-            console.error('Scene not found', parts);
-        }
-        element = scene.getElementById(parts[1]);
-        effectsCfg = config[key];
-        for (var i = 0; i < effectsCfg.length; i++)
-        {
-            effectsCfg[i]['range'][0] += pos / 1000;
-            effectsCfg[i]['range'][1] += pos / 1000;
-            effect = this.effectFactory_.getEffect(effectsCfg[i]);
-            element.getEffects().push(effect);
-        }
+      console.error('Scene not found', parts);
     }
+    element = scene.getElementById(parts[1]);
+    effectsCfg = config[key];
+    for (var i = 0; i < effectsCfg.length; i++)
+    {
+      effectsCfg[i]['range'][0] += pos / 1000;
+      effectsCfg[i]['range'][1] += pos / 1000;
+      effect = this.effectFactory_.getEffect(effectsCfg[i]);
+      element.getEffects().push(effect);
+    }
+  }
 };
 
 /**
@@ -721,58 +721,58 @@ monin.parallax.ui.ParallaxContainer.prototype.addEffects_ = function(pos, config
  */
 monin.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
 {
-    if (!this.initialized_)
+  if (!this.initialized_)
+  {
+    return;
+  }
+
+  var processed = {
+    effectsProcessed: 0,
+    elementsProcessed: 0
+  };
+  var isVisible, result;
+
+  goog.array.forEach(this.scenes_.getValues(), function(scene) {
+    isVisible = scene.isVisible(this.scrollPos_);
+    if (isVisible && !scene.isInDocument())
     {
-        return;
+      this.addChild(scene, true);
+      scene.setActive(true);
+
+      this.dispatchEvent({
+        type: monin.parallax.ui.ParallaxContainer.EventType.ADDED_TO_STAGE,
+        scene: scene
+      });
+    }
+    else if (!isVisible && scene.isInDocument())
+    {
+      this.removeChild(scene, true);
+      scene.setActive(false);
     }
 
-    var processed = {
-        effectsProcessed: 0,
-        elementsProcessed: 0
-    };
-    var isVisible, result;
-
-    goog.array.forEach(this.scenes_.getValues(), function(scene) {
-        isVisible = scene.isVisible(this.scrollPos_);
-        if (isVisible && !scene.isInDocument())
-        {
-            this.addChild(scene, true);
-            scene.setActive(true);
-
-            this.dispatchEvent({
-                type: monin.parallax.ui.ParallaxContainer.EventType.ADDED_TO_STAGE,
-                scene: scene
-            });
-        }
-        else if (!isVisible && scene.isInDocument())
-        {
-            this.removeChild(scene, true);
-            scene.setActive(false);
-        }
-
-        if (isVisible)
-        {
-            scene.update(this.scrollPos_, this.size_);
-        }
-    }, this);
+    if (isVisible)
+    {
+      scene.update(this.scrollPos_, this.size_);
+    }
+  }, this);
 };
 
 /**
  * @enum {string}
  */
 monin.parallax.ui.ParallaxContainer.EventType = {
-    ADDED_TO_STAGE: 'added_to_stage',
-    INITIALIZED: 'initialized',
-    MAX_POSITION_CHANGED: 'maxPositionChanged',
-    SCROLL_POSITION_CHANGED: 'scrollpositionchanged',
-    TARGET_SCROLL_POSITION_CHANGED: 'targetscrollpositionchanged'
+  ADDED_TO_STAGE: 'added_to_stage',
+  INITIALIZED: 'initialized',
+  MAX_POSITION_CHANGED: 'maxPositionChanged',
+  SCROLL_POSITION_CHANGED: 'scrollpositionchanged',
+  TARGET_SCROLL_POSITION_CHANGED: 'targetscrollpositionchanged'
 };
 
 /**
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'parallax-container',
-    function() {
-        return new monin.parallax.ui.ParallaxContainer();
-    });
+  'parallax-container',
+  function() {
+    return new monin.parallax.ui.ParallaxContainer();
+  });

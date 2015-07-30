@@ -12,11 +12,11 @@ goog.require('monin.parallax.ui.Element');
  */
 monin.parallax.ui.ImageElement = function()
 {
-    goog.base(this);
+  goog.base(this);
 
 };
 goog.inherits(monin.parallax.ui.ImageElement,
-    monin.parallax.ui.Element);
+  monin.parallax.ui.Element);
 
 
 /**
@@ -24,24 +24,24 @@ goog.inherits(monin.parallax.ui.ImageElement,
  */
 monin.parallax.ui.ImageElement.prototype.decorateInternal = function(el)
 {
-    goog.base(this, 'decorateInternal', el);
+  goog.base(this, 'decorateInternal', el);
 
-    var image = goog.style.getComputedStyle(this.getElement(), 'backgroundImage');
+  var image = goog.style.getComputedStyle(this.getElement(), 'backgroundImage');
 
-    if (!image)
-    {
-        // Computed Style couldn't be retrieved (IE8)
-        this.dispatchEvent(monin.parallax.ui.Element.EventType.LOAD);
-        return;
-    }
-    var src = image.match(/url\((.*?)\)/)[1];
-    var loader = new goog.net.ImageLoader();
-    var path = goog.uri.utils.getPath(src).replace(/"/g, '');
+  if (!image)
+  {
+    // Computed Style couldn't be retrieved (IE8)
+    this.dispatchEvent(monin.parallax.ui.Element.EventType.LOAD);
+    return;
+  }
+  var src = image.match(/url\((.*?)\)/)[1];
+  var loader = new goog.net.ImageLoader();
+  var path = goog.uri.utils.getPath(src).replace(/"/g, '');
 
-    loader.addImage(this.makeId('img'), path);
-    this.getHandler().listen(loader, goog.net.EventType.COMPLETE,
-        this.handleLoadComplete_);
-    loader.start();
+  loader.addImage(this.makeId('img'), path);
+  this.getHandler().listen(loader, goog.net.EventType.COMPLETE,
+    this.handleLoadComplete_);
+  loader.start();
 };
 
 /**
@@ -50,13 +50,13 @@ monin.parallax.ui.ImageElement.prototype.decorateInternal = function(el)
  */
 monin.parallax.ui.ImageElement.prototype.handleLoadComplete_ = function(e)
 {
-    this.dispatchEvent(monin.parallax.ui.Element.EventType.LOAD);
+  this.dispatchEvent(monin.parallax.ui.Element.EventType.LOAD);
 };
 
 /** @inheritDoc */
 monin.parallax.ui.ImageElement.prototype.isLoadable = function()
 {
-    return true;
+  return true;
 };
 
 
@@ -64,8 +64,8 @@ monin.parallax.ui.ImageElement.prototype.isLoadable = function()
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'prlx-image-element',
-    function() {
-      return new monin.parallax.ui.ImageElement();
-    }
+  'prlx-image-element',
+  function() {
+    return new monin.parallax.ui.ImageElement();
+  }
 );

@@ -14,52 +14,52 @@ goog.require('monin.parallax.model.SceneConfig');
  */
 monin.parallax.ui.Scene = function()
 {
-    goog.base(this);
+  goog.base(this);
 
-    /**
-     * Scene Configuration
-     *
-     * @type {monin.parallax.model.SceneConfig}
-     * @private
-     */
-    this.config_ = null;
-
-
-    /**
-     * Loaded elements count
-     *
-     * @type {number}
-     * @private
-     */
-    this.loadedCount_ = 0;
-
-    /**
-     * Total element count, which need to be loaded.
-     *
-     * @type {number}
-     * @private
-     */
-    this.loadedTotalCount_ = 0;
-
-    /**
-     * Hashmap with elements
-     *
-     * @type {goog.structs.Map}
-     * @private
-     */
-    this.elements_ = new goog.structs.Map();
-
-    /**
-     * @type {string}
-     */
-    this.name = '';
+  /**
+   * Scene Configuration
+   *
+   * @type {monin.parallax.model.SceneConfig}
+   * @private
+   */
+  this.config_ = null;
 
 
-    /**
-     * @type {boolean}
-     * @protected
-     */
-    this.isActive = true;
+  /**
+   * Loaded elements count
+   *
+   * @type {number}
+   * @private
+   */
+  this.loadedCount_ = 0;
+
+  /**
+   * Total element count, which need to be loaded.
+   *
+   * @type {number}
+   * @private
+   */
+  this.loadedTotalCount_ = 0;
+
+  /**
+   * Hashmap with elements
+   *
+   * @type {goog.structs.Map}
+   * @private
+   */
+  this.elements_ = new goog.structs.Map();
+
+  /**
+   * @type {string}
+   */
+  this.name = '';
+
+
+  /**
+   * @type {boolean}
+   * @protected
+   */
+  this.isActive = true;
 };
 goog.inherits(monin.parallax.ui.Scene, goog.ui.Component);
 
@@ -70,52 +70,52 @@ goog.inherits(monin.parallax.ui.Scene, goog.ui.Component);
  */
 monin.parallax.ui.Scene.prototype.adjustToSize = function(size)
 {
-    goog.array.forEach(this.elements_.getValues(), function(el) {
-        el.adjustToSize(size);
-    });
+  goog.array.forEach(this.elements_.getValues(), function(el) {
+    el.adjustToSize(size);
+  });
 };
 
 /** @inheritDoc */
 monin.parallax.ui.Scene.prototype.decorateInternal = function(el)
 {
-    goog.base(this, 'decorateInternal', el);
+  goog.base(this, 'decorateInternal', el);
 
-    var elements = this.getElementsByClass('prlx-element');
-    var cmp;
-    for (var i = 0; i < elements.length; i++)
+  var elements = this.getElementsByClass('prlx-element');
+  var cmp;
+  for (var i = 0; i < elements.length; i++)
+  {
+    cmp = goog.ui.registry.getDecorator(elements[i]);
+    if (goog.DEBUG && !cmp)
     {
-        cmp = goog.ui.registry.getDecorator(elements[i]);
-        if (goog.DEBUG && !cmp)
-        {
-            console.error('Can\'t find component: ', elements[i]);
-        }
-
-        this.addChild(cmp);
-        cmp.decorate(elements[i]);
-
-        this.elements_.set(elements[i].id, cmp);
-        if (goog.DEBUG)
-        {
-            console.info('Scene: Initializing element: %s %o', elements[i].id, cmp);
-        }
-
-        if (cmp.isLoadable())
-        {
-            this.getHandler().listen(cmp, monin.parallax.ui.Element.EventType.LOAD,
-                this.handleElementLoad_);
-            this.loadedTotalCount_++;
-        }
+      console.error('Can\'t find component: ', elements[i]);
     }
 
+    this.addChild(cmp);
+    cmp.decorate(elements[i]);
+
+    this.elements_.set(elements[i].id, cmp);
     if (goog.DEBUG)
     {
-        console.info('Scene: Initialization complete');
+      console.info('Scene: Initializing element: %s %o', elements[i].id, cmp);
     }
 
-    if (this.loadedCount_ == this.loadedTotalCount_)
+    if (cmp.isLoadable())
     {
-        this.dispatchEvent(monin.parallax.ui.Scene.EventType.COMPLETE);
+      this.getHandler().listen(cmp, monin.parallax.ui.Element.EventType.LOAD,
+        this.handleElementLoad_);
+      this.loadedTotalCount_++;
     }
+  }
+
+  if (goog.DEBUG)
+  {
+    console.info('Scene: Initialization complete');
+  }
+
+  if (this.loadedCount_ == this.loadedTotalCount_)
+  {
+    this.dispatchEvent(monin.parallax.ui.Scene.EventType.COMPLETE);
+  }
 };
 
 /**
@@ -126,12 +126,12 @@ monin.parallax.ui.Scene.prototype.decorateInternal = function(el)
  */
 monin.parallax.ui.Scene.prototype.getBottom = function(size)
 {
-    if (!this.config_)
-    {
-        return 0;
-    }
+  if (!this.config_)
+  {
+    return 0;
+  }
 
-    return this.config_.range.end;
+  return this.config_.range.end;
 };
 
 /**
@@ -141,7 +141,7 @@ monin.parallax.ui.Scene.prototype.getBottom = function(size)
  */
 monin.parallax.ui.Scene.prototype.getConfig = function()
 {
-    return this.config_;
+  return this.config_;
 };
 
 /**
@@ -152,7 +152,7 @@ monin.parallax.ui.Scene.prototype.getConfig = function()
  */
 monin.parallax.ui.Scene.prototype.getElementById = function(elementId)
 {
-    return /** @type {monin.parallax.ui.Element} */ (this.elements_.get(elementId));
+  return /** @type {monin.parallax.ui.Element} */ (this.elements_.get(elementId));
 };
 
 /**
@@ -162,7 +162,7 @@ monin.parallax.ui.Scene.prototype.getElementById = function(elementId)
  */
 monin.parallax.ui.Scene.prototype.getPosition = function()
 {
-    return this.config_ && this.config_.position ? this.config_.position : 0;
+  return this.config_ && this.config_.position ? this.config_.position : 0;
 };
 
 /**
@@ -173,13 +173,13 @@ monin.parallax.ui.Scene.prototype.getPosition = function()
  */
 monin.parallax.ui.Scene.prototype.handleElementLoad_ = function(e)
 {
-    this.loadedCount_++;
-    this.dispatchEvent(monin.parallax.ui.Scene.EventType.PROGRESS);
+  this.loadedCount_++;
+  this.dispatchEvent(monin.parallax.ui.Scene.EventType.PROGRESS);
 
-    if (this.loadedCount_ == this.loadedTotalCount_)
-    {
-        this.dispatchEvent(monin.parallax.ui.Scene.EventType.COMPLETE);
-    }
+  if (this.loadedCount_ == this.loadedTotalCount_)
+  {
+    this.dispatchEvent(monin.parallax.ui.Scene.EventType.COMPLETE);
+  }
 };
 
 /**
@@ -189,7 +189,7 @@ monin.parallax.ui.Scene.prototype.handleElementLoad_ = function(e)
  */
 monin.parallax.ui.Scene.prototype.getLoadProgress = function()
 {
-    return this.loadedTotalCount_ > 0 ? this.loadedCount_ / this.loadedTotalCount_ : 1;
+  return this.loadedTotalCount_ > 0 ? this.loadedCount_ / this.loadedTotalCount_ : 1;
 };
 
 /**
@@ -200,8 +200,8 @@ monin.parallax.ui.Scene.prototype.getLoadProgress = function()
  */
 monin.parallax.ui.Scene.prototype.handlePositionAnimation_ = function(e)
 {
-    this.config_.position = e.coords[0];
-    this.dispatchEvent(monin.parallax.ui.Scene.EventType.UPDATE_REQUIRED);
+  this.config_.position = e.coords[0];
+  this.dispatchEvent(monin.parallax.ui.Scene.EventType.UPDATE_REQUIRED);
 };
 
 /**
@@ -212,8 +212,8 @@ monin.parallax.ui.Scene.prototype.handlePositionAnimation_ = function(e)
  */
 monin.parallax.ui.Scene.prototype.isVisible = function(position)
 {
-    return this.config_ && this.config_.range ?
-        goog.math.Range.containsPoint(this.config_.range, position) : true;
+  return this.config_ && this.config_.range ?
+    goog.math.Range.containsPoint(this.config_.range, position) : true;
 };
 
 /**
@@ -223,11 +223,11 @@ monin.parallax.ui.Scene.prototype.isVisible = function(position)
  */
 monin.parallax.ui.Scene.prototype.setActive = function(isActive)
 {
-    this.isActive = isActive;
+  this.isActive = isActive;
 
-    goog.array.forEach(this.elements_.getValues(), function(el) {
-        el.setActive(isActive);
-    });
+  goog.array.forEach(this.elements_.getValues(), function(el) {
+    el.setActive(isActive);
+  });
 };
 
 /**
@@ -238,22 +238,22 @@ monin.parallax.ui.Scene.prototype.setActive = function(isActive)
  */
 monin.parallax.ui.Scene.prototype.setConfig = function(config, effectFactory)
 {
-    this.config_ = monin.parallax.model.SceneConfig.factory(config);
+  this.config_ = monin.parallax.model.SceneConfig.factory(config);
 
-    for (var id in config['elements'])
+  for (var id in config['elements'])
+  {
+    if (!this.elements_.get(id))
     {
-        if (!this.elements_.get(id))
-        {
-            throw new Error('Element with id ' + id + ' doesn\'t exists.');
-        }
-
-        this.elements_.get(id).setConfig(config['elements'][id], effectFactory);
+      throw new Error('Element with id ' + id + ' doesn\'t exists.');
     }
 
-    if (this.getElement() && this.config_.zIndex)
-    {
-        this.getElement().style.zIndex = this.config_.zIndex;
-    }
+    this.elements_.get(id).setConfig(config['elements'][id], effectFactory);
+  }
+
+  if (this.getElement() && this.config_.zIndex)
+  {
+    this.getElement().style.zIndex = this.config_.zIndex;
+  }
 
 
 };
@@ -266,32 +266,32 @@ monin.parallax.ui.Scene.prototype.setConfig = function(config, effectFactory)
  */
 monin.parallax.ui.Scene.prototype.setPosition = function(position, opt_duration)
 {
-    if (opt_duration)
+  if (opt_duration)
+  {
+    if (this.positionChangeAnim_)
     {
-        if (this.positionChangeAnim_)
-        {
-            this.positionChangeAnim_.stop();
-            this.positionChangeAnim_.dispose();
-        }
-
-        this.positionChangeAnim_ = new goog.fx.Animation([this.config_.position],
-            [position], opt_duration, goog.fx.easing.easeOut);
-
-        this.getHandler().listen(this.positionChangeAnim_,
-            [goog.fx.Animation.EventType.ANIMATE,
-            goog.fx.Transition.EventType.FINISH],
-            this.handlePositionAnimation_);
-
-        this.positionChangeAnim_.play();
+      this.positionChangeAnim_.stop();
+      this.positionChangeAnim_.dispose();
     }
-    else
-    {
-        this.config_.position = position;
-        this.config_.range = new goog.math.Range(
-            this.config_.position + this.config_.rangeOffset[0],
-            this.config_.position + this.config_.rangeOffset[1]);
-        this.dispatchEvent(monin.parallax.ui.Scene.EventType.UPDATE_REQUIRED);
-    }
+
+    this.positionChangeAnim_ = new goog.fx.Animation([this.config_.position],
+      [position], opt_duration, goog.fx.easing.easeOut);
+
+    this.getHandler().listen(this.positionChangeAnim_,
+      [goog.fx.Animation.EventType.ANIMATE,
+      goog.fx.Transition.EventType.FINISH],
+      this.handlePositionAnimation_);
+
+    this.positionChangeAnim_.play();
+  }
+  else
+  {
+    this.config_.position = position;
+    this.config_.range = new goog.math.Range(
+      this.config_.position + this.config_.rangeOffset[0],
+      this.config_.position + this.config_.rangeOffset[1]);
+    this.dispatchEvent(monin.parallax.ui.Scene.EventType.UPDATE_REQUIRED);
+  }
 };
 
 /**
@@ -302,30 +302,30 @@ monin.parallax.ui.Scene.prototype.setPosition = function(position, opt_duration)
  */
 monin.parallax.ui.Scene.prototype.update = function(position, size)
 {
-    // Calculating offset
-    var delta = position - this.config_.position;
-    var offset = delta / 1000;
-    var isVisible;
-    var elementsProcessed = 0;
-    var effectsProcessed = 0;
-    goog.array.forEach(this.elements_.getValues(), function(el) {
-        isVisible = el.isVisible(offset);
-        if (!isVisible && el.isInDocument())
-        {
-            this.removeChild(el, true);
-        }
-        else if (isVisible && !el.isInDocument())
-        {
-            this.addChild(el, true);
-        }
+  // Calculating offset
+  var delta = position - this.config_.position;
+  var offset = delta / 1000;
+  var isVisible;
+  var elementsProcessed = 0;
+  var effectsProcessed = 0;
+  goog.array.forEach(this.elements_.getValues(), function(el) {
+    isVisible = el.isVisible(offset);
+    if (!isVisible && el.isInDocument())
+    {
+      this.removeChild(el, true);
+    }
+    else if (isVisible && !el.isInDocument())
+    {
+      this.addChild(el, true);
+    }
 
-        if (!isVisible)
-        {
-            return;
-        }
+    if (!isVisible)
+    {
+      return;
+    }
 
-        el.update(offset, size, position);
-    }, this);
+    el.update(offset, size, position);
+  }, this);
 };
 
 /**
@@ -334,9 +334,9 @@ monin.parallax.ui.Scene.prototype.update = function(position, size)
  * @enum {string}
  */
 monin.parallax.ui.Scene.EventType = {
-    UPDATE_REQUIRED: 'scene:update_required',
-    PROGRESS: 'scene:progress',
-    COMPLETE: 'scene:complete'
+  UPDATE_REQUIRED: 'scene:update_required',
+  PROGRESS: 'scene:progress',
+  COMPLETE: 'scene:complete'
 };
 
 
@@ -344,7 +344,7 @@ monin.parallax.ui.Scene.EventType = {
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'scene-default',
-    function() {
-      return new monin.parallax.ui.Scene();
-    });
+  'scene-default',
+  function() {
+    return new monin.parallax.ui.Scene();
+  });

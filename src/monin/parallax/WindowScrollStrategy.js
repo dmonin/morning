@@ -24,8 +24,7 @@ goog.inherits(monin.parallax.WindowScrollStrategy,
   monin.parallax.AbstractScrollStrategy);
 
 /**
- * @param  {Element} element
- * @private
+ * @param {Element} element
  */
 monin.parallax.WindowScrollStrategy.prototype.attach = function(element)
 {
