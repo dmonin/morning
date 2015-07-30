@@ -1,0 +1,49 @@
+{
+    "scene-start" :
+    {
+        "position": 0,
+        "navigationName": "",
+        "label": "Start",
+        "range": [0, 1000],
+        "elements": {
+            "something-moving": {
+                "effects": [
+                {
+                    "type": "style",
+                    "property": "top",
+                    "from": 500,
+                    "decimals": 2,
+                    "to": 1000,
+                    "unit": "px",
+                    "range" : [0, 1],
+                    "easing": "both"
+                }
+              ]
+            },
+            "something-rotating": {
+                "effects": [
+                {
+                    "type": "style",
+                    "property": "rotate",
+                    "from": 300,
+                    "decimals": 2,
+                    "to": 500,
+                    "unit": "px",
+                    "range" : [0, 1],
+                    "easing": "both"
+                },
+                {
+                    "type": "style",
+                    "property": "translate",
+                    "from": [300, 0],
+                    "decimals": 2,
+                    "to": [500, 0],
+                    "unit": "px",
+                    "range" : [0, 1],
+                    "easing": "both"
+                }
+              ]
+            }
+        }
+    }
+}

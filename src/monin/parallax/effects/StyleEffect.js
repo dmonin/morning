@@ -2,6 +2,8 @@ goog.provide('monin.parallax.effects.StyleEffect');
 
 goog.require('monin.parallax.effects.AbstractPropertyEffect');
 goog.require('goog.structs.Map');
+goog.require('goog.style.transform');
+
 /**
  * @constructor
  * @extends {monin.parallax.effects.AbstractPropertyEffect }
@@ -84,6 +86,10 @@ monin.parallax.effects.StyleEffect.prototype.setProperty = function(element, val
 
         case 'scale':
             monin.style.setTransform(node, 'scale(' + value + ')');
+            break;
+
+        case 'translate':
+        goog.style.transform.setTranslation(node, value[0], value[1]);
             break;
 
         default:

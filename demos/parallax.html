@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <title>Parallax demo</title>
+        <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,700' rel='stylesheet' type='text/css'>
+        <link href="assets/css/demo.css" media="all" rel="stylesheet" type="text/css" rev="stylesheet" />
+        <style>
+          .something {
+            background: #f00;
+            height: 50px;
+            left: 50%;
+            position: absolute;
+            top: 50%;
+            width: 50px;
+          }
+        </style>
+        <meta charset="utf-8" />
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-42019927-1', 'monin.me');
+          ga('send', 'pageview');
+
+        </script>
+    </head>
+    <body>
+        <a id="github" href="https://github.com/dmonin/moninjs">
+            <img src="assets/img/Octocat.png" width="40" alt="octocat" title="View on GitHub." /><br  />
+            VIEW ON GITHUB
+        </a>
+        <h1>Parallax Demo</h1>
+        <p>This example demonstrates how to implement easy parallax scrolling.</p>
+
+        <!--
+        data-scroll
+          window - scroll position is relative to window
+          element - scroll position is relative to element
+        -->
+        <div class="parallax-container" data-scroll="window" data-config="assets/json/parallax.json">
+          <h1>This container contains parallax scrolling.</h1>
+
+          <p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+
+          <h2>Header Level 2</h2>
+
+          <ol>
+            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+            <li>Aliquam tincidunt mauris eu risus.</li>
+          </ol>
+
+          <blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
+
+          <h3>Header Level 3</h3>
+
+          <ul>
+            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+            <li>Aliquam tincidunt mauris eu risus.</li>
+          </ul>
+
+          <h2>Header Level 2</h2>
+
+          <ol>
+            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+            <li>Aliquam tincidunt mauris eu risus.</li>
+          </ol>
+
+          <blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
+
+          <h3>Header Level 3</h3>
+
+          <ul>
+            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+            <li>Aliquam tincidunt mauris eu risus.</li>
+          </ul>
+
+          <h2>Header Level 2</h2>
+
+          <ol>
+            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+            <li>Aliquam tincidunt mauris eu risus.</li>
+          </ol>
+
+          <blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
+
+          <h3>Header Level 3</h3>
+
+          <ul>
+            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+            <li>Aliquam tincidunt mauris eu risus.</li>
+          </ul>
+
+          <div class="scene scene-default" data-name="scene-start">
+            <div class="prlx-element prlx-default-element something" id="something-moving"></div>
+            <div class="prlx-element prlx-default-element something" id="something-rotating">
+            </div>
+          </div>
+        </div>
+
+
+
+        <script src="../../closure-library/closure/goog/base.js"></script>
+        <script src="assets/js/deps.js"></script>
+        <script>
+          goog.require('monin.parallax.ui.ParallaxContainer');
+          goog.require('monin.parallax.ui.Scene');
+          goog.require('monin.parallax.WindowScrollStrategy');
+          goog.require('goog.ui.decorate');
+        </script>
+        <script>
+          goog.ui.decorate(document.body.querySelector('.parallax-container'));
+
+        </script>
+        <!-- For full source check out github:
+        https://github.com/dmonin/moninjs
+        -->
+    </body>
+</html>
