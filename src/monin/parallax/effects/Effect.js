@@ -2,6 +2,7 @@ goog.provide('monin.parallax.effects.Effect');
 goog.require('goog.fx.easing');
 goog.require('goog.math.Range');
 goog.require('monin.fx.easing');
+goog.require('goog.math');
 
 /**
  * @constructor
@@ -25,6 +26,12 @@ monin.parallax.effects.Effect = function()
    * @protected
    */
   this.isActive = true;
+
+  /**
+   * @type {number}
+   * @protected
+   */
+  this.decimals = -1;
 };
 
 /**
@@ -45,6 +52,32 @@ monin.parallax.effects.Effect.prototype.apply = function(element, offset, size, 
 };
 
 /**
+ * Calculates value between minimum & maximum.
+ *
+ * @param {number} from
+ * @param {number} to
+ * @param {number} percent
+ * @return {number}
+ */
+monin.parallax.effects.Effect.prototype.calculateValue =
+  function(from, to, percent)
+{
+  var value = goog.math.lerp(from, to, percent);
+  var decimals = this.decimals;
+
+  if (decimals != -1)
+  {
+    var exp = Math.pow(10, decimals);
+    value = Math.round(value * exp) / exp;
+  }
+
+  return value;
+};
+
+/**
+ * Easing factory.
+ *
+ * @param {string} type
  * @return {Function}
  */
 monin.parallax.effects.Effect.prototype.easingFactory = function(type)
@@ -53,12 +86,16 @@ monin.parallax.effects.Effect.prototype.easingFactory = function(type)
   {
     case 'in':
       return goog.fx.easing.easeIn;
+
     case 'out':
       return goog.fx.easing.easeOut;
+
     case 'both':
       return goog.fx.easing.inAndOut;
+
     case 'elasticOut':
       return monin.fx.easing.elasticOut;
+
     case 'elasticIn':
       return monin.fx.easing.elasticIn;
   }
@@ -108,8 +145,7 @@ monin.parallax.effects.Effect.prototype.strictRange = function(offset)
 {
   if (this.range)
   {
-    offset = Math.max(offset, this.range.start);
-    offset = Math.min(offset, this.range.end);
+    offset = goog.math.clamp(offset, this.range.start, this.range.end);
   }
 
   return offset;

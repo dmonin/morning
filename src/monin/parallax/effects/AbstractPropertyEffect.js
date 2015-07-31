@@ -22,12 +22,6 @@ monin.parallax.effects.AbstractPropertyEffect = function()
    * @type {Function}
    */
   this.easing = null;
-
-  /**
-   * @type {number}
-   * @private
-   */
-  this.decimals_ = -1;
 };
 
 goog.inherits(monin.parallax.effects.AbstractPropertyEffect, monin.parallax.effects.Effect);
@@ -40,7 +34,7 @@ monin.parallax.effects.AbstractPropertyEffect.prototype.setConfig = function(con
 
   this.from = config['from'];
   this.to = config['to'];
-  this.decimals_ = typeof config['decimals'] == 'number' ? config['decimals'] : -1;
+  this.decimals = typeof config['decimals'] == 'number' ? config['decimals'] : -1;
   this.easing = this.easingFactory(config['easing']);
 };
 
@@ -61,45 +55,23 @@ monin.parallax.effects.AbstractPropertyEffect.prototype.apply = function(element
     percent = this.easing(percent);
   }
 
-
   if (goog.isArray(this.from))
   {
     var value = [];
     for (var i = 0; i < this.from.length; i++)
     {
-    value.push(this.calculateValue_(this.from[i], this.to[i], percent))
+      value.push(this.calculateValue(this.from[i], this.to[i], percent))
     }
     this.setProperty(element, value);
   }
   else
   {
-    this.setProperty(element, this.calculateValue_(this.from, this.to,
-    percent));
+    this.setProperty(element, this.calculateValue(this.from, this.to,
+      percent));
   }
 
 
   return true;
-};
-
-/**
- * @param {number} from
- * @param {number} to
- * @param {number} percent
- * @private
- */
-monin.parallax.effects.AbstractPropertyEffect.prototype.calculateValue_ =
-  function(from, to, percent)
-{
-  var value = goog.math.lerp(from, to, percent);
-  var decimals = this.decimals_;
-
-  if (decimals != -1)
-  {
-  var exp = Math.pow(10, decimals);
-  value = Math.round(value * exp) / exp;
-  }
-
-  return value;
 };
 
 /**

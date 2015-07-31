@@ -51,9 +51,13 @@ monin.parallax.model.SceneConfig.factory = function(config)
   sceneConfig.navigationName = config['navigationName'];
 
   var range = config['range'];
-  sceneConfig.range = new goog.math.Range(
-    sceneConfig.position + range[0],
-    sceneConfig.position + range[1]);
-  sceneConfig.rangeOffset = range;
+  if (range)
+  {
+    sceneConfig.range = new goog.math.Range(
+      sceneConfig.position + range[0],
+      sceneConfig.position + range[1]);
+    sceneConfig.rangeOffset = range;
+  }
+
   return sceneConfig;
 };

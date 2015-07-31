@@ -89,7 +89,7 @@ monin.parallax.effects.StyleEffect.prototype.setProperty = function(element, val
       break;
 
     case 'translate':
-    goog.style.transform.setTranslation(node, value[0], value[1]);
+      monin.style.translate(node, value[0], value[1], this.unit);
       break;
 
     default:

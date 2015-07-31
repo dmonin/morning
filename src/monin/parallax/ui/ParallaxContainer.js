@@ -59,9 +59,10 @@ monin.parallax.ui.ParallaxContainer = function()
   this.xhrIo_ = new goog.net.XhrIo();
 
   /**
+   * Defines whether smooth scrolling should be enabled.
    * @type {boolean}
    */
-  this.smoothScrolling = true;
+  this.smoothScrolling = false;
 
   /**
    * @type {boolean}

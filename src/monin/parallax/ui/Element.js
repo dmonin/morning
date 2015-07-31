@@ -171,8 +171,6 @@ monin.parallax.ui.Element.prototype.update = function(offset, size, position)
   {
     this.effects_[i].apply(this, offset, size, position);
   }
-
-  // return this.effects_.length;
 };
 
 /**

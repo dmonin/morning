@@ -84,6 +84,11 @@ monin.parallax.ui.Scene.prototype.decorateInternal = function(el)
   var cmp;
   for (var i = 0; i < elements.length; i++)
   {
+    if (!elements[i].id)
+    {
+      throw new Error("Element missing ID property.");
+    }
+
     cmp = goog.ui.registry.getDecorator(elements[i]);
     if (!cmp)
     {
