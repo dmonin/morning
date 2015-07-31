@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -30,9 +30,9 @@ goog.require('goog.style');
  */
 monin.style.isVerticallyVisible = function(el, viewportSize, docScroll)
 {
-    var pos = goog.style.getPageOffset(el);
-    var size = goog.style.getSize(el);
-    return pos.y + size.height > docScroll.y && pos.y < docScroll.y + viewportSize.height;
+  var pos = goog.style.getPageOffset(el);
+  var size = goog.style.getSize(el);
+  return pos.y + size.height > docScroll.y && pos.y < docScroll.y + viewportSize.height;
 };
 
 /**
@@ -43,23 +43,23 @@ monin.style.isVerticallyVisible = function(el, viewportSize, docScroll)
  */
 monin.style.getTransform = function(el)
 {
-    var properties = [
-        'transform',
-        'WebkitTransform',
-        'msTransform',
-        'MozTransform',
-        'OTransform'
-    ];
-    var p;
-    while (p = properties.shift())
+  var properties = [
+    'transform',
+    'WebkitTransform',
+    'msTransform',
+    'MozTransform',
+    'OTransform'
+  ];
+  var p;
+  while (p = properties.shift())
+  {
+    if (el.style[p])
     {
-        if (el.style[p])
-        {
-            return el.style[p];
-        }
+      return el.style[p];
     }
+  }
 
-    return '';
+  return '';
 };
 
 /**
@@ -70,27 +70,27 @@ monin.style.getTransform = function(el)
  */
 monin.style.setFilter = function(el, filter)
 {
-    if (typeof Modernizr.csstransforms3d == 'undefined')
-    {
-        throw new Error("monin.style: Modernizr.csstransforms3d is not defined.");
-    }
+  if (typeof Modernizr.csstransforms3d == 'undefined')
+  {
+    throw new Error("monin.style: Modernizr.csstransforms3d is not defined.");
+  }
 
-    // It means old browser / old graphic card = slow!
-    if (!Modernizr.csstransforms3d)
-    {
-        return;
-    }
+  // It means old browser / old graphic card = slow!
+  if (!Modernizr.csstransforms3d)
+  {
+    return;
+  }
 
-    var properties = [
-        'webkitFilter',
-        'mozFilter'
-    ];
+  var properties = [
+    'webkitFilter',
+    'mozFilter'
+  ];
 
-    var p;
-    while (p = properties.shift())
-    {
-        el.style[p] = filter;
-    }
+  var p;
+  while (p = properties.shift())
+  {
+    el.style[p] = filter;
+  }
 };
 
 /**
@@ -101,18 +101,18 @@ monin.style.setFilter = function(el, filter)
  */
 monin.style.setTransform = function(el, transform)
 {
-    var properties = [
-        'transform',
-        'WebkitTransform',
-        'msTransform',
-        'MozTransform',
-        'OTransform'
-    ];
-    var p;
-    while (p = properties.shift())
-    {
-        el.style[p] = transform;
-    }
+  var properties = [
+    'transform',
+    'WebkitTransform',
+    'msTransform',
+    'MozTransform',
+    'OTransform'
+  ];
+  var p;
+  while (p = properties.shift())
+  {
+    el.style[p] = transform;
+  }
 };
 
 /**
@@ -123,18 +123,18 @@ monin.style.setTransform = function(el, transform)
  */
 monin.style.setTransformOrigin = function(el, transformOrigin)
 {
-    var properties = [
-        'transformOrigin',
-        'WebkitTransformOrigin',
-        'msTransformOrigin',
-        'MozTransformOrigin',
-        'OTransformOrigin'
-    ];
-    var p;
-    while (p = properties.shift())
-    {
-        el.style[p] = transformOrigin;
-    }
+  var properties = [
+    'transformOrigin',
+    'WebkitTransformOrigin',
+    'msTransformOrigin',
+    'MozTransformOrigin',
+    'OTransformOrigin'
+  ];
+  var p;
+  while (p = properties.shift())
+  {
+    el.style[p] = transformOrigin;
+  }
 };
 
 /**
@@ -147,22 +147,18 @@ monin.style.setTransformOrigin = function(el, transformOrigin)
  */
 monin.style.translate = function(el, x, y, opt_units)
 {
-    var units = opt_units || 'px';
+  if (!goog.style.transform.isSupported())
+  {
+    return false;
+  }
+  var units = opt_units || 'px';
 
-    if (Modernizr.csstransforms3d)
-    {
-        el.style.msTransform = 'translate3d(' + x + units + ', ' +
-            y + units + ', 0)';
+  var is3dSupported = goog.style.transform.is3dSupported();
+  var start = is3dSupported ? 'translate3d(' : 'translate(';
+  var end = is3dSupported ? ', 0)' : ')';
 
-        el.style.MozTransform = 'translate3d(' + x + units + ', ' +
-            y + units + ', 0)';
+  el.style.msTransform = start + x + units + ', ' + y + units + end;
+  el.style.MozTransform = start + x + units + ', ' + y + units + end;
+  el.style.webkitTransform = start + x + units + ', ' + y + units + end;
 
-        el.style.webkitTransform = 'translate3d(' + x + units + ', ' +
-            y + units + ', 0)';
-    }
-    else
-    {
-        el.style.marginLeft = x + units;
-        el.style.marginTop = y +  units;
-    }
 };
