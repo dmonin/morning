@@ -38,7 +38,7 @@ monin.parallax.effects.CounterEffect = function()
   this.to = 0;
 
   /**
-   * @type {number}
+   * @type {goog.i18n.NumberFormat}
    */
   this.numberFormatter = new goog.i18n.NumberFormat('#,##0');
 };

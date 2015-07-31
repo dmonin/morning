@@ -79,8 +79,6 @@ monin.parallax.ScrollToElementStrategy.prototype.attach = function(element)
 
 /**
  * Dettaches element from scroll strategy
- *
- * @param  {Element} element
  */
 monin.parallax.ScrollToElementStrategy.prototype.detach = function()
 {

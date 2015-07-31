@@ -62,12 +62,14 @@ monin.parallax.effects.AbstractPropertyEffect.prototype.apply = function(element
     {
       value.push(this.calculateValue(this.from[i], this.to[i], percent))
     }
+
     this.setProperty(element, value);
   }
   else
   {
-    this.setProperty(element, this.calculateValue(this.from, this.to,
-      percent));
+    var from = /** @type {number} */ (this.from);
+    var to = /** @type {number} */ (this.to);
+    this.setProperty(element, this.calculateValue(from, to, percent));
   }
 
 
@@ -76,6 +78,6 @@ monin.parallax.effects.AbstractPropertyEffect.prototype.apply = function(element
 
 /**
  * @param {monin.parallax.ui.Element} element
- * @param {number} value
+ * @param {number|Array.<number>} value
  */
 monin.parallax.effects.AbstractPropertyEffect.prototype.setProperty = goog.abstractMethod;

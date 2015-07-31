@@ -47,7 +47,7 @@ monin.parallax.effects.StyleEffect.prototype.setConfig = function(config)
 
 /**
  * @param {monin.parallax.ui.Element} element
- * @param {number} value
+ * @param {number|Array<number>} value
  */
 monin.parallax.effects.StyleEffect.prototype.setProperty = function(element, value)
 {
