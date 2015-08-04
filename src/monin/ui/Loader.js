@@ -15,6 +15,7 @@
 /**
  * @fileoverview Bridge for Canvas Loader class
  * http://heartcode.robertpataki.com/canvasloader/
+ * @deprecated Use CSS Loaders
  */
 goog.provide('monin.ui.Loader');
 

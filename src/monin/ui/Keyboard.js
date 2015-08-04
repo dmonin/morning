@@ -9,6 +9,7 @@ goog.require('goog.structs.Map');
 /**
  * @constructor
  * @extends {goog.ui.Component}
+ * @deprecated
  */
 monin.ui.Keyboard = function()
 {

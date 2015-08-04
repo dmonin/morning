@@ -31,6 +31,7 @@ goog.require('goog.dom.dataset')
 * @param {string=} opt_text
 * @param {string=} opt_value
 * @extends {goog.ui.Component}
+* @deprecated Use goog.ui.Button instead
 */
 monin.ui.Button = function(opt_text, opt_value)
 {
