@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -39,86 +39,86 @@ goog.require('goog.dom.classlist');
  */
 monin.ui.DatePicker = function()
 {
-    goog.base(this);
+  goog.base(this);
 
-    /**
-     * Selection mode (Start date, End date, or both dates at the same time, i.e. Start date = End Date (single date mode)
-     *
-     * @type {monin.ui.DatePicker.SelectionMode}
-     * @private
-     */
-    this.selectionMode_ = monin.ui.DatePicker.SelectionMode.BOTH;
+  /**
+   * Selection mode (Start date, End date, or both dates at the same time, i.e. Start date = End Date (single date mode)
+   *
+   * @type {monin.ui.DatePicker.SelectionMode}
+   * @private
+   */
+  this.selectionMode_ = monin.ui.DatePicker.SelectionMode.BOTH;
 
-    /**
-     * Date and time symbols to use.
-     *
-     * @type {Object}
-     * @private
-     */
-    this.symbols_ = goog.i18n.DateTimeSymbols;
+  /**
+   * Date and time symbols to use.
+   *
+   * @type {Object}
+   * @private
+   */
+  this.symbols_ = goog.i18n.DateTimeSymbols;
 
-    /**
-     * Weekday names.
-     *
-     * @type {Array.<string>}
-     * @private
-     */
-    this.wdayNames_ = this.symbols_.NARROWWEEKDAYS;
+  /**
+   * Weekday names.
+   *
+   * @type {Array.<string>}
+   * @private
+   */
+  this.wdayNames_ = this.symbols_.NARROWWEEKDAYS;
 
-    /**
-     * Start date.
-     *
-     * @type {goog.date.Date}
-     * @private
-     */
-    this.startDate_ = new goog.date.Date();
+  /**
+   * Start date.
+   *
+   * @type {goog.date.Date}
+   * @private
+   */
+  this.startDate_ = new goog.date.Date();
 
-    /**
-     * End date.
-     *
-     * @type {goog.date.Date}
-     * @private
-     */
-    this.endDate_ = new goog.date.Date();
+  /**
+   * End date.
+   *
+   * @type {goog.date.Date}
+   * @private
+   */
+  this.endDate_ = new goog.date.Date();
 
-    /**
-     * Highlightede date.
-     *
-     * @type {goog.date.Date}
-     * @private
-     */
-    this.highlightDate_ = new goog.date.Date();
+  /**
+   * Highlightede date.
+   *
+   * @type {goog.date.Date}
+   * @private
+   */
+  this.highlightDate_ = new goog.date.Date();
 
-    /**
-     * Active month.
-     *
-     * @type {goog.date.Date}
-     * @private
-     */
-    this.activeMonth_ = this.startDate_.clone();
-    this.activeMonth_.setDate(1);
-    this.activeMonth_.setFirstWeekCutOffDay(this.symbols_.FIRSTWEEKCUTOFFDAY);
-    this.activeMonth_.setFirstDayOfWeek(this.symbols_.FIRSTDAYOFWEEK);
+  /**
+   * Active month.
+   *
+   * @type {goog.date.Date}
+   * @private
+   */
+  this.activeMonth_ = this.startDate_.clone();
+  this.activeMonth_.setDate(1);
+  this.activeMonth_.setFirstWeekCutOffDay(this.symbols_.FIRSTWEEKCUTOFFDAY);
+  this.activeMonth_.setFirstDayOfWeek(this.symbols_.FIRSTDAYOFWEEK);
 
-    /**
-     * Class names to apply to the weekday columns.
-     *
-     * @type {Array.<string>}
-     * @private
-     */
-    this.wdayStyles_ = ['', '', '', '', '', '', ''];
-    this.wdayStyles_[this.symbols_.WEEKENDRANGE[0]] =
-    goog.getCssName(this.getBaseCssClass(), 'wkend-start');
-    this.wdayStyles_[this.symbols_.WEEKENDRANGE[1]] =
-    goog.getCssName(this.getBaseCssClass(), 'wkend-end');
+  /**
+   * Class names to apply to the weekday columns.
+   *
+   * @type {Array.<string>}
+   * @private
+   */
+  this.wdayStyles_ = ['', '', '', '', '', '', ''];
+  this.wdayStyles_[this.symbols_.WEEKENDRANGE[0]] =
+  goog.getCssName(this.getBaseCssClass(), 'wkend-start');
+  this.wdayStyles_[this.symbols_.WEEKENDRANGE[1]] =
+  goog.getCssName(this.getBaseCssClass(), 'wkend-end');
 
-    /**
-     * Defines whether date picker is currently visible.
-     *
-     * @type {boolean}
-     * @private
-     */
-    this.isVisible_ = false;
+  /**
+   * Defines whether date picker is currently visible.
+   *
+   * @type {boolean}
+   * @private
+   */
+  this.isVisible_ = false;
 };
 goog.inherits(monin.ui.DatePicker, goog.ui.Component);
 
@@ -150,15 +150,16 @@ monin.ui.DatePicker.maxDate_ = null;
  * @enum {string}
  */
 monin.ui.DatePicker.EventType = {
-    MONTH_CHANGE: 'month_change',
-    NEXT_MONTH: 'next_month',
-    PREVIOUS_MONTH: 'previous_month',
-    CHANGE: 'change',
-    HIDE: 'hide',
-    SELECT: 'select',
-    SHOW: 'show',
-    HIGHLIGHT: 'highlight',
-    UNHIGHLIGHT: 'unhighlight'
+  MONTH_CHANGE: 'month_change',
+  NEXT_MONTH: 'next_month',
+  PREVIOUS_MONTH: 'previous_month',
+  CHANGE: 'change',
+  HIDE: 'hide',
+  SELECT: 'select',
+  SHOW: 'show',
+  HIGHLIGHT: 'highlight',
+  UNHIGHLIGHT: 'unhighlight',
+  REDRAW: 'redraw'
 };
 
 /**
@@ -179,8 +180,8 @@ monin.ui.DatePicker.SelectionMode = {
  */
 monin.ui.DatePicker.prototype.setMinDate = function(date)
 {
-    this.minDate_ = date;
-    this.redrawCalendarGrid_();
+  this.minDate_ = date;
+  this.redrawCalendarGrid_();
 };
 
 /**
@@ -190,8 +191,8 @@ monin.ui.DatePicker.prototype.setMinDate = function(date)
  */
 monin.ui.DatePicker.prototype.setMaxDate = function(date)
 {
-    this.maxDate_ = date;
-    this.redrawCalendarGrid_();
+  this.maxDate_ = date;
+  this.redrawCalendarGrid_();
 };
 
 /**
@@ -201,7 +202,7 @@ monin.ui.DatePicker.prototype.setMaxDate = function(date)
  */
 monin.ui.DatePicker.prototype.getSelectionMode = function()
 {
-    return this.selectionMode_;
+  return this.selectionMode_;
 };
 
 /**
@@ -211,9 +212,9 @@ monin.ui.DatePicker.prototype.getSelectionMode = function()
  */
 monin.ui.DatePicker.prototype.setSelectionMode = function(selectionMode)
 {
-    this.selectionMode_ = selectionMode;
-    this.updateHighlightDate_();
-    this.redrawCalendarGrid_();
+  this.selectionMode_ = selectionMode;
+  this.updateHighlightDate_();
+  this.redrawCalendarGrid_();
 };
 
 /**
@@ -223,14 +224,24 @@ monin.ui.DatePicker.prototype.setSelectionMode = function(selectionMode)
  */
 monin.ui.DatePicker.prototype.updateHighlightDate_ = function()
 {
-    if (this.selectionMode_ == monin.ui.DatePicker.SelectionMode.START)
-    {
-        this.highlightDate_ = this.startDate_;
-    }
-    else
-    {
-        this.highlightDate_ = this.endDate_;
-    }
+  if (this.selectionMode_ == monin.ui.DatePicker.SelectionMode.START)
+  {
+    this.highlightDate_ = this.startDate_;
+  }
+  else
+  {
+    this.highlightDate_ = this.endDate_;
+  }
+};
+
+/**
+ * Returns date object of currently selected month.
+ *
+ * @return {goog.date.Date}
+ */
+monin.ui.DatePicker.prototype.getActiveMonth = function()
+{
+  return this.activeMonth_;
 };
 
 /**
@@ -238,7 +249,7 @@ monin.ui.DatePicker.prototype.updateHighlightDate_ = function()
  */
 monin.ui.DatePicker.prototype.getFirstWeekday = function()
 {
-    return this.activeMonth_.getFirstDayOfWeek();
+  return this.activeMonth_.getFirstDayOfWeek();
 };
 
 /**
@@ -246,7 +257,7 @@ monin.ui.DatePicker.prototype.getFirstWeekday = function()
  */
 monin.ui.DatePicker.prototype.getMinDate = function()
 {
-    return this.minDate_;
+  return this.minDate_;
 };
 
 /**
@@ -254,7 +265,7 @@ monin.ui.DatePicker.prototype.getMinDate = function()
  */
 monin.ui.DatePicker.prototype.getMaxDate = function()
 {
-    return this.maxDate_;
+  return this.maxDate_;
 };
 
 /**
@@ -262,7 +273,7 @@ monin.ui.DatePicker.prototype.getMaxDate = function()
  */
 monin.ui.DatePicker.prototype.getRange = function()
 {
-    return new goog.date.DateRange(this.startDate_, this.endDate_);
+  return new goog.date.DateRange(this.startDate_, this.endDate_);
 };
 
 /**
@@ -273,7 +284,7 @@ monin.ui.DatePicker.prototype.getRange = function()
  */
 monin.ui.DatePicker.prototype.getBaseCssClass = function()
 {
-    return monin.ui.DatePicker.BASE_CSS_CLASS_;
+  return monin.ui.DatePicker.BASE_CSS_CLASS_;
 };
 
 /**
@@ -283,9 +294,9 @@ monin.ui.DatePicker.prototype.getBaseCssClass = function()
  */
 monin.ui.DatePicker.prototype.setFirstWeekday = function(wday)
 {
-    this.activeMonth_.setFirstDayOfWeek(wday);
-    this.updateCalendarGrid_();
-    this.redrawWeekdays_();
+  this.activeMonth_.setFirstDayOfWeek(wday);
+  this.updateCalendarGrid_();
+  this.redrawWeekdays_();
 };
 
 /**
@@ -294,8 +305,8 @@ monin.ui.DatePicker.prototype.setFirstWeekday = function(wday)
  */
 monin.ui.DatePicker.prototype.setWeekdayNames = function(weekdayNames)
 {
-    this.wdayNames_ = weekdayNames;
-    this.redrawWeekdays_();
+  this.wdayNames_ = weekdayNames;
+  this.redrawWeekdays_();
 };
 
 /**
@@ -303,10 +314,10 @@ monin.ui.DatePicker.prototype.setWeekdayNames = function(weekdayNames)
  */
 monin.ui.DatePicker.prototype.previousMonth = function()
 {
-    this.activeMonth_.add(new goog.date.Interval(goog.date.Interval.MONTHS, -1));
-    this.updateCalendarGrid_();
+  this.activeMonth_.add(new goog.date.Interval(goog.date.Interval.MONTHS, -1));
+  this.updateCalendarGrid_();
 
-    this.dispatchEvent(monin.ui.DatePicker.EventType.PREVIOUS_MONTH);
+  this.dispatchEvent(monin.ui.DatePicker.EventType.PREVIOUS_MONTH);
 };
 
 /**
@@ -314,10 +325,10 @@ monin.ui.DatePicker.prototype.previousMonth = function()
  */
 monin.ui.DatePicker.prototype.nextMonth = function()
 {
-    this.activeMonth_.add(new goog.date.Interval(goog.date.Interval.MONTHS, 1));
-    this.updateCalendarGrid_();
+  this.activeMonth_.add(new goog.date.Interval(goog.date.Interval.MONTHS, 1));
+  this.updateCalendarGrid_();
 
-    this.dispatchEvent(monin.ui.DatePicker.EventType.NEXT_MONTH);
+  this.dispatchEvent(monin.ui.DatePicker.EventType.NEXT_MONTH);
 };
 
 /**
@@ -325,7 +336,7 @@ monin.ui.DatePicker.prototype.nextMonth = function()
  */
 monin.ui.DatePicker.prototype.getStartDate = function()
 {
-    return this.startDate_;
+  return this.startDate_;
 };
 
 /**
@@ -333,98 +344,98 @@ monin.ui.DatePicker.prototype.getStartDate = function()
  */
 monin.ui.DatePicker.prototype.getEndDate = function()
 {
-    return this.endDate_;
+  return this.endDate_;
 };
 
 /** @inheritDoc */
 monin.ui.DatePicker.prototype.createDom = function()
 {
-    goog.base(this, 'createDom');
-    this.decorateInternal(this.getElement());
+  goog.base(this, 'createDom');
+  this.decorateInternal(this.getElement());
 };
 
 /** @inheritDoc */
 monin.ui.DatePicker.prototype.decorateInternal = function(el)
 {
-    goog.base(this, 'decorateInternal', el);
+  goog.base(this, 'decorateInternal', el);
 
-    el.className = this.getBaseCssClass();
+  el.className = this.getBaseCssClass();
 
-    var row = this.dom_.createDom('div', goog.getCssName(this.getBaseCssClass(), 'hd'));
-    this.decorateNav_(row);
+  var row = this.dom_.createDom('div', goog.getCssName(this.getBaseCssClass(), 'hd'));
+  this.decorateNav_(row);
 
-    var rows = this.dom_.createDom('div', goog.getCssName(this.getBaseCssClass(), 'bd'));
-    var cell;
-    this.elTable_ = [];
-    for (var i = 0; i < 7; i++)
+  var rows = this.dom_.createDom('div', goog.getCssName(this.getBaseCssClass(), 'bd'));
+  var cell;
+  this.elTable_ = [];
+  for (var i = 0; i < 7; i++)
+  {
+    row = this.dom_.createDom('div', goog.getCssName(this.getBaseCssClass(), 'week'));
+    this.elTable_[i] = [];
+
+    for (var j = 0; j < 7; j++)
     {
-        row = this.dom_.createDom('div', goog.getCssName(this.getBaseCssClass(), 'week'));
-        this.elTable_[i] = [];
-
-        for (var j = 0; j < 7; j++)
-        {
-            cell = this.dom_.createElement('div');
-            cell.className = goog.getCssName(this.getBaseCssClass(), 'wday');
-            row.appendChild(cell);
-            this.elTable_[i][j] = cell;
-        }
-
-        row.appendChild(this.dom_.createDom('div', 'clear'));
-
-        rows.appendChild(row);
+      cell = this.dom_.createElement('div');
+      cell.className = goog.getCssName(this.getBaseCssClass(), 'wday');
+      row.appendChild(cell);
+      this.elTable_[i][j] = cell;
     }
 
-    this.redrawWeekdays_();
-    this.updateCalendarGrid_();
+    row.appendChild(this.dom_.createDom('div', 'clear'));
 
-    el.appendChild(this.elNavRow_);
-    el.appendChild(rows);
+    rows.appendChild(row);
+  }
+
+  this.redrawWeekdays_();
+  this.updateCalendarGrid_();
+
+  el.appendChild(this.elNavRow_);
+  el.appendChild(rows);
 
 };
 
 monin.ui.DatePicker.prototype.decorateNav_ = function(navEl)
 {
-    this.elNavRow_ = navEl;
+  this.elNavRow_ = navEl;
 
-    this.month_ = goog.dom.createDom('div', goog.getCssName(this.getBaseCssClass(), 'month'));
+  this.month_ = goog.dom.createDom('div', goog.getCssName(this.getBaseCssClass(), 'month'));
 
-    var eh = this.getHandler();
+  var eh = this.getHandler();
 
-    this.nextBtn_ = goog.dom.createDom('div', goog.getCssName(this.getBaseCssClass(), 'next-btn'));
-    eh.listen(this.nextBtn_, goog.events.EventType.MOUSEDOWN, this.handleNextClick_);
+  this.nextBtn_ = goog.dom.createDom('div', goog.getCssName(this.getBaseCssClass(), 'next-btn'));
+  eh.listen(this.nextBtn_, goog.events.EventType.MOUSEDOWN, this.handleNextClick_);
 
-    this.prevBtn_ = goog.dom.createDom('div', goog.getCssName(this.getBaseCssClass(), 'prev-btn'));
-    eh.listen(this.prevBtn_, goog.events.EventType.MOUSEDOWN, this.handlePrevClick_);
+  this.prevBtn_ = goog.dom.createDom('div', goog.getCssName(this.getBaseCssClass(), 'prev-btn'));
+  eh.listen(this.prevBtn_, goog.events.EventType.MOUSEDOWN, this.handlePrevClick_);
 
-    navEl.appendChild(this.month_);
-    navEl.appendChild(this.prevBtn_);
-    navEl.appendChild(this.nextBtn_);
+  navEl.appendChild(this.month_);
+  navEl.appendChild(this.prevBtn_);
+  navEl.appendChild(this.nextBtn_);
 };
 
 
 /** @inheritDoc */
 monin.ui.DatePicker.prototype.enterDocument = function()
 {
-    goog.base(this, 'enterDocument');
+  goog.base(this, 'enterDocument');
 
-    var eh = this.getHandler();
-    eh.listen(this.getElement(), goog.events.EventType.MOUSEOVER,
-        this.handleGridOver_);
+  var eh = this.getHandler();
+  eh.listen(this.getElement(), goog.events.EventType.MOUSEOVER,
+    this.handleGridOver_);
 
-    eh.listen(this.getElement(), goog.events.EventType.MOUSEOUT,
-        this.handleGridOut_);
+  eh.listen(this.getElement(), goog.events.EventType.MOUSEOUT,
+    this.handleGridOut_);
 
-    eh.listen(this.getElement(), goog.events.EventType.MOUSEDOWN,
-        this.handleGridMouseDown_);
+  eh.listen(this.getElement(), goog.events.EventType.MOUSEDOWN,
+    this.handleGridMouseDown_);
 };
 
 /** @inheritDoc */
 monin.ui.DatePicker.prototype.disposeInternal = function()
 {
-    goog.base(this, 'disposeInternal');
-    this.startDate_ = null;
-    this.endDate_ = null;
-    this.activeMonth_ = null;
+  goog.base(this, 'disposeInternal');
+  this.startDate_ = null;
+  this.endDate_ = null;
+  this.activeMonth_ = null;
 };
 
 /**
@@ -438,9 +449,9 @@ monin.ui.DatePicker.prototype.disposeInternal = function()
  */
 monin.ui.DatePicker.prototype.isInRange_ = function(date, start, end)
 {
-    var time = date.getTime();
-    return time >= start.getTime() &&
-        time <= end.getTime();
+  var time = date.getTime();
+  return time >= start.getTime() &&
+    time <= end.getTime();
 };
 
 /**
@@ -451,19 +462,21 @@ monin.ui.DatePicker.prototype.isInRange_ = function(date, start, end)
  */
 monin.ui.DatePicker.prototype.handleGridMouseDown_ = function(e)
 {
-    var target = /** @type {Element} */ (e.target);
-    var startEnd = this.getStartEnd(target);
-    if (!startEnd)
-    {
-        return;
-    }
+  var target = /** @type {Element} */ (e.target);
+  var startEnd = this.getStartEnd(target);
+  if (!startEnd)
+  {
+    return;
+  }
 
-    var evt = new monin.ui.DatePickerEvent(
-        monin.ui.DatePicker.EventType.SELECT, this, startEnd[0],
-        startEnd[1]);
+  var evt = new monin.ui.DatePickerEvent(
+    monin.ui.DatePicker.EventType.SELECT, this, startEnd[0],
+    startEnd[1]);
 
-    this.dispatchEvent(evt);
+  if (this.dispatchEvent(evt))
+  {
     this.selectRange(startEnd[0], startEnd[1]);
+  }
 };
 
 /**
@@ -474,19 +487,19 @@ monin.ui.DatePicker.prototype.handleGridMouseDown_ = function(e)
  */
 monin.ui.DatePicker.prototype.handleGridOver_ = function(e)
 {
-    var target = /** @type {Element} */ (e.target);
-    var startEnd = this.getStartEnd(target);
-    if (!startEnd)
-    {
-        return;
-    }
+  var target = /** @type {Element} */ (e.target);
+  var startEnd = this.getStartEnd(target);
+  if (!startEnd)
+  {
+    return;
+  }
 
-    var highlight = this.selectionMode_ == monin.ui.DatePicker.SelectionMode.START ? startEnd[0] : startEnd[1];
-    this.highlight(startEnd[0], startEnd[1], highlight);
+  var highlight = this.selectionMode_ == monin.ui.DatePicker.SelectionMode.START ? startEnd[0] : startEnd[1];
+  this.highlight(startEnd[0], startEnd[1], highlight);
 
-    this.dispatchEvent(new monin.ui.DatePickerEvent(
-        monin.ui.DatePicker.EventType.HIGHLIGHT,
-        this, startEnd[0], startEnd[1]));
+  this.dispatchEvent(new monin.ui.DatePickerEvent(
+    monin.ui.DatePicker.EventType.HIGHLIGHT,
+    this, startEnd[0], startEnd[1]));
 };
 
 /**
@@ -497,8 +510,8 @@ monin.ui.DatePicker.prototype.handleGridOver_ = function(e)
  */
 monin.ui.DatePicker.prototype.handleNextClick_ = function(e)
 {
-    e.stopPropagation();
-    this.nextMonth();
+  e.stopPropagation();
+  this.nextMonth();
 };
 
 /**
@@ -509,8 +522,8 @@ monin.ui.DatePicker.prototype.handleNextClick_ = function(e)
  */
 monin.ui.DatePicker.prototype.handlePrevClick_ = function(e)
 {
-    e.stopPropagation();
-    this.previousMonth();
+  e.stopPropagation();
+  this.previousMonth();
 };
 
 /**
@@ -522,9 +535,9 @@ monin.ui.DatePicker.prototype.handlePrevClick_ = function(e)
  * @param {goog.date.Date=} opt_highlight highlight date.
  */
 monin.ui.DatePicker.prototype.highlight = function(opt_start, opt_end,
-    opt_highlight)
+  opt_highlight)
 {
-    this.redrawCalendarGrid_(opt_start, opt_end, opt_highlight);
+  this.redrawCalendarGrid_(opt_start, opt_end, opt_highlight);
 };
 
 /**
@@ -534,43 +547,43 @@ monin.ui.DatePicker.prototype.highlight = function(opt_start, opt_end,
  */
 monin.ui.DatePicker.prototype.getStartEnd = function(target)
 {
-    var classes = goog.dom.classlist,
-        baseClass = this.getBaseCssClass();
-    if (!classes.contains(target, goog.getCssName(baseClass, 'date')) ||
-        classes.contains(target, goog.getCssName(baseClass, 'disabled')))
-    {
-        return null;
-    }
+  var classes = goog.dom.classlist,
+    baseClass = this.getBaseCssClass();
+  if (!classes.contains(target, goog.getCssName(baseClass, 'date')) ||
+    classes.contains(target, goog.getCssName(baseClass, 'disabled')))
+  {
+    return null;
+  }
 
-    var date = this.getDateFromTarget_(target), start, end;
+  var date = this.getDateFromTarget_(target), start, end;
 
-    switch (this.selectionMode_)
-    {
-        case monin.ui.DatePicker.SelectionMode.BOTH:
-            start = date;
-            end = date;
-            break;
-        case monin.ui.DatePicker.SelectionMode.START:
-            start = date;
-            end = this.endDate_;
+  switch (this.selectionMode_)
+  {
+    case monin.ui.DatePicker.SelectionMode.BOTH:
+      start = date;
+      end = date;
+      break;
+    case monin.ui.DatePicker.SelectionMode.START:
+      start = date;
+      end = this.endDate_;
 
-            if (start.getTime() > end.getTime())
-            {
-                end = start;
-            }
-            break;
-        case monin.ui.DatePicker.SelectionMode.END:
-            start = this.startDate_;
-            end = date;
+      if (start.getTime() > end.getTime())
+      {
+        end = start;
+      }
+      break;
+    case monin.ui.DatePicker.SelectionMode.END:
+      start = this.startDate_;
+      end = date;
 
-            if (start.getTime() > end.getTime())
-            {
-                start = end;
-            }
-            break;
-    }
+      if (start.getTime() > end.getTime())
+      {
+        start = end;
+      }
+      break;
+  }
 
-    return [start, end];
+  return [start, end];
 };
 
 
@@ -582,18 +595,18 @@ monin.ui.DatePicker.prototype.getStartEnd = function(target)
  */
 monin.ui.DatePicker.prototype.handleGridOut_ = function(e)
 {
-    var target = /** @type {Element} */ (e.target);
-    if (!goog.dom.classlist.contains(target,
-        goog.getCssName(this.getBaseCssClass(), 'date')))
-    {
-        return;
-    }
+  var target = /** @type {Element} */ (e.target);
+  if (!goog.dom.classlist.contains(target,
+    goog.getCssName(this.getBaseCssClass(), 'date')))
+  {
+    return;
+  }
 
-    this.redrawCalendarGrid_();
+  this.redrawCalendarGrid_();
 
-    this.dispatchEvent(new monin.ui.DatePickerEvent(
-        monin.ui.DatePicker.EventType.UNHIGHLIGHT,
-        this, null, null));
+  this.dispatchEvent(new monin.ui.DatePickerEvent(
+    monin.ui.DatePicker.EventType.UNHIGHLIGHT,
+    this, null, null));
 };
 
 /**
@@ -605,13 +618,13 @@ monin.ui.DatePicker.prototype.handleGridOut_ = function(e)
  */
 monin.ui.DatePicker.prototype.getDateFromTarget_ = function(cell)
 {
-    // colIndex/rowIndex is broken in Safari, find position by looping
-    var el, x = -1, y = -2; // first col/row is for weekday/weeknum
+  // colIndex/rowIndex is broken in Safari, find position by looping
+  var el, x = -1, y = -2; // first col/row is for weekday/weeknum
 
-    for (el = cell; el; el = el.previousSibling, x++) {}
-    for (el = cell.parentNode; el; el = el.previousSibling, y++) {}
+  for (el = cell; el; el = el.previousSibling, x++) {}
+  for (el = cell.parentNode; el; el = el.previousSibling, y++) {}
 
-    return this.grid_[y][x];
+  return this.grid_[y][x];
 };
 
 /**
@@ -621,7 +634,7 @@ monin.ui.DatePicker.prototype.getDateFromTarget_ = function(cell)
  */
 monin.ui.DatePicker.prototype.isVisible = function()
 {
-    return this.isVisible_;
+  return this.isVisible_;
 };
 
 /**
@@ -633,16 +646,16 @@ monin.ui.DatePicker.prototype.isVisible = function()
  */
 monin.ui.DatePicker.prototype.selectRange = function(start, end)
 {
-    var changeEvent = new monin.ui.DatePickerEvent(
-        monin.ui.DatePicker.EventType.CHANGE, this, start, end);
+  var changeEvent = new monin.ui.DatePickerEvent(
+    monin.ui.DatePicker.EventType.CHANGE, this, start, end);
 
-    if (this.dispatchEvent(changeEvent))
-    {
-        this.startDate_ = start;
-        this.endDate_ = end;
+  if (this.dispatchEvent(changeEvent))
+  {
+    this.startDate_ = start;
+    this.endDate_ = end;
 
-        this.redrawCalendarGrid_(start, end);
-    }
+    this.redrawCalendarGrid_(start, end);
+  }
 };
 
 /**
@@ -653,42 +666,42 @@ monin.ui.DatePicker.prototype.selectRange = function(start, end)
  */
 monin.ui.DatePicker.prototype.updateCalendarGrid_ = function()
 {
-    if (!this.getElement())
-    {
-        return;
+  if (!this.getElement())
+  {
+    return;
+  }
+
+  var date = this.activeMonth_.clone();
+  date.setDate(1);
+
+  if (this.month_)
+  {
+    goog.dom.setTextContent(this.month_,
+    goog.date.formatMonthAndYear(
+      this.symbols_.MONTHS[date.getMonth()],
+      date.getFullYear()));
     }
 
-    var date = this.activeMonth_.clone();
-    date.setDate(1);
+  var wday = date.getWeekday();
 
-    if (this.month_)
+  // Determine how many days to show for previous month
+  date.add(new goog.date.Interval(goog.date.Interval.MONTHS, -1));
+  date.setDate(date.getNumberOfDaysInMonth() - (wday - 1));
+
+  // Create weekday/day grid
+  var dayInterval = new goog.date.Interval(goog.date.Interval.DAYS, 1);
+  this.grid_ = [];
+  for (var y = 0; y < 6; y++)  // Weeks
+  {
+    this.grid_[y] = [];
+    for (var x = 0; x < 7; x++)  // Weekdays
     {
-        goog.dom.setTextContent(this.month_,
-        goog.date.formatMonthAndYear(
-            this.symbols_.MONTHS[date.getMonth()],
-            date.getFullYear()));
-      }
-
-    var wday = date.getWeekday();
-
-    // Determine how many days to show for previous month
-    date.add(new goog.date.Interval(goog.date.Interval.MONTHS, -1));
-    date.setDate(date.getNumberOfDaysInMonth() - (wday - 1));
-
-    // Create weekday/day grid
-    var dayInterval = new goog.date.Interval(goog.date.Interval.DAYS, 1);
-    this.grid_ = [];
-    for (var y = 0; y < 6; y++)  // Weeks
-    {
-        this.grid_[y] = [];
-        for (var x = 0; x < 7; x++)  // Weekdays
-        {
-            this.grid_[y][x] = date.clone();
-            date.add(dayInterval);
-        }
+      this.grid_[y][x] = date.clone();
+      date.add(dayInterval);
     }
+  }
 
-    this.redrawCalendarGrid_();
+  this.redrawCalendarGrid_();
 };
 
 
@@ -702,83 +715,86 @@ monin.ui.DatePicker.prototype.updateCalendarGrid_ = function()
  * @private
  */
 monin.ui.DatePicker.prototype.redrawCalendarGrid_ = function(opt_start, opt_end,
-    opt_highlight)
+  opt_highlight)
 {
-    if (!this.getElement())
+  if (!this.getElement())
+  {
+    return;
+  }
+
+  var start = opt_start || this.startDate_;
+  var end = opt_end || this.endDate_;
+  var highlight = opt_highlight || this.highlightDate_;
+
+  var month = this.activeMonth_.getMonth();
+  var today = new goog.date.Date();
+
+  // Draw calendar week by week, a worst case month has six weeks.
+  for (var y = 0; y < 6; y++)
+  {
+    for (var x = 0; x < 7; x++)
     {
-        return;
+      var date = this.grid_[y][x];
+      var el = this.elTable_[y + 1][x];
+
+      var classes = [goog.getCssName(this.getBaseCssClass(), 'date')];
+
+      // Date belongs to previous or next month
+      if (date.getMonth() != month)
+      {
+        classes.push(goog.getCssName(this.getBaseCssClass(), 'other-month'));
+      }
+
+      // Checking if item is disabled
+      if (this.minDate_ && date.getTime() < this.minDate_ ||
+        this.maxDate_ && date.getTime() > this.maxDate_)
+      {
+        classes.push(goog.getCssName(this.getBaseCssClass(), 'disabled'));
+      }
+
+      // Apply styles set by setWeekdayClass
+      var wday = (x + this.activeMonth_.getFirstDayOfWeek() + 7) % 7;
+      if (this.wdayStyles_[wday])
+      {
+        classes.push(this.wdayStyles_[wday]);
+      }
+
+      // Current date
+      if (date.equals(today))
+      {
+        classes.push(goog.getCssName(this.getBaseCssClass(), 'today'));
+      }
+
+      // Selected date
+      if (this.isInRange_(date, start, end))
+      {
+        classes.push(goog.getCssName(this.getBaseCssClass(), 'selected'));
+      }
+
+      if (date.equals(highlight))
+      {
+        classes.push(goog.getCssName(this.getBaseCssClass(), 'highlight'));
+      }
+
+      classes.push('d' + date.toIsoString());
+
+      // Set cell text to the date and apply classes.
+      goog.dom.setTextContent(el, date.getDate());
+
+      goog.dom.classlist.set(el, classes.join(' '));
     }
 
-    var start = opt_start || this.startDate_;
-    var end = opt_end || this.endDate_;
-    var highlight = opt_highlight || this.highlightDate_;
-
-    var month = this.activeMonth_.getMonth();
-    var today = new goog.date.Date();
-
-    // Draw calendar week by week, a worst case month has six weeks.
-    for (var y = 0; y < 6; y++)
+    // Hide the either the last one or last two weeks if they contain no days
+    // from the active month and the showFixedNumWeeks is false. The first four
+    // weeks are always shown as no month has less than 28 days).
+    if (y >= 4)
     {
-        for (var x = 0; x < 7; x++)
-        {
-            var date = this.grid_[y][x];
-            var el = this.elTable_[y + 1][x];
-
-            var classes = [goog.getCssName(this.getBaseCssClass(), 'date')];
-
-            // Date belongs to previous or next month
-            if (date.getMonth() != month)
-            {
-                classes.push(goog.getCssName(this.getBaseCssClass(), 'other-month'));
-            }
-
-            // Checking if item is disabled
-            if (this.minDate_ && date.getTime() < this.minDate_ ||
-                this.maxDate_ && date.getTime() > this.maxDate_)
-            {
-                classes.push(goog.getCssName(this.getBaseCssClass(), 'disabled'));
-            }
-
-            // Apply styles set by setWeekdayClass
-            var wday = (x + this.activeMonth_.getFirstDayOfWeek() + 7) % 7;
-            if (this.wdayStyles_[wday])
-            {
-                classes.push(this.wdayStyles_[wday]);
-            }
-
-            // Current date
-            if (date.equals(today))
-            {
-                classes.push(goog.getCssName(this.getBaseCssClass(), 'today'));
-            }
-
-            // Selected date
-
-            if (this.isInRange_(date, start, end))
-            {
-                classes.push(goog.getCssName(this.getBaseCssClass(), 'selected'));
-            }
-
-            if (date.equals(highlight))
-            {
-                classes.push(goog.getCssName(this.getBaseCssClass(), 'highlight'));
-            }
-
-            // Set cell text to the date and apply classes.
-            goog.dom.setTextContent(el, date.getDate());
-
-            goog.dom.classlist.set(el, classes.join(' '));
-        }
-
-        // Hide the either the last one or last two weeks if they contain no days
-        // from the active month and the showFixedNumWeeks is false. The first four
-        // weeks are always shown as no month has less than 28 days).
-        if (y >= 4)
-        {
-            goog.style.setElementShown(this.elTable_[y + 1][0].parentNode,
-                this.grid_[y][0].getMonth() == month);
-        }
+      goog.style.setElementShown(this.elTable_[y + 1][0].parentNode,
+        this.grid_[y][0].getMonth() == month);
     }
+  }
+
+  this.dispatchEvent(monin.ui.DatePicker.EventType.REDRAW);
 };
 
 
@@ -789,19 +805,19 @@ monin.ui.DatePicker.prototype.redrawCalendarGrid_ = function(opt_start, opt_end,
  */
 monin.ui.DatePicker.prototype.redrawWeekdays_ = function()
 {
-    if (!this.getElement())
-    {
-        return;
-    }
+  if (!this.getElement())
+  {
+    return;
+  }
 
-    var firstDayOfWeek = this.activeMonth_.getFirstDayOfWeek();
+  var firstDayOfWeek = this.activeMonth_.getFirstDayOfWeek();
 
-    for (var x = 0; x < 7; x++)
-    {
-        var el = this.elTable_[0][x];
-        var wday = (x - firstDayOfWeek + 1) % 7;
-        goog.dom.setTextContent(el, this.wdayNames_[wday]);
-    }
+  for (var x = 0; x < 7; x++)
+  {
+    var el = this.elTable_[0][x];
+    var wday = (x - firstDayOfWeek + 1) % 7;
+    goog.dom.setTextContent(el, this.wdayNames_[wday]);
+  }
 };
 
 /**
@@ -810,28 +826,28 @@ monin.ui.DatePicker.prototype.redrawWeekdays_ = function()
  */
 monin.ui.DatePicker.prototype.setVisible = function(position)
 {
-    var style = goog.style;
-    var element = this.getElement();
+  var style = goog.style;
+  var element = this.getElement();
 
-    if (position)
-    {
-        style.setPageOffset(element, position);
-        style.setStyle(element, 'visibility', 'visible');
-        this.dispatchEvent(monin.ui.DatePicker.EventType.SHOW);
+  if (position)
+  {
+    style.setPageOffset(element, position);
+    style.setStyle(element, 'visibility', 'visible');
+    this.dispatchEvent(monin.ui.DatePicker.EventType.SHOW);
 
-        // Making sure selected date is visible
-        var date = this.selectionMode_ == monin.ui.DatePicker.SelectionMode.START ? this.startDate_ : this.endDate_;
-        this.activeMonth_ = date.clone();
-        this.activeMonth_.setDate(1);
-        this.updateCalendarGrid_();
-        this.isVisible_ = true;
-    }
-    else
-    {
-        style.setStyle(element, 'visibility', 'hidden');
-        this.dispatchEvent(monin.ui.DatePicker.EventType.HIDE);
-        this.isVisible_ = false;
-    }
+    // Making sure selected date is visible
+    var date = this.selectionMode_ == monin.ui.DatePicker.SelectionMode.START ? this.startDate_ : this.endDate_;
+    this.activeMonth_ = date.clone();
+    this.activeMonth_.setDate(1);
+    this.updateCalendarGrid_();
+    this.isVisible_ = true;
+  }
+  else
+  {
+    style.setStyle(element, 'visibility', 'hidden');
+    this.dispatchEvent(monin.ui.DatePicker.EventType.HIDE);
+    this.isVisible_ = false;
+  }
 };
 
 /**
@@ -846,19 +862,19 @@ monin.ui.DatePicker.prototype.setVisible = function(position)
  */
 monin.ui.DatePickerEvent = function(type, target, startDate, endDate)
 {
-    goog.events.Event.call(this, type, target);
+  goog.events.Event.call(this, type, target);
 
-    /**
-     * The selected date
-     * @type {goog.date.Date}
-     */
-    this.startDate = startDate;
+  /**
+   * The selected date
+   * @type {goog.date.Date}
+   */
+  this.startDate = startDate;
 
-    /**
-     * The selected date
-     * @type {goog.date.Date}
-     */
-    this.endDate = endDate;
+  /**
+   * The selected date
+   * @type {goog.date.Date}
+   */
+  this.endDate = endDate;
 };
 goog.inherits(monin.ui.DatePickerEvent, goog.events.Event);
 
@@ -867,5 +883,5 @@ goog.inherits(monin.ui.DatePickerEvent, goog.events.Event);
 // Register a decorator factory function for goog.ui.Buttons.
 goog.ui.registry.setDecoratorByClassName('date-picker',
   function() {
-    return new monin.ui.DatePicker();
+  return new monin.ui.DatePicker();
   });
