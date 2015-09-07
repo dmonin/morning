@@ -17,7 +17,7 @@
  */
 
 goog.provide('monin.style');
-goog.require('goog.style');
+goog.require('goog.style.transform');
 
 
 /**
