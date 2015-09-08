@@ -119,6 +119,12 @@ monin.ui.DatePicker = function()
    * @private
    */
   this.isVisible_ = false;
+
+  /**
+   * Defines whether interaction (hover / selection) is enabled on day elements.
+   * @type {boolean}
+   */
+  this.enableDayInteraction = true;
 };
 goog.inherits(monin.ui.DatePicker, goog.ui.Component);
 
@@ -462,6 +468,11 @@ monin.ui.DatePicker.prototype.isInRange_ = function(date, start, end)
  */
 monin.ui.DatePicker.prototype.handleGridMouseDown_ = function(e)
 {
+  if (!this.enableDayInteraction)
+  {
+    return;
+  }
+
   var target = /** @type {Element} */ (e.target);
   var startEnd = this.getStartEnd(target);
   if (!startEnd)
@@ -487,6 +498,11 @@ monin.ui.DatePicker.prototype.handleGridMouseDown_ = function(e)
  */
 monin.ui.DatePicker.prototype.handleGridOver_ = function(e)
 {
+  if (!this.enableDayInteraction)
+  {
+    return;
+  }
+
   var target = /** @type {Element} */ (e.target);
   var startEnd = this.getStartEnd(target);
   if (!startEnd)
@@ -595,6 +611,11 @@ monin.ui.DatePicker.prototype.getStartEnd = function(target)
  */
 monin.ui.DatePicker.prototype.handleGridOut_ = function(e)
 {
+  if (!this.enableDayInteraction)
+  {
+    return;
+  }
+
   var target = /** @type {Element} */ (e.target);
   if (!goog.dom.classlist.contains(target,
     goog.getCssName(this.getBaseCssClass(), 'date')))
