@@ -278,6 +278,11 @@ monin.events.TapProvider.prototype.handleMouseEvents_ = function(e)
  */
 monin.events.TapProvider.prototype.setHover_ = function(isTouched)
 {
+  if (this.isDisposed())
+  {
+    return;
+  }
+
   goog.dom.classlist.enable(this.element_, 'hover', isTouched);
 
   var evtType = isTouched ? goog.ui.Component.EventType.HIGHLIGHT :
