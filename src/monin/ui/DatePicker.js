@@ -842,33 +842,41 @@ monin.ui.DatePicker.prototype.redrawWeekdays_ = function()
 };
 
 /**
- * Sets visibility
+ * Sets position of the date picker
  * @param {goog.math.Coordinate} position
  */
-monin.ui.DatePicker.prototype.setVisible = function(position)
+monin.ui.DatePicker.prototype.setPosition = function(position)
 {
-  var style = goog.style;
+  goog.style.setPageOffset(this.getElement(), position);
+};
+
+/**
+ * Sets visibility of date picker
+ * @param {boolean} isVisible
+ */
+monin.ui.DatePicker.prototype.setVisible = function(isVisible)
+{
   var element = this.getElement();
 
-  if (position)
+  goog.dom.classlist.enable(element, 'visible', isVisible);
+  if (isVisible)
   {
-    style.setPageOffset(element, position);
-    style.setStyle(element, 'visibility', 'visible');
-    this.dispatchEvent(monin.ui.DatePicker.EventType.SHOW);
 
     // Making sure selected date is visible
-    var date = this.selectionMode_ == monin.ui.DatePicker.SelectionMode.START ? this.startDate_ : this.endDate_;
+    var date = this.selectionMode_ ==
+      monin.ui.DatePicker.SelectionMode.START ? this.startDate_ : this.endDate_;
     this.activeMonth_ = date.clone();
     this.activeMonth_.setDate(1);
     this.updateCalendarGrid_();
-    this.isVisible_ = true;
+    this.dispatchEvent(monin.ui.DatePicker.EventType.SHOW);
   }
   else
   {
-    style.setStyle(element, 'visibility', 'hidden');
     this.dispatchEvent(monin.ui.DatePicker.EventType.HIDE);
-    this.isVisible_ = false;
   }
+
+  this.isVisible_ = isVisible;
+
 };
 
 /**
