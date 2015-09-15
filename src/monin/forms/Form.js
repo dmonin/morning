@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -34,21 +34,21 @@ goog.require('monin.validation.FormValidation');
  */
 monin.forms.Form = function(opt_controlFactory)
 {
-    goog.base(this);
+  goog.base(this);
 
-    /**
-     * Form validation
-     *
-     * @type {monin.validation.FormValidation}
-     */
-    this.validation = null;
+  /**
+   * Form validation
+   *
+   * @type {monin.validation.FormValidation}
+   */
+  this.validation = null;
 
-    /**
-     * Form error provider
-     *
-     * @type {monin.forms.IErrorProvider}
-     */
-    this.errorProvider = null;
+  /**
+   * Form error provider
+   *
+   * @type {monin.forms.IErrorProvider}
+   */
+  this.errorProvider = null;
 };
 goog.inherits(monin.forms.Form, goog.ui.Component);
 
@@ -63,25 +63,25 @@ goog.inherits(monin.forms.Form, goog.ui.Component);
  */
 monin.forms.Form.prototype.addFormItem = function(label, className, controlConfig)
 {
-    controlConfig = controlConfig || {};
+  controlConfig = controlConfig || {};
 
-    var formItem = new monin.forms.FormItem();
-    if (label)
-    {
-        formItem.setLabel(label);
-    }
+  var formItem = new monin.forms.FormItem();
+  if (label)
+  {
+    formItem.setLabel(label);
+  }
 
-    var control = goog.ui.registry.getDecoratorByClassName(className);
-    if (!control)
-    {
-        throw new Error('Decorator not found for control type "' + className + '"');
-    }
+  var control = goog.ui.registry.getDecoratorByClassName(className);
+  if (!control)
+  {
+    throw new Error('Decorator not found for control type "' + className + '"');
+  }
 
-    control.setConfig(controlConfig);
-    formItem.addChild(control, true);
-    this.addChild(formItem, true);
+  control.setConfig(controlConfig);
+  formItem.addChild(control, true);
+  this.addChild(formItem, true);
 
-    return formItem;
+  return formItem;
 };
 
 /**
@@ -89,34 +89,34 @@ monin.forms.Form.prototype.addFormItem = function(label, className, controlConfi
  */
 monin.forms.Form.prototype.createDom = function()
 {
-    var form = this.getDomHelper().createDom('form', 'form');
-    this.decorateInternal(form);
+  var form = this.getDomHelper().createDom('form', 'form');
+  this.decorateInternal(form);
 };
 
 /** @inheritDoc */
 monin.forms.Form.prototype.decorateInternal = function(el)
 {
-    goog.base(this, 'decorateInternal', el);
+  goog.base(this, 'decorateInternal', el);
 
-    var items = this.getElementsByClass('form-item');
-    goog.array.forEach(items, function(itemEl) {
-        var formItem = goog.ui.registry.getDecorator(itemEl);
-        this.addChild(formItem);
-        formItem.decorate(itemEl);
-    }, this);
+  var items = this.getElementsByClass('form-item');
+  goog.array.forEach(items, function(itemEl) {
+    var formItem = goog.ui.registry.getDecorator(itemEl);
+    this.addChild(formItem);
+    formItem.decorate(itemEl);
+  }, this);
 };
 
 /** @inheritDoc */
 monin.forms.Form.prototype.disposeInternal = function()
 {
-    goog.base(this, 'disposeInternal');
+  goog.base(this, 'disposeInternal');
 
-    if (this.errorProvider)
-    {
-        goog.dispose(this.errorProvider);
-    }
+  if (this.errorProvider)
+  {
+    goog.dispose(this.errorProvider);
+  }
 
-    this.unbindAll();
+  this.unbindAll();
 };
 
 /**
@@ -127,25 +127,25 @@ monin.forms.Form.prototype.disposeInternal = function()
  */
 monin.forms.Form.prototype.getControlByName = function(name)
 {
-    var found = null;
-    this.forEachChild(function(formItem) {
-        if (formItem.getFieldName && formItem.getFieldName() == name)
+  var found = null;
+  this.forEachChild(function(formItem) {
+    if (formItem.getFieldName && formItem.getFieldName() == name)
+    {
+      found = formItem;
+    }
+    else if (formItem instanceof monin.forms.FormItem)
+    {
+      formItem.forEachChild(function(child) {
+        if (child.getFieldName && child.getFieldName() == name)
         {
-            found = formItem;
+          found = child;
         }
-        else if (formItem instanceof monin.forms.FormItem)
-        {
-            formItem.forEachChild(function(child) {
-                if (child.getFieldName && child.getFieldName() == name)
-                {
-                    found = child;
-                }
-            }, this);
-        }
+      }, this);
+    }
 
-    }, this);
+  }, this);
 
-    return found;
+  return found;
 };
 
 /**
@@ -156,21 +156,21 @@ monin.forms.Form.prototype.getControlByName = function(name)
  */
 monin.forms.Form.prototype.getFormItemByName = function(name)
 {
-    var found = null;
-    this.forEachChild(function(formItem) {
-        if (formItem instanceof monin.forms.FormItem)
+  var found = null;
+  this.forEachChild(function(formItem) {
+    if (formItem instanceof monin.forms.FormItem)
+    {
+      formItem.forEachChild(function(child) {
+        if (child.getFieldName && child.getFieldName() == name)
         {
-            formItem.forEachChild(function(child) {
-                if (child.getFieldName && child.getFieldName() == name)
-                {
-                    found = formItem;
-                }
-            });
+          found = formItem;
         }
+      });
+    }
 
-    }, this);
+  }, this);
 
-    return found;
+  return found;
 };
 
 /**
@@ -180,19 +180,19 @@ monin.forms.Form.prototype.getFormItemByName = function(name)
  */
 monin.forms.Form.prototype.getData = function()
 {
-    var data = {}, control;
-    this.forEachChild(function(child) {
-        if (child instanceof monin.forms.FormItem)
-        {
-            child.populateWithData(data);
-        }
-        else if (child.getFieldName)
-        {
-            data[child.getFieldName()] = child.getValue();
-        }
-    }, this);
+  var data = {}, control;
+  this.forEachChild(function(child) {
+    if (child instanceof monin.forms.FormItem)
+    {
+      child.populateWithData(data);
+    }
+    else if (child.getFieldName)
+    {
+      data[child.getFieldName()] = child.getValue();
+    }
+  }, this);
 
-    return data;
+  return data;
 };
 
 /**
@@ -203,12 +203,12 @@ monin.forms.Form.prototype.getData = function()
  */
 monin.forms.Form.prototype.handleValidationComplete = function(e)
 {
-    var result = /** @type {monin.validation.FormValidationResult} */ (e.result);
+  var result = /** @type {monin.validation.FormValidationResult} */ (e.result);
 
-    if (this.errorProvider)
-    {
-        this.errorProvider.display(result, this);
-    }
+  if (this.errorProvider)
+  {
+    this.errorProvider.display(result, this);
+  }
 };
 
 /**
@@ -218,17 +218,17 @@ monin.forms.Form.prototype.handleValidationComplete = function(e)
  */
 monin.forms.Form.prototype.bind = function(bind)
 {
-    var formItem;
-    for (var fieldName in bind)
+  var formItem;
+  for (var fieldName in bind)
+  {
+    formItem = this.getFormItemByName(fieldName);
+    if (!formItem)
     {
-        formItem = this.getFormItemByName(fieldName);
-        if (!formItem)
-        {
-            console.warn('Form: Form item not found: %s', fieldName);
-        }
-
-        this.getFormItemByName(fieldName).bind(bind[fieldName]);
+      console.warn('Form: Form item not found: %s', fieldName);
     }
+
+    this.getFormItemByName(fieldName).bind(bind[fieldName]);
+  }
 };
 
 /**
@@ -236,12 +236,12 @@ monin.forms.Form.prototype.bind = function(bind)
  */
 monin.forms.Form.prototype.reset = function()
 {
-    this.forEachChild(function(child) {
-        if (typeof child.reset == 'function')
-        {
-            child.reset();
-        }
-    }, this);
+  this.forEachChild(function(child) {
+    if (typeof child.reset == 'function')
+    {
+      child.reset();
+    }
+  }, this);
 };
 
 /**
@@ -250,26 +250,26 @@ monin.forms.Form.prototype.reset = function()
  */
 monin.forms.Form.prototype.validate = function()
 {
-    if (this.errorProvider)
+  if (this.errorProvider)
+  {
+    this.errorProvider.setVisible(false);
+  }
+
+  this.forEachChild(function(child) {
+    if (typeof child.setInvalid == 'function')
     {
-        this.errorProvider.setVisible(false);
+      child.setInvalid(false);
     }
+  }, this);
 
-    this.forEachChild(function(child) {
-        if (typeof child.setInvalid == 'function')
-        {
-            child.setInvalid(false);
-        }
-    }, this);
+  if (this.validation)
+  {
+    this.getHandler().listenOnce(this.validation,
+        monin.validation.FormValidation.EventType.VALIDATION_COMPLETE,
+        this.handleValidationComplete);
 
-    if (this.validation)
-    {
-        this.getHandler().listenOnce(this.validation,
-                monin.validation.FormValidation.EventType.VALIDATION_COMPLETE,
-                this.handleValidationComplete);
-
-        this.validation.validate(this.getData());
-    }
+    this.validation.validate(this.getData());
+  }
 };
 
 /**
@@ -279,17 +279,17 @@ monin.forms.Form.prototype.validate = function()
  */
 monin.forms.Form.prototype.setData = function(data)
 {
-    var control;
-    this.forEachChild(function(child) {
-        if (child instanceof monin.forms.FormItem)
-        {
-            child.setData(data);
-        }
-        else if (child.getFieldName)
-        {
-            control.setValue(data[child.getFieldName()]);
-        }
-    }, this);
+  var control;
+  this.forEachChild(function(child) {
+    if (child instanceof monin.forms.FormItem)
+    {
+      child.setData(data);
+    }
+    else if (child.getFieldName)
+    {
+      control.setValue(data[child.getFieldName()]);
+    }
+  }, this);
 };
 
 /**
@@ -299,10 +299,10 @@ monin.forms.Form.prototype.setData = function(data)
  */
 monin.forms.Form.prototype.unbind = function(bind)
 {
-    for (var fieldName in bind)
-    {
-        this.getFormItemByName(fieldName).unbind(bind[fieldName]);
-    }
+  for (var fieldName in bind)
+  {
+    this.getFormItemByName(fieldName).unbind(bind[fieldName]);
+  }
 };
 
 /**
@@ -312,21 +312,21 @@ monin.forms.Form.prototype.unbind = function(bind)
  */
 monin.forms.Form.prototype.unbindAll = function()
 {
-    this.forEachChild(function(child) {
-        if (child instanceof monin.forms.FormItem)
-        {
-            child.unbindAll();
-        }
-    }, this);
+  this.forEachChild(function(child) {
+    if (child instanceof monin.forms.FormItem)
+    {
+      child.unbindAll();
+    }
+  }, this);
 
-    return this;
+  return this;
 };
 
 /**
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'form',
-    function() {
-      return new monin.forms.Form();
-    });
+  'form',
+  function() {
+    return new monin.forms.Form();
+  });

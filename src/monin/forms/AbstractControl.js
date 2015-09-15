@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -22,6 +22,7 @@ goog.provide('monin.forms.AbstractControl');
 goog.require('goog.ui.Component');
 goog.require('monin.forms.IControl');
 goog.require('goog.dom.classlist');
+goog.require('goog.dom.dataset');
 
 /**
  * Abstract form control
@@ -33,16 +34,31 @@ goog.require('goog.dom.classlist');
  */
 monin.forms.AbstractControl = function(opt_fieldName)
 {
-    goog.base(this);
+  goog.base(this);
 
-    /**
-     * @type {string}
-     * @protected
-     */
-    this.fieldName = opt_fieldName || '';
+  /**
+   * @type {string}
+   * @protected
+   */
+  this.fieldName = opt_fieldName || '';
 };
-
 goog.inherits(monin.forms.AbstractControl, goog.ui.Component);
+
+/** @inheritDoc */
+monin.forms.AbstractControl.prototype.decorateInternal = function(el)
+{
+  goog.base(this, 'decorateInternal', el);
+
+  var name = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
+  if (name)
+  {
+    this.fieldName = name;
+  }
+  else if (el.name)
+  {
+    this.fieldName = name;
+  }
+};
 
 /**
  * Returns control's name
@@ -51,7 +67,7 @@ goog.inherits(monin.forms.AbstractControl, goog.ui.Component);
  */
 monin.forms.AbstractControl.prototype.getFieldName = function()
 {
-    return this.fieldName;
+  return this.fieldName;
 };
 
 /**
@@ -75,7 +91,7 @@ monin.forms.AbstractControl.prototype.setConfig = function(config)
 {
   if (config['fieldName'])
   {
-    this.fieldName = config['fieldName'];
+  this.fieldName = config['fieldName'];
   }
 };
 
@@ -92,5 +108,5 @@ monin.forms.AbstractControl.prototype.setValue = goog.abstractMethod;
  */
 monin.forms.AbstractControl.prototype.setInvalid = function(isInvalid)
 {
-    goog.dom.classlist.enable(this.getElement(), 'invalid', isInvalid);
+  goog.dom.classlist.enable(this.getElement(), 'invalid', isInvalid);
 };

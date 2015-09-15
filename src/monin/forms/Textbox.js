@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -31,96 +31,96 @@ goog.require('monin.forms.TextboxRenderer');
  *
  * @param {string} content Text to set as the textbox's value.
  * @param {monin.forms.TextboxRenderer=} opt_renderer Renderer used to render or
- *     decorate the textbox.
+ *   decorate the textbox.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM hepler, used for
- *     document interaction.
+ *   document interaction.
  * @constructor
  * @implements {monin.forms.IControl}
  * @extends {goog.ui.Control}
  */
 monin.forms.Textbox = function(content, opt_renderer, opt_domHelper)
 {
-    goog.base(this, content, opt_renderer ||
-        monin.forms.TextboxRenderer.getInstance(), opt_domHelper);
+  goog.base(this, content, opt_renderer ||
+    monin.forms.TextboxRenderer.getInstance(), opt_domHelper);
 
-    /**
-     * Delay after which change event is fired
-     *
-     * @type {goog.async.Delay}
-     * @private
-     */
-    this.changeDelay_ = new goog.async.Delay(this.fireChangeEvent_, 300, this);
+  /**
+   * Delay after which change event is fired
+   *
+   * @type {goog.async.Delay}
+   * @private
+   */
+  this.changeDelay_ = new goog.async.Delay(this.fireChangeEvent_, 300, this);
 
-    /**
-     * Defines whether change event should be delayed
-     *
-     * @type {boolean}
-     * @private
-     */
-    this.delayChangeEvent_ = true;
+  /**
+   * Defines whether change event should be delayed
+   *
+   * @type {boolean}
+   * @private
+   */
+  this.delayChangeEvent_ = true;
 
-    /**
-     * Field name
-     *
-     * @type {string}
-     * @private
-     */
-    this.fieldName = '';
+  /**
+   * Field name
+   *
+   * @type {string}
+   * @protected
+   */
+  this.fieldName = '';
 
-    /**
-     * Textbox value
-     *
-     * @type {*}
-     * @private
-     */
-    this.value_ = '';
+  /**
+   * Textbox value
+   *
+   * @type {*}
+   * @private
+   */
+  this.value_ = '';
 
-    /**
-     * Textbox placeholder
-     *
-     * @type {string}
-     * @private
-     */
-    this.placeholder_ = '';
+  /**
+   * Textbox placeholder
+   *
+   * @type {string}
+   * @private
+   */
+  this.placeholder_ = '';
 
-    this.setHandleMouseEvents(false);
-    this.setAllowTextSelection(true);
-    if (!content)
-    {
-        this.setContent('');
-    }
+  this.setHandleMouseEvents(false);
+  this.setAllowTextSelection(true);
+  if (!content)
+  {
+    this.setContent('');
+  }
 };
 goog.inherits(monin.forms.Textbox, goog.ui.Control);
 
 /** @inheritDoc */
 monin.forms.Textbox.prototype.decorateInternal = function(el)
 {
-    goog.base(this, 'decorateInternal', el);
+  goog.base(this, 'decorateInternal', el);
 
-    this.fieldName = el.name;
+  this.fieldName = el.name;
 
-    if (this.className_)
-    {
-        goog.dom.classlist.add(el, this.className_);
-    }
+  if (this.className_)
+  {
+    goog.dom.classlist.add(el, this.className_);
+  }
 };
 
 /** @inheritDoc */
 monin.forms.Textbox.prototype.enterDocument = function()
 {
-    goog.base(this, 'enterDocument');
+  goog.base(this, 'enterDocument');
 
-    var el = this.getElement();
+  var el = this.getElement();
 
-    if (this.placeholder_)
-    {
-        el.placeholder = this.placeholder_;
-    }
+  if (this.placeholder_)
+  {
+    el.placeholder = this.placeholder_;
+  }
 
-    this.getHandler()
-        .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
-        .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
-        .listen(el, goog.events.EventType.CHANGE, this.fireChangeEvent_);
+  this.getHandler()
+    .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
+    .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
+    .listen(el, goog.events.EventType.CHANGE, this.fireChangeEvent_);
 };
 
 /**
@@ -130,11 +130,11 @@ monin.forms.Textbox.prototype.enterDocument = function()
  */
 monin.forms.Textbox.prototype.fireChangeEvent_ = function()
 {
-    if (this.value_ != this.getValue())
-    {
-        this.value_ = this.getValue();
-        this.dispatchEvent(goog.events.EventType.CHANGE);
-    }
+  if (this.value_ != this.getValue())
+  {
+    this.value_ = this.getValue();
+    this.dispatchEvent(goog.events.EventType.CHANGE);
+  }
 };
 
 /**
@@ -142,7 +142,7 @@ monin.forms.Textbox.prototype.fireChangeEvent_ = function()
  */
 monin.forms.Textbox.prototype.focus = function()
 {
-    this.getElement().focus();
+  this.getElement().focus();
 };
 
 /**
@@ -152,7 +152,7 @@ monin.forms.Textbox.prototype.focus = function()
  */
 monin.forms.Textbox.prototype.getFieldName = function()
 {
-    return this.fieldName;
+  return this.fieldName;
 };
 
 /**
@@ -162,7 +162,7 @@ monin.forms.Textbox.prototype.getFieldName = function()
  */
 monin.forms.Textbox.prototype.getValue = function()
 {
-    return this.getElement().value;
+  return this.getElement().value;
 };
 
 /**
@@ -173,12 +173,12 @@ monin.forms.Textbox.prototype.getValue = function()
  */
 monin.forms.Textbox.prototype.handleKeyDown_ = function(e)
 {
-    if (e.keyCode == goog.events.KeyCodes.ENTER)
-    {
-        this.dispatchEvent(goog.events.EventType.SUBMIT);
-    }
+  if (e.keyCode == goog.events.KeyCodes.ENTER)
+  {
+    this.dispatchEvent(goog.events.EventType.SUBMIT);
+  }
 
-    this.dispatchEvent(goog.events.EventType.KEYDOWN);
+  this.dispatchEvent(goog.events.EventType.KEYDOWN);
 };
 
 /**
@@ -189,22 +189,22 @@ monin.forms.Textbox.prototype.handleKeyDown_ = function(e)
  */
 monin.forms.Textbox.prototype.handleKeyUp_ = function(e)
 {
-    this.dispatchEvent(goog.events.EventType.KEYUP);
+  this.dispatchEvent(goog.events.EventType.KEYUP);
 
-    if (this.delayChangeEvent_)
-    {
-        this.changeDelay_.start();
-    }
-    else
-    {
-        this.fireChangeEvent_();
-    }
+  if (this.delayChangeEvent_)
+  {
+    this.changeDelay_.start();
+  }
+  else
+  {
+    this.fireChangeEvent_();
+  }
 };
 
 /** @inheritDoc */
 monin.forms.Textbox.prototype.reset = function()
 {
-    this.setValue('');
+  this.setValue('');
 };
 
 /**
@@ -214,26 +214,26 @@ monin.forms.Textbox.prototype.reset = function()
  */
 monin.forms.Textbox.prototype.setConfig = function(config)
 {
-    if (goog.isDef(config['delayChangeEvent']))
-    {
-        this.delayChangeEvent_ = !!config['delayChangeEvent'];
-    }
+  if (goog.isDef(config['delayChangeEvent']))
+  {
+    this.delayChangeEvent_ = !!config['delayChangeEvent'];
+  }
 
-    if (goog.isDef(config['className']))
-    {
-        this.addClassName(config['className']);
-    }
+  if (goog.isDef(config['className']))
+  {
+    this.addClassName(config['className']);
+  }
 
-    if (goog.isDef(config['fieldName']))
-    {
-        this.fieldName = config['fieldName'];
-    }
+  if (goog.isDef(config['fieldName']))
+  {
+    this.fieldName = config['fieldName'];
+  }
 
-    if (goog.isDef(config['placeholder']))
-    {
-        this.setPlaceholder(config['placeholder']);
+  if (goog.isDef(config['placeholder']))
+  {
+    this.setPlaceholder(config['placeholder']);
 
-    }
+  }
 };
 
 /**
@@ -243,12 +243,12 @@ monin.forms.Textbox.prototype.setConfig = function(config)
  */
 monin.forms.Textbox.prototype.setPlaceholder = function(placeholder)
 {
-    this.placeholder_ = placeholder;
+  this.placeholder_ = placeholder;
 
-    if (this.getElement())
-    {
-        this.getElement().placeholder = this.placeholder_;
-    }
+  if (this.getElement())
+  {
+    this.getElement().placeholder = this.placeholder_;
+  }
 };
 
 /**
@@ -258,7 +258,7 @@ monin.forms.Textbox.prototype.setPlaceholder = function(placeholder)
  */
 monin.forms.Textbox.prototype.setInvalid = function(isInvalid)
 {
-    goog.dom.classlist.enable(this.getElement(), 'invalid', isInvalid);
+  goog.dom.classlist.enable(this.getElement(), 'invalid', isInvalid);
 };
 
 /**
@@ -268,19 +268,19 @@ monin.forms.Textbox.prototype.setInvalid = function(isInvalid)
  */
 monin.forms.Textbox.prototype.setValue = function(value)
 {
-    if (this.getElement().value != value)
-    {
-        this.getElement().value = value;
-        this.value_ = /** @type {string} */ (value);
-        this.dispatchEvent(goog.events.EventType.CHANGE);
-    }
+  if (this.getElement().value != value)
+  {
+    this.getElement().value = value;
+    this.value_ = /** @type {string} */ (value);
+    this.dispatchEvent(goog.events.EventType.CHANGE);
+  }
 };
 
 /**
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'textbox',
-    function() {
-      return new monin.forms.Textbox('');
-    });
+  'textbox',
+  function() {
+    return new monin.forms.Textbox('');
+  });
