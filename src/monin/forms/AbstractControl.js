@@ -56,7 +56,7 @@ monin.forms.AbstractControl.prototype.decorateInternal = function(el)
   }
   else if (el.name)
   {
-    this.fieldName = name;
+    this.fieldName = el.name;
   }
 };
 
@@ -91,7 +91,7 @@ monin.forms.AbstractControl.prototype.setConfig = function(config)
 {
   if (config['fieldName'])
   {
-  this.fieldName = config['fieldName'];
+    this.fieldName = config['fieldName'];
   }
 };
 
