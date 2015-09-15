@@ -59,7 +59,7 @@ monin.forms.Textarea = function(content, opt_renderer, opt_domHelper)
      * @type {string}
      * @private
      */
-    this.fieldName_ = '';
+    this.fieldName = '';
 
     /**
      * @type {*}
@@ -80,7 +80,7 @@ monin.forms.Textarea.prototype.decorateInternal = function(el)
 {
     goog.base(this, 'decorateInternal', el);
 
-    this.fieldName_ = el.name;
+    this.fieldName = el.name;
 
     if (this.className_)
     {
@@ -119,7 +119,7 @@ monin.forms.Textarea.prototype.enterDocument = function()
  */
 monin.forms.Textarea.prototype.getFieldName = function()
 {
-    return this.fieldName_;
+    return this.fieldName;
 };
 
 /**
@@ -189,7 +189,7 @@ monin.forms.Textarea.prototype.setConfig = function(config)
 
     if (goog.isDef(config['fieldName']))
     {
-        this.fieldName_ = config['fieldName'];
+        this.fieldName = config['fieldName'];
     }
 
     if (goog.isDef(config['placeholder']))

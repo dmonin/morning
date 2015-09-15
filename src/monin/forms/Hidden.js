@@ -37,7 +37,7 @@ monin.forms.Hidden = function()
    * @type {string}
    * @private
    */
-  this.fieldName_ = '';
+  this.fieldName = '';
 
   /**
    * @type {string}
@@ -52,7 +52,7 @@ monin.forms.Hidden.prototype.createDom = function()
   var domHelper = this.getDomHelper();
   var el = domHelper.createDom('input', {
       'type': 'hidden',
-      'name': this.fieldName_,
+      'name': this.fieldName,
       'value': this.value_
   });
 
@@ -64,7 +64,7 @@ monin.forms.Hidden.prototype.decorateInternal = function(el)
 {
   goog.base(this, 'decorateInternal', el);
 
-  this.fieldName_ = el.name;
+  this.fieldName = el.name;
 };
 
 /**
@@ -74,7 +74,7 @@ monin.forms.Hidden.prototype.decorateInternal = function(el)
  */
 monin.forms.Hidden.prototype.getFieldName = function()
 {
-  return this.fieldName_;
+  return this.fieldName;
 };
 
 /**
@@ -102,7 +102,7 @@ monin.forms.Hidden.prototype.setConfig = function(config)
 {
   if (goog.isDef(config['fieldName']))
   {
-    this.fieldName_ = config['fieldName'];
+    this.fieldName = config['fieldName'];
   }
 };
 

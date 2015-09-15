@@ -56,7 +56,7 @@ monin.forms.SwitchControl.prototype.decorateInternal = function(el)
   var name = goog.dom.dataset.get(el, 'name');
   if (name)
   {
-    this.fieldName_ = name;
+    this.fieldName = name;
   }
 };
 

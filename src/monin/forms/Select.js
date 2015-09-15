@@ -36,7 +36,7 @@ monin.forms.Select = function()
      * @type {string}
      * @private
      */
-    this.fieldName_ = '';
+    this.fieldName = '';
 };
 goog.inherits(monin.forms.Select, goog.ui.Select);
 
@@ -45,7 +45,7 @@ monin.forms.Select.prototype.decorateInternal = function(el)
 {
     goog.base(this, 'decorateInternal', el);
 
-    this.fieldName_ = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
+    this.fieldName = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
 
     // set value if data-value is set
     var value = goog.dom.dataset.get(el, 'value');
@@ -69,7 +69,7 @@ monin.forms.Select.prototype.decorateInternal = function(el)
  */
 monin.forms.Select.prototype.getFieldName = function()
 {
-    return this.fieldName_;
+    return this.fieldName;
 };
 
 /**
@@ -145,7 +145,7 @@ monin.forms.Select.prototype.setConfig = function(config)
 
     if (goog.isDef(config['fieldName']))
     {
-        this.fieldName_ = config['fieldName'];
+        this.fieldName = config['fieldName'];
     }
 };
 

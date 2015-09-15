@@ -39,7 +39,7 @@ monin.forms.AbstractControl = function(opt_fieldName)
      * @type {string}
      * @protected
      */
-    this.fieldName_ = opt_fieldName || '';
+    this.fieldName = opt_fieldName || '';
 };
 
 goog.inherits(monin.forms.AbstractControl, goog.ui.Component);
@@ -51,7 +51,7 @@ goog.inherits(monin.forms.AbstractControl, goog.ui.Component);
  */
 monin.forms.AbstractControl.prototype.getFieldName = function()
 {
-    return this.fieldName_;
+    return this.fieldName;
 };
 
 /**
@@ -75,7 +75,7 @@ monin.forms.AbstractControl.prototype.setConfig = function(config)
 {
   if (config['fieldName'])
   {
-    this.fieldName_ = config['fieldName'];
+    this.fieldName = config['fieldName'];
   }
 };
 

@@ -65,7 +65,7 @@ monin.forms.Textbox = function(content, opt_renderer, opt_domHelper)
      * @type {string}
      * @private
      */
-    this.fieldName_ = '';
+    this.fieldName = '';
 
     /**
      * Textbox value
@@ -97,7 +97,7 @@ monin.forms.Textbox.prototype.decorateInternal = function(el)
 {
     goog.base(this, 'decorateInternal', el);
 
-    this.fieldName_ = el.name;
+    this.fieldName = el.name;
 
     if (this.className_)
     {
@@ -152,7 +152,7 @@ monin.forms.Textbox.prototype.focus = function()
  */
 monin.forms.Textbox.prototype.getFieldName = function()
 {
-    return this.fieldName_;
+    return this.fieldName;
 };
 
 /**
@@ -226,7 +226,7 @@ monin.forms.Textbox.prototype.setConfig = function(config)
 
     if (goog.isDef(config['fieldName']))
     {
-        this.fieldName_ = config['fieldName'];
+        this.fieldName = config['fieldName'];
     }
 
     if (goog.isDef(config['placeholder']))

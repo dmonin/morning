@@ -45,7 +45,7 @@ monin.forms.Checkbox = function(opt_checked, opt_domHelper, opt_renderer)
      * @type {string}
      * @private
      */
-    this.fieldName_ = '';
+    this.fieldName = '';
 };
 goog.inherits(monin.forms.Checkbox, goog.ui.Checkbox);
 
@@ -54,7 +54,7 @@ monin.forms.Checkbox.prototype.decorateInternal = function(el)
 {
     goog.base(this, 'decorateInternal', el);
 
-    this.fieldName_ = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
+    this.fieldName = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
 };
 
 /**
@@ -64,7 +64,7 @@ monin.forms.Checkbox.prototype.decorateInternal = function(el)
  */
 monin.forms.Checkbox.prototype.getFieldName = function()
 {
-    return this.fieldName_;
+    return this.fieldName;
 };
 
 /**
@@ -102,7 +102,7 @@ monin.forms.Checkbox.prototype.setConfig = function(config)
 {
     if (goog.isDef(config['fieldName']))
     {
-        this.fieldName_ = config['fieldName'];
+        this.fieldName = config['fieldName'];
     }
 };
 
