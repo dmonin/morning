@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -28,12 +28,7 @@ goog.require('goog.ui.Component');
  */
 monin.ui.Overlay = function()
 {
-    goog.base(this);
-
-    /**
-     * @type {boolean}
-     */
-    this.closeOnClick = true;
+  goog.base(this);
 };
 goog.inherits(monin.ui.Overlay, goog.ui.Component);
 
@@ -42,19 +37,19 @@ goog.addSingletonGetter(monin.ui.Overlay);
 /** @inheritDoc */
 monin.ui.Overlay.prototype.createDom = function()
 {
-    var domHelper = this.getDomHelper();
-    var el = domHelper.createDom('div', 'overlay');
+  var domHelper = this.getDomHelper();
+  var el = domHelper.createDom('div', 'overlay');
 
-    this.decorateInternal(el);
+  this.decorateInternal(el);
 };
 
 /** @inheritDoc */
 monin.ui.Overlay.prototype.enterDocument = function()
 {
-    goog.base(this, 'enterDocument');
+  goog.base(this, 'enterDocument');
 
-    this.getHandler().listen(this.getElement(), goog.events.EventType.CLICK,
-        this.handleClick_);
+  this.getHandler().listen(this.getElement(), goog.events.EventType.CLICK,
+    this.handleClick_);
 };
 
 /**
@@ -65,12 +60,10 @@ monin.ui.Overlay.prototype.enterDocument = function()
  */
 monin.ui.Overlay.prototype.handleClick_ = function(e)
 {
-    if (this.closeOnClick)
-    {
-        this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
-        this.setVisible(false);
-    }
-
+  if (this.dispatchEvent(goog.ui.Component.EventType.CLOSE))
+  {
+    this.setVisible(false);
+  }
 };
 
 /**
@@ -80,11 +73,11 @@ monin.ui.Overlay.prototype.handleClick_ = function(e)
  */
 monin.ui.Overlay.prototype.setVisible = function(isVisible)
 {
-    if (!this.isInDocument())
-    {
-        this.render(document.body);
-    }
+  if (!this.isInDocument())
+  {
+    this.render(document.body);
+  }
 
-    goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
-    goog.dom.classlist.enable(document.body, 'body-overlay', isVisible);
+  goog.dom.classlist.enable(this.getElement(), 'visible', isVisible);
+  goog.dom.classlist.enable(document.body, 'body-overlay', isVisible);
 };
