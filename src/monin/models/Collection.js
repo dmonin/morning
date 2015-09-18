@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -31,19 +31,19 @@ goog.require('goog.events');
  */
 monin.models.Collection = function()
 {
-    goog.base(this);
+  goog.base(this);
 
-    /**
-     * @type {Array.<T>}
-     * @private
-     */
-    this.data_ = [];
+  /**
+   * @type {Array.<T>}
+   * @private
+   */
+  this.data_ = [];
 
-    /**
-     * @type {goog.events.EventHandler}
-     * @private
-     */
-    this.handler_ = new goog.events.EventHandler(this);
+  /**
+   * @type {goog.events.EventHandler}
+   * @private
+   */
+  this.handler_ = new goog.events.EventHandler(this);
 };
 goog.inherits(monin.models.Collection, goog.events.EventTarget);
 
@@ -56,14 +56,14 @@ goog.inherits(monin.models.Collection, goog.events.EventTarget);
  */
 monin.models.Collection.prototype.contains = function(obj, opt_idCompare)
 {
-    if (opt_idCompare)
-    {
-        return !!this.getById(obj.id);
-    }
-    else
-    {
-        return goog.array.contains(this.data_, obj);
-    }
+  if (opt_idCompare)
+  {
+    return !!this.getById(obj.id);
+  }
+  else
+  {
+    return goog.array.contains(this.data_, obj);
+  }
 };
 
 /**
@@ -73,40 +73,40 @@ monin.models.Collection.prototype.contains = function(obj, opt_idCompare)
  */
 monin.models.Collection.prototype.count = function()
 {
-    return this.data_.length;
+  return this.data_.length;
 };
 
 /**
  * Calls a function for each element in an array.
  *
  * @param {Function} f The function to call for every element. This function
- *     takes 3 arguments (the element, the index and the array). The return
- *     value is ignored. The function is called only for indexes of the array
- *     which have assigned values; it is not called for indexes which have
- *     been deleted or which have never been assigned values.
+ *   takes 3 arguments (the element, the index and the array). The return
+ *   value is ignored. The function is called only for indexes of the array
+ *   which have assigned values; it is not called for indexes which have
+ *   been deleted or which have never been assigned values.
  *
  * @param {Object=} opt_obj The object to be used as the value of 'this'
- *     within f.
+ *   within f.
  */
 monin.models.Collection.prototype.forEach = function(f, opt_obj)
 {
-    goog.array.forEach(this.data_, f, opt_obj);
+  goog.array.forEach(this.data_, f, opt_obj);
 };
 
 /**
  * Iterates through elements in collection backwards.
  * @param {Function} f The function to call for every element. This function
- *     takes 3 arguments (the element, the index and the array). The return
- *     value is ignored. The function is called only for indexes of the array
- *     which have assigned values; it is not called for indexes which have
- *     been deleted or which have never been assigned values.
+ *   takes 3 arguments (the element, the index and the array). The return
+ *   value is ignored. The function is called only for indexes of the array
+ *   which have assigned values; it is not called for indexes which have
+ *   been deleted or which have never been assigned values.
  *
  * @param {Object=} opt_obj The object to be used as the value of 'this'
- *     within f.
+ *   within f.
  */
 monin.models.Collection.prototype.forEachRight = function(f, opt_obj)
 {
-    goog.array.forEachRight(this.data_, f, opt_obj);
+  goog.array.forEachRight(this.data_, f, opt_obj);
 };
 
 /**
@@ -114,7 +114,7 @@ monin.models.Collection.prototype.forEachRight = function(f, opt_obj)
  */
 monin.models.Collection.prototype.getAt = function(index)
 {
-    return this.data_[index];
+  return this.data_[index];
 };
 
 /**
@@ -125,15 +125,15 @@ monin.models.Collection.prototype.getAt = function(index)
  */
 monin.models.Collection.prototype.getById = function(id)
 {
-    var found = null;
-    goog.array.forEach(this.data_, function(item) {
-        if (item.id == id)
-        {
-            found = item;
-        }
-    });
+  var found = null;
+  goog.array.forEach(this.data_, function(item) {
+    if (item.id == id)
+    {
+      found = item;
+    }
+  });
 
-    return found;
+  return found;
 };
 
 /**
@@ -143,14 +143,14 @@ monin.models.Collection.prototype.getById = function(id)
  */
 monin.models.Collection.prototype.insert = function(item)
 {
-    item.setParentEventTarget(this);
-    goog.array.insert(this.data_, item);
+  item.setParentEventTarget(this);
+  goog.array.insert(this.data_, item);
 
-    this.dispatchEvent({
-        type: monin.models.Collection.EventType.INSERT,
-        item: item,
-        index: this.data_.length - 1
-    });
+  this.dispatchEvent({
+    type: monin.models.Collection.EventType.INSERT,
+    item: item,
+    index: this.data_.length - 1
+  });
 };
 
 /**
@@ -158,18 +158,18 @@ monin.models.Collection.prototype.insert = function(item)
  *
  * @param {T} item The object to insert.
  * @param {number=} index The index at which to insert the object. If omitted,
- *      treated as 0. A negative index is counted from the end of the array.
+ *    treated as 0. A negative index is counted from the end of the array.
  */
 monin.models.Collection.prototype.insertAt = function(item, index)
 {
-    item.setParentEventTarget(this);
-    goog.array.insertAt(this.data_, item, index);
+  item.setParentEventTarget(this);
+  goog.array.insertAt(this.data_, item, index);
 
-    this.dispatchEvent({
-        type: monin.models.Collection.EventType.INSERT,
-        item: item,
-        index: index
-    });
+  this.dispatchEvent({
+    type: monin.models.Collection.EventType.INSERT,
+    item: item,
+    index: index
+  });
 };
 
 /**
@@ -180,7 +180,7 @@ monin.models.Collection.prototype.insertAt = function(item, index)
  */
 monin.models.Collection.prototype.indexOf = function(item)
 {
-    return goog.array.indexOf(this.data_, item);
+  return goog.array.indexOf(this.data_, item);
 };
 
 /**
@@ -189,21 +189,21 @@ monin.models.Collection.prototype.indexOf = function(item)
  */
 monin.models.Collection.prototype.move = function(oldIndex, newIndex)
 {
-    if (oldIndex == newIndex)
-    {
-        return;
-    }
+  if (oldIndex == newIndex)
+  {
+    return;
+  }
 
-    var item = this.data_[oldIndex];
+  var item = this.data_[oldIndex];
 
-    goog.array.removeAt(this.data_, oldIndex);
-    goog.array.insertAt(this.data_, item, newIndex);
+  goog.array.removeAt(this.data_, oldIndex);
+  goog.array.insertAt(this.data_, item, newIndex);
 
-    this.dispatchEvent({
-        type: monin.models.Collection.EventType.MOVE,
-        oldIndex: oldIndex,
-        newIndex: newIndex
-    });
+  this.dispatchEvent({
+    type: monin.models.Collection.EventType.MOVE,
+    oldIndex: oldIndex,
+    newIndex: newIndex
+  });
 };
 
 /**
@@ -213,8 +213,8 @@ monin.models.Collection.prototype.move = function(oldIndex, newIndex)
  */
 monin.models.Collection.prototype.remove = function(item)
 {
-    var index = this.indexOf(item);
-    return this.removeAt(index);
+  var index = this.indexOf(item);
+  return this.removeAt(index);
 };
 
 /**
@@ -225,20 +225,20 @@ monin.models.Collection.prototype.remove = function(item)
 monin.models.Collection.prototype.removeAt = function(index)
 {
 
-    var item = this.data_[index],
-        removed = goog.array.remove(this.data_, item);
+  var item = this.data_[index],
+    removed = goog.array.remove(this.data_, item);
 
-    if (removed)
-    {
-        item.setParentEventTarget(null);
-        this.dispatchEvent({
-            type: monin.models.Collection.EventType.REMOVE,
-            index: index,
-            item: item
-        });
-    }
+  if (removed)
+  {
+    item.setParentEventTarget(null);
+    this.dispatchEvent({
+      type: monin.models.Collection.EventType.REMOVE,
+      index: index,
+      item: item
+    });
+  }
 
-    return removed;
+  return removed;
 };
 
 /**
@@ -250,9 +250,24 @@ monin.models.Collection.prototype.serialize = function()
 {
    var data = [];
    goog.array.forEach(this.data_, function(item) {
-       data.push(item.serialize());
+     data.push(item.serialize());
    });
    return data;
+};
+
+/**
+ * Converts data to an array.
+ *
+ * @return {T}
+ */
+monin.models.Collection.prototype.toArray = function()
+{
+  var data = [];
+  for (var i = 0; i < this.data_.length; i++)
+  {
+    data.push(this.data_[i]);
+  }
+  return data;
 };
 
 /**
@@ -260,33 +275,33 @@ monin.models.Collection.prototype.serialize = function()
  * @enum {string}
  */
 monin.models.Collection.EventType = {
-    INSERT: 'insert',
-    CHANGE: goog.events.EventType.CHANGE,
-    MOVE: 'move',
-    REMOVE: 'remove'
+  INSERT: 'insert',
+  CHANGE: goog.events.EventType.CHANGE,
+  MOVE: 'move',
+  REMOVE: 'remove'
 };
 
 /**
  * @constructor
  * @param {string} type Event Type.
  * @param {T=} opt_target Reference to the object that is the target of
- *     this event. It has to implement the {@code EventTarget} interface
- *     declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
+ *   this event. It has to implement the {@code EventTarget} interface
+ *   declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
  * @extends {goog.events.Event}
  */
 monin.models.Collection.ChangeEvent = function(type, opt_target)
 {
-    goog.base(this, type, opt_target);
+  goog.base(this, type, opt_target);
 
-    /**
-     * @type {T}
-     */
-    this.item = null;
+  /**
+   * @type {T}
+   */
+  this.item = null;
 
-    /**
-     * @type {number}
-     */
-    this.index = 0;
+  /**
+   * @type {number}
+   */
+  this.index = 0;
 };
 goog.inherits(monin.models.Collection.ChangeEvent, goog.events.Event);
 
@@ -294,22 +309,22 @@ goog.inherits(monin.models.Collection.ChangeEvent, goog.events.Event);
  * @constructor
  * @param {string} type Event Type.
  * @param {T=} opt_target Reference to the object that is the target of
- *     this event. It has to implement the {@code EventTarget} interface
- *     declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
+ *   this event. It has to implement the {@code EventTarget} interface
+ *   declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
  * @extends {goog.events.Event}
  */
 monin.models.Collection.MoveEvent = function(type, opt_target)
 {
-    goog.base(this, type, opt_target);
+  goog.base(this, type, opt_target);
 
-    /**
-     * @type {number}
-     */
-    this.oldIndex = 0;
+  /**
+   * @type {number}
+   */
+  this.oldIndex = 0;
 
-    /**
-     * @type {number}
-     */
-    this.newIndex = 0;
+  /**
+   * @type {number}
+   */
+  this.newIndex = 0;
 };
 goog.inherits(monin.models.Collection.MoveEvent, goog.events.Event);
