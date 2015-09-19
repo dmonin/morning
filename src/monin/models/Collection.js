@@ -26,8 +26,8 @@ goog.require('goog.events');
  * Collection of BaseModel classes.
  *
  * @constructor
- * @template T
  * @extends {goog.events.EventTarget}
+ * @template T
  */
 monin.models.Collection = function()
 {
@@ -288,6 +288,7 @@ monin.models.Collection.EventType = {
  *   this event. It has to implement the {@code EventTarget} interface
  *   declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
  * @extends {goog.events.Event}
+ * @template T
  */
 monin.models.Collection.ChangeEvent = function(type, opt_target)
 {
@@ -312,6 +313,7 @@ goog.inherits(monin.models.Collection.ChangeEvent, goog.events.Event);
  *   this event. It has to implement the {@code EventTarget} interface
  *   declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
  * @extends {goog.events.Event}
+ * @template T
  */
 monin.models.Collection.MoveEvent = function(type, opt_target)
 {
