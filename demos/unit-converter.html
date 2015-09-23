@@ -17,7 +17,7 @@
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-          ga('create', 'UA-42019927-1', 'monin.me');
+          ga('create', 'UA-42019927-1', 'morning.me');
           ga('send', 'pageview');
 
         </script>
@@ -36,7 +36,7 @@
         <script src="../../closure-library/closure/goog/base.js"></script>
         <script src="assets/js/deps.js"></script>
         <script>
-        goog.require("monin.ui.UnitConverter");
+        goog.require("morning.ui.UnitConverter");
 
         </script>
         <script>
@@ -51,11 +51,11 @@
                 return lang[msg];
             }
 
-            var unitConverterDistance = new monin.ui.UnitConverter();
+            var unitConverterDistance = new morning.ui.UnitConverter();
             unitConverterDistance.setMessageProvider(getMsg);
             unitConverterDistance.decorate(document.getElementById("distance"));
 
-            var unitConverterTemperature = new monin.ui.UnitConverter();
+            var unitConverterTemperature = new morning.ui.UnitConverter();
             unitConverterTemperature.setMessageProvider(getMsg);
             unitConverterTemperature.decorate(document.getElementById("temperature"));
 

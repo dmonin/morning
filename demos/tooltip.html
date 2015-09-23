@@ -26,7 +26,7 @@
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-          ga('create', 'UA-42019927-1', 'monin.me');
+          ga('create', 'UA-42019927-1', 'morning.me');
           ga('send', 'pageview');
 
         </script>
@@ -49,15 +49,15 @@
         <script src="../../closure-library/closure/goog/base.js"></script>
         <script src="assets/js/deps.js"></script>
         <script>
-        goog.require("monin.ui.Tooltip");
+        goog.require("morning.ui.Tooltip");
         goog.require("goog.dom.dataset");
 
         </script>
         <script>
-        var defaultTooltip = new monin.ui.Tooltip();
+        var defaultTooltip = new morning.ui.Tooltip();
         defaultTooltip.render(document.body);
 
-        var simpleTooltip = new monin.ui.Tooltip();
+        var simpleTooltip = new morning.ui.Tooltip();
         simpleTooltip.setSimple(true);
         simpleTooltip.animationEnabled = false;
         simpleTooltip.render(document.body);
@@ -69,7 +69,7 @@
             var dir = parseInt(goog.dom.dataset.get(e.target, 'dir'), 10);
             var tooltip = goog.dom.dataset.get(e.target, 'type') == 'simple' ? simpleTooltip : defaultTooltip;
 
-            // @see monin.ui.Tooltip.Direction enumerator
+            // @see morning.ui.Tooltip.Direction enumerator
             tooltip.setDirection(dir);
             tooltip.setBody(e.target.innerHTML);
             tooltip.positionateToElement(e.target);

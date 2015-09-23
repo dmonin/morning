@@ -10,7 +10,7 @@
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-          ga('create', 'UA-42019927-1', 'monin.me');
+          ga('create', 'UA-42019927-1', 'morning.me');
           ga('send', 'pageview');
 
         </script>
@@ -26,10 +26,10 @@
         <script src="../../closure-library/closure/goog/base.js"></script>
         <script src="assets/js/deps.js"></script>
         <script>
-        goog.require("monin.ui.Loader");
+        goog.require("morning.ui.Loader");
         </script>
         <script>
-        var loader = new monin.ui.Loader();
+        var loader = new morning.ui.Loader();
         loader.setColor("#000000"); // default is '#000000'
         loader.setDiameter(150); // default is 40
         loader.setDensity(30); // default is 40
@@ -39,15 +39,15 @@
         loader.setVisible(true);
 
         // Shortcut factory with default parameters
-        loader = monin.ui.Loader.factory("#ff0000", 100);
+        loader = morning.ui.Loader.factory("#ff0000", 100);
         loader.render(document.body);
         loader.setVisible(true);
 
-        loader = monin.ui.Loader.factory("#00ff00", 50);
+        loader = morning.ui.Loader.factory("#00ff00", 50);
         loader.render(document.body);
         loader.setVisible(true);
 
-        loader = monin.ui.Loader.factory("#0000ff", 25);
+        loader = morning.ui.Loader.factory("#0000ff", 25);
         loader.render(document.body);
         loader.setVisible(true);
         </script>

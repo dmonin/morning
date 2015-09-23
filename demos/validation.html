@@ -11,7 +11,7 @@
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-          ga('create', 'UA-42019927-1', 'monin.me');
+          ga('create', 'UA-42019927-1', 'morning.me');
           ga('send', 'pageview');
 
         </script>
@@ -46,24 +46,24 @@
         <script src="../../closure-library/closure/goog/base.js"></script>
         <script src="assets/js/deps.js"></script>
         <script>
-        goog.require("monin.validation.FormValidation");
-        goog.require("monin.validation.RequiredFieldValidator");
-        goog.require("monin.validation.EmailValidator");
-        goog.require("monin.validation.RegexValidator");
-        goog.require("monin.validation.ZipcodeValidator");
+        goog.require("morning.validation.FormValidation");
+        goog.require("morning.validation.RequiredFieldValidator");
+        goog.require("morning.validation.EmailValidator");
+        goog.require("morning.validation.RegexValidator");
+        goog.require("morning.validation.ZipcodeValidator");
 
         goog.require('goog.json');
         </script>
         <script>
-            var formValidation = new monin.validation.FormValidation([
-                new monin.validation.RequiredFieldValidator('name', 'Please enter your name.'),
-                new monin.validation.RegexValidator('age', 'Your age may contain only numbers.', /^[0-9]{1,3}$/i),
+            var formValidation = new morning.validation.FormValidation([
+                new morning.validation.RequiredFieldValidator('name', 'Please enter your name.'),
+                new morning.validation.RegexValidator('age', 'Your age may contain only numbers.', /^[0-9]{1,3}$/i),
 
                 // You can specify more than one validator for each field
-                new monin.validation.RequiredFieldValidator('email', 'Please enter your email.'),
-                new monin.validation.EmailValidator('email', 'Please enter a valid email address.'),
+                new morning.validation.RequiredFieldValidator('email', 'Please enter your email.'),
+                new morning.validation.EmailValidator('email', 'Please enter a valid email address.'),
 
-                new monin.validation.ZipcodeValidator('zipcode', 'Please enter your post code.', ['uk']),
+                new morning.validation.ZipcodeValidator('zipcode', 'Please enter your post code.', ['uk']),
                 ]);
 
             // Validating with invalid data
