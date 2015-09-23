@@ -6,6 +6,7 @@ goog.provide('morning.ui.HamburgerButton');
 goog.require('goog.dom.classlist');
 goog.require('goog.ui.Component');
 goog.require('goog.ui.registry');
+goog.require('morning.events.TapProvider');
 
 /**
  * @constructor
@@ -22,8 +23,24 @@ morning.ui.HamburgerButton = function()
    * @private
    */
   this.isExpanded_ = false;
+
+  /**
+   * Tap provider enables hover effects on touchstart / end events.
+   * @type {morning.events.TapProvider}
+   * @private
+   */
+  this.tapProvider_ = null;
 };
 goog.inherits(morning.ui.HamburgerButton, goog.ui.Component);
+
+/** @inheritDoc */
+morning.ui.HamburgerButton.prototype.decorateInternal = function(el)
+{
+  goog.base(this, 'decorateInternal', el);
+
+  this.tapProvider_ = morning.events.TapProvider.attach(el);
+  this.registerDisposable(this.tapProvider_);
+};
 
 /** @inheritDoc */
 morning.ui.HamburgerButton.prototype.enterDocument = function()
