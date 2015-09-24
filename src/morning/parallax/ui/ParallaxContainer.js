@@ -205,10 +205,6 @@ morning.parallax.ui.ParallaxContainer.prototype.decorateInternal = function(el)
   {
     this.loadConfig(config);
   }
-  else if (goog.DEBUG)
-  {
-    console.warn('data-config attribute is not provided %o', el);
-  }
 
   if (goog.DEBUG)
   {
