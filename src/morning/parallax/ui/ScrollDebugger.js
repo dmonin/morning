@@ -93,7 +93,7 @@ morning.parallax.ui.ScrollDebugger.prototype.handleScroll_ = function(e)
  */
 morning.parallax.ui.ScrollDebugger.prototype.positionate_ = function()
 {
-  var el = this.getElement().parentNode || this.getElement();
+  var el = /** @type {Element} */ (this.getElement().parentNode) || this.getElement();
   var pos = goog.style.getPageOffset(el);
   goog.style.setPageOffset(this.getElement(), pos);
 };
