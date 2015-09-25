@@ -34,9 +34,12 @@ morning.parallax.model.SceneConfig = function()
    * @type {string}
    */
   this.navigationName = "";
-};
 
-//goog.inherits(morning.parallax.model.SceneConfig, morning.paralax.)
+  /**
+   * @type {boolean}
+   */
+  this.isDetachable = false;
+};
 
 /**
  * @param {Object} config
@@ -49,6 +52,7 @@ morning.parallax.model.SceneConfig.factory = function(config)
   sceneConfig.zIndex = config['zIndex'];
   sceneConfig.snappable = config['snappable'];
   sceneConfig.navigationName = config['navigationName'];
+  sceneConfig.isDetachable = !!config['isDetachable'];
 
   var range = config['range'];
   if (range)
