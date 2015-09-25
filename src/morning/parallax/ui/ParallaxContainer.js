@@ -163,8 +163,7 @@ morning.parallax.ui.ParallaxContainer.prototype.decorateInternal = function(el)
   this.scrollStrategy_ = /** @type {morning.parallax.AbstractScrollStrategy} */
     (morning.parallax.registry.getStrategy(scrollType));
   this.scrollStrategy_.attach(el);
-
-  this.minScroll_ = Number(goog.dom.dataset.get(el, 'min')) || 0;
+  this.scrollStrategy_.setParentEventTarget(this);
 
   // Initializing scenes
   var sceneElements = this.getElementsByClass('scene');
@@ -172,8 +171,8 @@ morning.parallax.ui.ParallaxContainer.prototype.decorateInternal = function(el)
   {
     sceneElements = [this.getElement()];
   }
-  var cmp, sceneName;
 
+  var cmp, sceneName;
   for (var i = 0; i < sceneElements.length; i++)
   {
     cmp = this.sceneFactory_(sceneElements[i]);
@@ -185,18 +184,14 @@ morning.parallax.ui.ParallaxContainer.prototype.decorateInternal = function(el)
     this.addChild(cmp);
     cmp.decorate(sceneElements[i]);
 
-    cmp.name = goog.dom.dataset.get(sceneElements[i], 'name');
-
-    if (!cmp.name)
-    {
-      if (goog.DEBUG)
-      {
-        console.warn('Scene %o element omits data-name attribute.', sceneElements[i]);
-      }
-      throw new Error('Scene element omits data-name attribute.');
-    }
-
+    cmp.name = goog.dom.dataset.get(sceneElements[i], 'name') || 'default';
     this.scenes_.set(cmp.name, cmp);
+  }
+
+  var minScroll = goog.dom.dataset.get(el, 'min')
+  if (minScroll)
+  {
+    this.minScroll_ = Number(minScroll) || 0;
   }
 
   // Initializing animation config
@@ -742,6 +737,7 @@ morning.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
 
   goog.array.forEach(this.scenes_.getValues(), function(scene) {
     isVisible = scene.isVisible(this.scrollPos_);
+
     if (isVisible && !scene.isInDocument())
     {
       this.addChild(scene, true);
@@ -752,7 +748,7 @@ morning.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
         scene: scene
       });
     }
-    else if (!isVisible && scene.isInDocument())
+    else if (!isVisible && scene.isInDocument() && scene.isDetachable)
     {
       this.removeChild(scene, true);
       scene.setActive(false);
