@@ -25,7 +25,7 @@ goog.inherits(morning.routing.Router, goog.events.EventTarget);
 /**
  * Adds a new route to list
  *
- * @param {morning.routing.RegexRoute} route
+ * @param {morning.routing.Route} route
  */
 morning.routing.Router.prototype.addRoute = function(route)
 {

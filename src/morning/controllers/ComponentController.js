@@ -115,7 +115,7 @@ morning.controllers.ComponentController.prototype.getComponentByName =
 morning.controllers.ComponentController.prototype.initialize =
   function(config)
 {
-  element = config.element || document.body;
+  var element = config.element || document.body;
   var selector = config.selector || '.cmp';
   var elements = element.querySelectorAll(selector);
 

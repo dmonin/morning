@@ -32,7 +32,7 @@ morning.app.ModularApp = function()
   this.handler_ = new goog.events.EventHandler(this);
 
   /**
-   * @type {Array.<morning.controllers.BaseController>}
+   * @type {goog.structs.Map}
    * @private
    */
   this.controllers_ = new goog.structs.Map();
@@ -247,7 +247,7 @@ morning.app.ModularApp.prototype.setViewFromState_ = function()
 };
 
 /**
- * @param {morning.app.ModularApp.View} view
+ * @param {morning.app.View} view
  */
 morning.app.ModularApp.prototype.setView = function(view)
 {

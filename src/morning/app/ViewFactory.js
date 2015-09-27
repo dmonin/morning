@@ -1,4 +1,5 @@
 goog.provide('morning.app.ViewFactory');
+goog.require('goog.structs.Map');
 
 /**
  * @constructor
@@ -17,7 +18,7 @@ goog.addSingletonGetter(morning.app.ViewFactory);
 
 /**
  * @param  {string} name Name of the view
- * @return {morning.app.ModularApp.View}
+ * @return {morning.app.View}
  */
 morning.app.ViewFactory.prototype.getView = function(name)
 {
