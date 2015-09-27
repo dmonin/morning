@@ -110,14 +110,13 @@ morning.controllers.ComponentController.prototype.getComponentByName =
 /**
  * Initializes components
  *
- * @param {Object} element
- * @param {string=} opt_selector
+ * @param {Object} config
  */
 morning.controllers.ComponentController.prototype.initialize =
-  function(element, opt_selector)
+  function(config)
 {
-  element = /** @type {Element} */ (element) || document.body;
-  var selector = opt_selector || '.cmp';
+  element = config.element || document.body;
+  var selector = config.selector || '.cmp';
   var elements = element.querySelectorAll(selector);
 
   for (var i = 0; i < elements.length; i++)
