@@ -23,8 +23,8 @@ morning.parallax.effects.AbstractPropertyEffect = function()
    */
   this.easing = null;
 };
-
-goog.inherits(morning.parallax.effects.AbstractPropertyEffect, morning.parallax.effects.Effect);
+goog.inherits(morning.parallax.effects.AbstractPropertyEffect,
+  morning.parallax.effects.Effect);
 
 
 /** @inheritDoc */

@@ -26,8 +26,8 @@ morning.parallax.effects.StyleEffect = function()
   this.selector = '';
 
 };
-
-goog.inherits(morning.parallax.effects.StyleEffect, morning.parallax.effects.AbstractPropertyEffect);
+goog.inherits(morning.parallax.effects.StyleEffect,
+  morning.parallax.effects.AbstractPropertyEffect);
 
 /**
  * @type {goog.structs.Map}
@@ -93,7 +93,20 @@ morning.parallax.effects.StyleEffect.prototype.setProperty = function(element, v
       break;
 
     default:
-      node.style[this.property] = value + this.unit;
+      if (value instanceof Array)
+      {
+        var str = '';
+        for (var i = 0; i < value.length; i++)
+        {
+          str += value[i] + this.unit + ' ';
+        }
+        node.style[this.property] = str;
+      }
+      else
+      {
+        node.style[this.property] = value + this.unit;
+      }
+
       break;
   }
 
