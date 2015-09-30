@@ -309,24 +309,6 @@ morning.parallax.ui.ParallaxContainer.prototype.getCurrentScene = function()
 /**
  * @return {number}
  */
-morning.parallax.ui.ParallaxContainer.prototype.getLoadProgress = function()
-{
-  var loadProgress = 0;
-  var sceneCount = 0;
-  this.forEachChild(function(child) {
-    if (child instanceof morning.parallax.ui.Scene)
-    {
-      loadProgress += child.getLoadProgress();
-      sceneCount++;
-    }
-  }, this);
-
-  return loadProgress / sceneCount;
-};
-
-/**
- * @return {number}
- */
 morning.parallax.ui.ParallaxContainer.prototype.getPosition = function()
 {
   return this.endScrollPos_;
