@@ -262,51 +262,7 @@ morning.parallax.ui.ParallaxContainer.prototype.handleConfigLoad_ = function(e)
 {
   var config = e.target.getResponseJson();
 
-  if (goog.DEBUG)
-  {
-    console.info('ParallaxContainer: Config Loaded');
-  }
-
-  for (var key in config)
-  {
-    var sceneConfig = config[key];
-    var scene = this.scenes_.get(key);
-    if (!scene)
-    {
-      throw new Error('Scene with ID: ' + key + ', couldn\'t be found.');
-    }
-
-    scene.setConfig(sceneConfig, this.effectFactory_);
-    if (sceneConfig['addEffects'])
-    {
-      this.addEffects_(sceneConfig['position'],
-        sceneConfig['addEffects']);
-    }
-  }
-
-  if (goog.DEBUG)
-  {
-    console.info('ParallaxContainer: Config Updated');
-  }
-
-  this.calculateBottom_();
-
-  if (this.size_)
-  {
-    this.setSize(this.size_);
-  }
-
-  this.initialized_ = true;
-
-
-  if (goog.DEBUG)
-  {
-    console.info('ParallaxContainer: Performing first update...');
-  }
-
-  this.updateScenes_();
-
-  this.dispatchEvent(morning.parallax.ui.ParallaxContainer.EventType.INITIALIZED);
+  this.setConfig(config);
 
 };
 
@@ -566,6 +522,58 @@ morning.parallax.ui.ParallaxContainer.prototype.moveToPrevious = function()
       found = true;
     }
   }, this);
+};
+
+/**
+ * @param {Object} config
+ */
+morning.parallax.ui.ParallaxContainer.prototype.setConfig = function(config)
+{
+  if (goog.DEBUG)
+  {
+    console.info('ParallaxContainer: Setting Config');
+  }
+
+  for (var key in config)
+  {
+    var sceneConfig = config[key];
+    var scene = this.scenes_.get(key);
+    if (!scene)
+    {
+      throw new Error('Scene with ID: ' + key + ', couldn\'t be found.');
+    }
+
+    scene.setConfig(sceneConfig, this.effectFactory_);
+    if (sceneConfig['addEffects'])
+    {
+      this.addEffects_(sceneConfig['position'],
+        sceneConfig['addEffects']);
+    }
+  }
+
+  if (goog.DEBUG)
+  {
+    console.info('ParallaxContainer: Config Updated');
+  }
+
+  this.calculateBottom_();
+
+  if (this.size_)
+  {
+    this.setSize(this.size_);
+  }
+
+  this.initialized_ = true;
+
+
+  if (goog.DEBUG)
+  {
+    console.info('ParallaxContainer: Performing first update...');
+  }
+
+  this.updateScenes_();
+
+  this.dispatchEvent(morning.parallax.ui.ParallaxContainer.EventType.INITIALIZED);
 };
 
 /**

@@ -24,23 +24,6 @@ morning.parallax.ui.Scene = function()
    */
   this.config_ = null;
 
-
-  /**
-   * Loaded elements count
-   *
-   * @type {number}
-   * @private
-   */
-  this.loadedCount_ = 0;
-
-  /**
-   * Total element count, which need to be loaded.
-   *
-   * @type {number}
-   * @private
-   */
-  this.loadedTotalCount_ = 0;
-
   /**
    * Hashmap with elements
    *
@@ -53,7 +36,6 @@ morning.parallax.ui.Scene = function()
    * @type {string}
    */
   this.name = '';
-
 
   /**
    * @type {boolean}
@@ -75,52 +57,50 @@ morning.parallax.ui.Scene.prototype.adjustToSize = function(size)
   });
 };
 
-/** @inheritDoc */
-morning.parallax.ui.Scene.prototype.decorateInternal = function(el)
+/**
+ * @param  {string} id
+ * @param  {Object} config
+ * @param {morning.parallax.effects.EffectFactory} effectFactory
+ * @private
+ */
+morning.parallax.ui.Scene.prototype.initializeElement_ = function(id, config,
+  effectFactory)
 {
-  goog.base(this, 'decorateInternal', el);
+  var element = null;
 
-  var elements = this.getElementsByClass('prlx-element');
-  var cmp;
-  for (var i = 0; i < elements.length; i++)
+  // Getting element
+  if (config['selector'])
   {
-    if (!elements[i].id)
-    {
-      throw new Error("Element missing ID property.");
-    }
-
-    cmp = goog.ui.registry.getDecorator(elements[i]);
-    if (!cmp)
-    {
-      cmp = new morning.parallax.ui.Element();
-    }
-
-    this.addChild(cmp);
-    cmp.decorate(elements[i]);
-
-    this.elements_.set(elements[i].id, cmp);
-    if (goog.DEBUG)
-    {
-      console.info('Scene: Initializing element: %s %o', elements[i].id, cmp);
-    }
-
-    if (cmp.isLoadable())
-    {
-      this.getHandler().listen(cmp, morning.parallax.ui.Element.EventType.LOAD,
-        this.handleElementLoad_);
-      this.loadedTotalCount_++;
-    }
+    element = config['selector'] == 'self' ? this.getElement() :
+      this.getElement().querySelector(config['selector']);
+  }
+  else
+  {
+    element = goog.dom.getElement(id);
   }
 
+  // Decorating
+  var cmp = goog.ui.registry.getDecorator(element);
+  if (!cmp)
+  {
+    cmp = new morning.parallax.ui.Element();
+  }
+  else if (!(cmp instanceof morning.parallax.ui.Element))
+  {
+    goog.dispose(cmp);
+    cmp = new morning.parallax.ui.Element();
+  }
+
+  this.addChild(cmp);
+  cmp.decorate(element);
+
+  // Registering in the hash map
+  this.elements_.set(id, cmp);
   if (goog.DEBUG)
   {
-    console.info('Scene: Initialization complete');
+    console.info('Scene: Initializing element: %s %o', element, cmp);
   }
-
-  if (this.loadedCount_ == this.loadedTotalCount_)
-  {
-    this.dispatchEvent(morning.parallax.ui.Scene.EventType.COMPLETE);
-  }
+  cmp.setConfig(config, effectFactory);
 };
 
 /**
@@ -168,33 +148,6 @@ morning.parallax.ui.Scene.prototype.getElementById = function(elementId)
 morning.parallax.ui.Scene.prototype.getPosition = function()
 {
   return this.config_ && this.config_.position ? this.config_.position : 0;
-};
-
-/**
- * Handles element load event
- *
- * @param {goog.events.Event} e
- * @private
- */
-morning.parallax.ui.Scene.prototype.handleElementLoad_ = function(e)
-{
-  this.loadedCount_++;
-  this.dispatchEvent(morning.parallax.ui.Scene.EventType.PROGRESS);
-
-  if (this.loadedCount_ == this.loadedTotalCount_)
-  {
-    this.dispatchEvent(morning.parallax.ui.Scene.EventType.COMPLETE);
-  }
-};
-
-/**
- * Handles load progress
- *
- * @return {number}
- */
-morning.parallax.ui.Scene.prototype.getLoadProgress = function()
-{
-  return this.loadedTotalCount_ > 0 ? this.loadedCount_ / this.loadedTotalCount_ : 1;
 };
 
 /**
@@ -247,12 +200,7 @@ morning.parallax.ui.Scene.prototype.setConfig = function(config, effectFactory)
 
   for (var id in config['elements'])
   {
-    if (!this.elements_.get(id))
-    {
-      throw new Error('Element with id ' + id + ' doesn\'t exists.');
-    }
-
-    this.elements_.get(id).setConfig(config['elements'][id], effectFactory);
+    this.initializeElement_(id, config['elements'][id], effectFactory);
   }
 
   if (this.getElement() && this.config_.zIndex)
