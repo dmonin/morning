@@ -727,11 +727,11 @@ morning.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
 
   goog.array.forEach(this.scenes_.getValues(), function(scene) {
     isVisible = scene.isVisible(this.scrollPos_);
+    scene.setActive(isVisible);
 
     if (isVisible && !scene.isInDocument())
     {
       this.addChild(scene, true);
-      scene.setActive(true);
 
       this.dispatchEvent({
         type: morning.parallax.ui.ParallaxContainer.EventType.ADDED_TO_STAGE,
@@ -741,7 +741,6 @@ morning.parallax.ui.ParallaxContainer.prototype.updateScenes_ = function()
     else if (!isVisible && scene.isInDocument() && scene.isDetachable)
     {
       this.removeChild(scene, true);
-      scene.setActive(false);
     }
 
     if (isVisible)
