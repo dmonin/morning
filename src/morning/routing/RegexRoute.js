@@ -9,12 +9,12 @@ goog.require('morning.routing.RouteMatchEvent');
  * @constructor
  * @param {string} name Name of the route
  * @param {RegExp} regex Regular Expression to be matched against the route
- * @param {string} controllerName name of controller assigned to the route
+ * @param {string} module name of controller assigned to the route
  * @extends {morning.routing.Route}
  */
-morning.routing.RegexRoute = function(name, regex, controllerName)
+morning.routing.RegexRoute = function(name, regex, module)
 {
-  goog.base(this, name);
+  goog.base(this, name, module);
 
   /**
    * Regex Pattern to be match against
@@ -22,13 +22,6 @@ morning.routing.RegexRoute = function(name, regex, controllerName)
    * @type {RegExp}
    */
   this.regex = regex;
-
-  /**
-   * Name of controller
-   *
-   * @type {string}
-   */
-  this.controllerName = controllerName;
 };
 goog.inherits(morning.routing.RegexRoute, morning.routing.Route);
 
@@ -46,7 +39,6 @@ morning.routing.RegexRoute.prototype.match = function(token)
         }
       )
     );
-
     return true;
   }
 

@@ -9,9 +9,10 @@ goog.require('goog.events.EventTarget');
 /**
  * @constructor
  * @param {string} name name of the route
+ * @param {string} module
  * @extends {goog.events.EventTarget}
  */
-morning.routing.Route = function(name)
+morning.routing.Route = function(name, module)
 {
   goog.base(this);
 
@@ -21,6 +22,13 @@ morning.routing.Route = function(name)
    * @type {string}
    */
   this.name = name;
+
+  /**
+   * Name of module
+   *
+   * @type {string}
+   */
+  this.module = module;
 };
 goog.inherits(morning.routing.Route, goog.events.EventTarget);
 

@@ -1,9 +1,13 @@
 goog.provide('morning.app.ModularApp');
 
-goog.require('goog.dom.classlist');
 goog.require('goog.module.ModuleLoader');
 goog.require('goog.module.ModuleManager');
 goog.require('goog.events.EventTarget');
+goog.require('goog.history.EventType');
+goog.require('goog.structs.Map');
+goog.require('morning.app.ViewFactory');
+goog.require('goog.dom');
+goog.require('morning.routing.Router');
 
 /**
  * @define {boolean}
@@ -20,9 +24,45 @@ morning.app.ModularApp = function()
   goog.base(this);
 
   /**
-   * @type {morning.controllers.BaseController}
+   * Event handler for processing of local events.
+   *
+   * @type {goog.events.EventHandler}
+   * @private
    */
-  this.controller = null;
+  this.handler_ = new goog.events.EventHandler(this);
+
+  /**
+   * @type {goog.structs.Map}
+   * @private
+   */
+  this.controllers_ = new goog.structs.Map();
+
+  /**
+   * @type {morning.app.View}
+   */
+  this.view = null;
+
+  /**
+   * View Factory
+   *
+   * @type {morning.app.ViewFactory}
+   * @private
+   */
+  this.viewFactory_ = morning.app.ViewFactory.getInstance();
+
+  /**
+   * @type {morning.routing.Router}
+   * @private
+   */
+  this.router_ = new morning.routing.Router();
+
+  /**
+   * Currently active route
+   *
+   * @type {morning.routing.Route}
+   * @private
+   */
+  this.route_ = null;
 
   /**
    * @type {Object}
@@ -31,177 +71,232 @@ morning.app.ModularApp = function()
   this.state_ = null;
 
   /**
-   * @type {Object}
-   * @private
-   */
-  this.config_ = null;
-
-  /**
-   * @type {boolean}
-   * @private
-   */
-  this.initialized_ = false;
-
-  /**
    * @type {goog.module.ModuleManager}
    * @private
    */
   this.moduleManager_ = morning.MODULAR ?
     goog.module.ModuleManager.getInstance() : null;
+
+  /**
+   *
+   * @type {string}
+   * @private
+   */
+  this.token_ = '';
+
+  /**
+   * An element where the view containers will be rendered.
+   *
+   * @type {Element}
+   */
+  this.viewContainer = document.body.querySelector('#view-container');
 };
 goog.inherits(morning.app.ModularApp, goog.events.EventTarget);
 goog.addSingletonGetter(morning.app.ModularApp);
 
 /**
- * Initializes app
- *
- * @param {Object} config
+ * @param {string} name
+ * @param {morning.controllers.BaseController} controller
+ * @param {Object=} opt_config Initialization config
+ * @return {morning.app.ModularApp}
  */
-morning.app.ModularApp.prototype.initialize = function(config)
+morning.app.ModularApp.prototype.addController = function(name, controller,
+  opt_config)
 {
-  this.config_ = config;
-
-  if (morning.MODULAR)
+  if (opt_config)
   {
-    var scripts = document.body.querySelectorAll('script');
-    var re = /app\.js\?v=([0-9]+)/;
-    var version = 'unknown';
-    for (var i = 0; i < scripts.length; i++)
-    {
-      if (scripts[i].src.match(re))
-      {
-        version = scripts[i].src.match(re)[1];
-        break;
-      }
-    }
-
-    var moduleUrls = goog.global['PLOVR_MODULE_URIS'];
-    for (var key in moduleUrls)
-    {
-      moduleUrls[key] += '?v=' + version;
-    }
-
-    var moduleManager = goog.module.ModuleManager.getInstance();
-    var moduleLoader = new goog.module.ModuleLoader();
-    moduleManager.setLoader(moduleLoader);
-    moduleManager.setAllModuleInfo(goog.global['PLOVR_MODULE_INFO']);
-    moduleManager.setModuleUris(goog.global['PLOVR_MODULE_URIS']);
-    moduleManager.setLoaded('app');
+    controller.initialize(opt_config);
   }
+
+  this.controllers_.set(name, controller);
+  return this;
 };
 
 /**
- * Initializes controller
+ * @param {morning.routing.Route} route
+ * @return {morning.app.ModularApp}
+ */
+morning.app.ModularApp.prototype.addRoute = function(route)
+{
+  this.router_.addRoute(route);
+  return this;
+};
+
+/**
+ * Handles navigate event.
+ *
+ * @param  {goog.events.Event} e
+ * @private
+ */
+morning.app.ModularApp.prototype.handleNavigate_ = function(e)
+{
+  if (goog.DEBUG)
+  {
+    console.info('App: Navigating to %s', e.token);
+  }
+
+  this.navigate(e.token);
+};
+
+/**
+ * Handles matching of route
+ * @param  {goog.events.Event} e
+ * @private
+ */
+morning.app.ModularApp.prototype.handleRouteMatch_ = function(e)
+{
+  this.setState({
+    token: e.token,
+    data: e.data,
+    route: e.target
+  });
+};
+
+/**
+ * Initializes module manager
  *
  * @private
  */
-morning.app.ModularApp.prototype.initController_ = function()
+morning.app.ModularApp.prototype.initializeModuleManager_ = function()
 {
-  goog.dom.classlist.remove(document.body, 'loading');
-
-  var Type = goog.getObjectByName('app.module.' + this.state_.controllerName);
-
-  if (goog.DEBUG)
+  var scripts = document.body.querySelectorAll('script');
+  var re = /app\.js\?v=([0-9]+)/;
+  var version = 'unknown';
+  for (var i = 0; i < scripts.length; i++)
   {
-    console.info('Initializing controller %o', this.state_.controllerName);
+    if (scripts[i].src.match(re))
+    {
+      version = scripts[i].src.match(re)[1];
+      break;
+    }
   }
 
-  if (Type)
+  var moduleUrls = goog.global['PLOVR_MODULE_URIS'];
+  for (var key in moduleUrls)
   {
-    this.controller = new Type();
-    this.controller.initialize(this.config_);
-    this.controller.setParentEventTarget(this);
-    this.controller.setState(this.state_, !this.initialized_);
-    this.initialized_ = true;
+    moduleUrls[key] += '?v=' + version;
   }
+
+  var moduleManager = goog.module.ModuleManager.getInstance();
+  var moduleLoader = new goog.module.ModuleLoader();
+  moduleManager.setLoader(moduleLoader);
+  moduleManager.setAllModuleInfo(goog.global['PLOVR_MODULE_INFO']);
+  moduleManager.setModuleUris(goog.global['PLOVR_MODULE_URIS']);
+  moduleManager.setLoaded('app');
 };
 
 /**
-* @private
-*/
-morning.app.ModularApp.prototype.loadAndInitController_ = function()
+ * @param {string} urlToken
+ */
+morning.app.ModularApp.prototype.navigate = function(urlToken)
 {
-  if (morning.MODULAR)
+  this.router_.match(urlToken);
+};
+
+/**
+ * @private
+ */
+morning.app.ModularApp.prototype.removeView_ = function()
+{
+  if (this.view)
   {
-    var moduleInfo = this.moduleManager_.getModuleInfo(this.state_.controllerName);
+    goog.dom.removeNode(this.view.getElement());
+    goog.dispose(this.view);
+    this.view = null;
 
     if (goog.DEBUG)
     {
-      console.info('Loading controller %s %o', this.state_.controllerName, moduleInfo);
+      console.info('Disposed view %o', this.view);
     }
-
-    if (moduleInfo)
-    {
-      this.moduleManager_.execOnLoad(this.state_.controllerName,
-        this.initController_, this);
-    }
-    else
-    {
-      this.initController_();
-    }
-  }
-  else
-  {
-    this.initController_();
   }
 };
 
 /**
- * Sets current state of the app:
- * - Loads new controller / module if necessary
- * - Updates controller's state if it's the same
+ * Initializes app
+ */
+morning.app.ModularApp.prototype.start = function()
+{
+  if (morning.MODULAR)
+  {
+    this.initializeModuleManager_();
+  }
+
+  this.handler_.
+
+    listen(this, goog.history.EventType.NAVIGATE, this.handleNavigate_).
+
+    listen(this.router_, morning.routing.Route.EventType.ROUTE_MATCH,
+      this.handleRouteMatch_);
+
+  var navController = this.controllers_.get('navigation');
+  if (navController)
+  {
+    this.navigate(navController.getToken());
+  }
+};
+
+/**
+ * Sets view from previously saved state.
+ *
+ * @private
+ */
+morning.app.ModularApp.prototype.setViewFromState_ = function()
+{
+  this.setView(
+    this.viewFactory_.getView(this.state_.route.name));
+};
+
+/**
+ * @param {morning.app.View} view
+ */
+morning.app.ModularApp.prototype.setView = function(view)
+{
+  this.removeView_();
+
+  if (goog.DEBUG)
+  {
+    console.info('ModularApp: Changing view to %o.', view);
+  }
+
+  if (view)
+  {
+    this.view = view;
+    this.view.render(this.viewContainer);
+    this.view.setParentEventTarget(this);
+  }
+};
+
+/**
+ * Sets new state of the app.
  *
 * @param {Object} state
 */
 morning.app.ModularApp.prototype.setState = function(state)
 {
+  this.removeView_();
+
   if (goog.DEBUG)
   {
-    console.info('Route match results: %o, current state: %o', state,
-      this.state_);
+    console.info('ModularApp: Setting state %o', state);
   }
 
-  if (!state)
+  this.state_ = state;
+
+  if (this.state_.route.module && morning.MODULAR)
   {
-    return;
+    this.moduleManager_.execOnLoad(this.state_.route.module,
+      this.setViewFromState_, this);
   }
-
-  if (!this.state_ || this.state_.controllerName != state.controllerName)
+  else
   {
-    if (this.controller)
-    {
-      goog.dispose(this.controller);
-
-      if (goog.DEBUG)
-      {
-        console.info('Disposed controller %o', this.controller);
-      }
-    }
-
-    this.state_ = state;
-
-    if (morning.MODULAR)
-    {
-      goog.dom.classlist.add(document.body, 'loading');
-
-      this.moduleManager_.execOnLoad(this.state_.controllerName,
-        this.initController_, this);
-    }
-    else
-    {
-      this.initController_();
-    }
-  }
-  else if (this.controller)
-  {
-    this.controller.setState(state, false);
+    this.setViewFromState_();
   }
 };
 
 /**
  * @typedef {{
- *          controllerName: string,
  *          data: Object,
+ *          route: morning.routing.Route,
  *          token: string}}
  */
 morning.app.ModularApp.State;

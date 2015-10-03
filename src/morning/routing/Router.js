@@ -25,7 +25,7 @@ goog.inherits(morning.routing.Router, goog.events.EventTarget);
 /**
  * Adds a new route to list
  *
- * @param {morning.routing.RegexRoute} route
+ * @param {morning.routing.Route} route
  */
 morning.routing.Router.prototype.addRoute = function(route)
 {
@@ -43,7 +43,8 @@ morning.routing.Router.prototype.match = function(token)
 {
   for (var i = 0; i < this.routes_.length; i++)
   {
-    if (this.routes_[i].match(token)) {
+    if (this.routes_[i].match(token))
+    {
       return true;
     }
   }
