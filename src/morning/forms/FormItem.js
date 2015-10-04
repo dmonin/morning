@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -30,45 +30,45 @@ goog.require('goog.ui.registry');
  */
 morning.forms.FormItem = function()
 {
-    goog.base(this);
+  goog.base(this);
 
-    /**
-     * Label
-     *
-     * @type {string}
-     * @private
-     */
-    this.label_ = '';
+  /**
+   * Label
+   *
+   * @type {string}
+   * @private
+   */
+  this.label_ = '';
 
-    /**
-     * Bindings for change events
-     *
-     * @type {Object}
-     * @private
-     */
-    this.bind_ = null;
+  /**
+   * Bindings for change events
+   *
+   * @type {Object}
+   * @private
+   */
+  this.bind_ = null;
 
-    /**
-     * Binding handler, manages listeners attached to change events
-     *
-     * @type {goog.events.EventHandler}
-     * @private
-     */
-    this.bindHandler_ = new goog.events.EventHandler(this);
+  /**
+   * Binding handler, manages listeners attached to change events
+   *
+   * @type {goog.events.EventHandler}
+   * @private
+   */
+  this.bindHandler_ = new goog.events.EventHandler(this);
 };
 goog.inherits(morning.forms.FormItem, goog.ui.Component);
 
 /** @inheritDoc */
 morning.forms.FormItem.prototype.createDom = function()
 {
-    var dom = this.getDomHelper(),
-    el = dom.createDom('div', 'form-item', [
-            dom.createDom('div', 'form-item-label', this.label_),
-            dom.createDom('div', 'form-item-control'),
-            dom.createDom('div', 'clear')
-    ]);
+  var dom = this.getDomHelper(),
+  el = dom.createDom('div', 'form-item', [
+      dom.createDom('div', 'form-item-label', this.label_),
+      dom.createDom('div', 'form-item-control'),
+      dom.createDom('div', 'clear')
+  ]);
 
-    this.decorateInternal(el);
+  this.decorateInternal(el);
 };
 
 /**
@@ -80,82 +80,82 @@ morning.forms.FormItem.prototype.createDom = function()
  */
 morning.forms.FormItem.prototype.bind = function(bind)
 {
-    this.bind_ = bind;
-    var key, model;
+  this.bind_ = bind;
+  var key, model;
 
-    if (this.getChildCount() !== 1)
+  if (this.getChildCount() !== 1)
+  {
+    throw new Error("FormItem: Data binding allowed only for form items with just one control.");
+  }
+
+  for (key in bind)
+  {
+    model = bind[key];
+    var control = this.getChildAt(0);
+
+    if (control)
     {
-        throw new Error("FormItem: Data binding allowed only for form items with just one control.");
+      control.setValue(model[key]);
+      var binding = {};
+      binding[key] = function() {
+        control.setValue(model[key]);
+      };
+      model.bind(this.bindHandler_, binding);
     }
+  }
 
-    for (key in bind)
-    {
-        model = bind[key];
-        var control = this.getChildAt(0);
-
-        if (control)
-        {
-            control.setValue(model[key]);
-            var binding = {};
-            binding[key] = function() {
-                control.setValue(model[key]);
-            };
-            model.bind(this.bindHandler_, binding);
-        }
-    }
-
-    return this;
+  return this;
 };
 
 /** @inheritDoc */
 morning.forms.FormItem.prototype.decorateInternal = function(el)
 {
-    goog.base(this, 'decorateInternal', el);
+  goog.base(this, 'decorateInternal', el);
 
-    var controlEls = this.getElementsByClass('form-control');
-    for (var i = 0; i < controlEls.length; i++)
+  var controlEls = this.getElementsByClass('form-control');
+  for (var i = 0; i < controlEls.length; i++)
+  {
+    var control = goog.ui.registry.getDecorator(controlEls[i]);
+    if (!control)
     {
-        var control = goog.ui.registry.getDecorator(controlEls[i]);
-        if (!control)
-        {
-            if (goog.DEBUG)
-            {
-                console.warn('Decorator not found for %o', controlEls[i]);
-            }
-            continue;
-        }
-        this.addChild(control);
-        control.decorate(controlEls[i]);
+      if (goog.DEBUG)
+      {
+        console.warn('Decorator not found for %o', controlEls[i]);
+      }
+      continue;
     }
+    this.addChild(control);
+    control.decorate(controlEls[i]);
+  }
 
-    if (goog.DEBUG && controlEls.length === 0)
-    {
-        console.warn('No control found: %o', el);
-    }
+  if (goog.DEBUG && controlEls.length === 0)
+  {
+    console.warn('No control found: %o', el);
+  }
 
 };
 
 /** @inheritDoc */
 morning.forms.FormItem.prototype.disposeInternal = function()
 {
-    goog.base(this, 'disposeInternal');
+  goog.base(this, 'disposeInternal');
 
-    this.unbindAll();
+  this.unbindAll();
 };
 
 /** @inheritDoc */
 morning.forms.FormItem.prototype.enterDocument = function()
 {
-    goog.base(this, 'enterDocument');
+  goog.base(this, 'enterDocument');
 
-    this.getHandler().listen(this, goog.events.EventType.CHANGE,
-        this.handleChange_);
+  this.getHandler().listen(this, goog.events.EventType.CHANGE,
+    this.handleChange_);
 };
 
 /** @inheritDoc */
 morning.forms.FormItem.prototype.getContentElement = function()
 {
-    return this.getElementByClass('form-item-control');
+  return this.getElementByClass('form-item-control');
 };
 
 /**
@@ -166,15 +166,15 @@ morning.forms.FormItem.prototype.getContentElement = function()
  */
 morning.forms.FormItem.prototype.getControlByName = function(name)
 {
-    var control = null;
-    this.forEachChild(function(child) {
-        if (child.getFieldName && child.getFieldName() == name)
-        {
-            control = child;
-        }
-    });
+  var control = null;
+  this.forEachChild(function(child) {
+    if (child.getFieldName && child.getFieldName() == name)
+    {
+      control = child;
+    }
+  });
 
-    return control;
+  return control;
 };
 
 /**
@@ -185,17 +185,17 @@ morning.forms.FormItem.prototype.getControlByName = function(name)
  */
 morning.forms.FormItem.prototype.handleChange_ = function(e)
 {
-    if (e.target.getValue)
-    {
-        var value = e.target.getValue();
+  if (e.target.getValue)
+  {
+    var value = e.target.getValue();
 
-        for (var key in this.bind_)
-        {
-            var updateData = {};
-            updateData[key] = value;
-            this.bind_[key].update(updateData);
-        }
+    for (var key in this.bind_)
+    {
+      var updateData = {};
+      updateData[key] = value;
+      this.bind_[key].update(updateData);
     }
+  }
 
 };
 
@@ -206,13 +206,13 @@ morning.forms.FormItem.prototype.handleChange_ = function(e)
  */
 morning.forms.FormItem.prototype.populateWithData = function(data)
 {
-    this.forEachChild(function(child) {
-        var control = /** @type {morning.forms.IControl} */ (child);
-        if (control.getFieldName)
-        {
-            data[control.getFieldName()] = control.getValue();
-        }
-    });
+  this.forEachChild(function(child) {
+    var control = /** @type {morning.forms.IControl} */ (child);
+    if (control.getFieldName)
+    {
+      data[control.getFieldName()] = control.getValue();
+    }
+  });
 };
 
 /**
@@ -222,13 +222,13 @@ morning.forms.FormItem.prototype.populateWithData = function(data)
  */
 morning.forms.FormItem.prototype.setData = function(data)
 {
-    this.forEachChild(function(child) {
-        var control = /** @type {morning.forms.IControl} */ (child);
-        if (control.getFieldName)
-        {
-            control.setValue(data[control.getFieldName()]);
-        }
-    });
+  this.forEachChild(function(child) {
+    var control = /** @type {morning.forms.IControl} */ (child);
+    if (control.getFieldName)
+    {
+      control.setValue(data[control.getFieldName()]);
+    }
+  });
 };
 
 /**
@@ -239,24 +239,24 @@ morning.forms.FormItem.prototype.setData = function(data)
  */
 morning.forms.FormItem.prototype.unbind = function(bind)
 {
-    this.bind_ = bind;
-    var key, model;
-    var control = /** @type {morning.forms.IControl} */ (this.getChildAt(0));
-    for (key in bind)
+  this.bind_ = bind;
+  var key, model;
+  var control = /** @type {morning.forms.IControl} */ (this.getChildAt(0));
+  for (key in bind)
+  {
+    model = bind[key];
+
+    if (control)
     {
-        model = bind[key];
-
-        if (control)
-        {
-            var binding = {};
-            binding[key] = function() {
-                control.setValue(model[key]);
-            };
-            model.unbind(this.bindHandler_, binding);
-        }
+      var binding = {};
+      binding[key] = function() {
+        control.setValue(model[key]);
+      };
+      model.unbind(this.bindHandler_, binding);
     }
+  }
 
-    return this;
+  return this;
 };
 
 /**
@@ -264,12 +264,12 @@ morning.forms.FormItem.prototype.unbind = function(bind)
  */
 morning.forms.FormItem.prototype.reset = function()
 {
-    this.forEachChild(function(child) {
-        if (child.reset)
-        {
-            child.reset();
-        }
-    }, this);
+  this.forEachChild(function(child) {
+    if (child.reset)
+    {
+      child.reset();
+    }
+  }, this);
 };
 
 /**
@@ -279,13 +279,13 @@ morning.forms.FormItem.prototype.reset = function()
  */
 morning.forms.FormItem.prototype.setLabel = function(label)
 {
-    this.label_ = label;
+  this.label_ = label;
 
-    var el = this.getElement();
-    if (el)
-    {
-        this.getElementByClass('form-item-label').innerHTML = label;
-    }
+  var el = this.getElement();
+  if (el)
+  {
+    this.getElementByClass('form-item-label').innerHTML = label;
+  }
 };
 
 /**
@@ -295,12 +295,12 @@ morning.forms.FormItem.prototype.setLabel = function(label)
  */
 morning.forms.FormItem.prototype.setInvalid = function(isInvalid)
 {
-    this.forEachChild(function(child) {
-        if (child.setInvalid)
-        {
-            child.setInvalid(isInvalid);
-        }
-    }, this);
+  this.forEachChild(function(child) {
+    if (child.setInvalid)
+    {
+      child.setInvalid(isInvalid);
+    }
+  }, this);
 };
 
 /**
@@ -310,15 +310,15 @@ morning.forms.FormItem.prototype.setInvalid = function(isInvalid)
  */
 morning.forms.FormItem.prototype.unbindAll = function()
 {
-    this.bindHandler_.removeAll();
-    return this;
+  this.bindHandler_.removeAll();
+  return this;
 };
 
 /**
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'form-item',
-    function() {
-      return new morning.forms.FormItem();
-    });
+  'form-item',
+  function() {
+    return new morning.forms.FormItem();
+  });

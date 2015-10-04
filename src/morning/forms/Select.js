@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -30,35 +30,35 @@ goog.require('goog.ui.Option');
  */
 morning.forms.Select = function()
 {
-    goog.base(this, '');
+  goog.base(this, '');
 
-    /**
-     * @type {string}
-     * @private
-     */
-    this.fieldName = '';
+  /**
+   * @type {string}
+   * @private
+   */
+  this.fieldName_ = '';
 };
 goog.inherits(morning.forms.Select, goog.ui.Select);
 
 /** @inheritDoc */
 morning.forms.Select.prototype.decorateInternal = function(el)
 {
-    goog.base(this, 'decorateInternal', el);
+  goog.base(this, 'decorateInternal', el);
 
-    this.fieldName = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
+  this.fieldName_ = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
 
-    // set value if data-value is set
-    var value = goog.dom.dataset.get(el, 'value');
-    if (value) {
-        var items = this.getSelectionModel().getItems();
-        for (var i = 0; i < items.length; i++) {
-            var item = items[i];
-            if (item.getValue() == value ||
-                goog.dom.dataset.get(item.getElement(), 'value') == value) {
-                this.setSelectedIndex(i);
-            }
-        }
+  // set value if data-value is set
+  var value = goog.dom.dataset.get(el, 'value');
+  if (value) {
+    var items = this.getSelectionModel().getItems();
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      if (item.getValue() == value ||
+        goog.dom.dataset.get(item.getElement(), 'value') == value) {
+        this.setSelectedIndex(i);
+      }
     }
+  }
 };
 
 
@@ -69,7 +69,7 @@ morning.forms.Select.prototype.decorateInternal = function(el)
  */
 morning.forms.Select.prototype.getFieldName = function()
 {
-    return this.fieldName;
+  return this.fieldName_;
 };
 
 /**
@@ -79,13 +79,13 @@ morning.forms.Select.prototype.getFieldName = function()
  */
 morning.forms.Select.prototype.getValue = function()
 {
-    var selectedItem = this.getSelectedItem();
+  var selectedItem = this.getSelectedItem();
 
-    if (selectedItem) {
-        return this.getItemValue(selectedItem);
-    }
+  if (selectedItem) {
+    return this.getItemValue(selectedItem);
+  }
 
-    return null;
+  return null;
 };
 
 
@@ -97,23 +97,23 @@ morning.forms.Select.prototype.getValue = function()
  */
 morning.forms.Select.prototype.getItemValue = function(item)
 {
-    var val = item.getValue();
+  var val = item.getValue();
 
-    if (val && val != item.getCaption()) {
-        return val;
-    }
-
-    var el = item.getElement();
-    if (el)
-    {
-        var dataValue = goog.dom.dataset.get(el, 'value');
-        if (dataValue)
-        {
-            return dataValue;
-        }
-    }
-
+  if (val && val != item.getCaption()) {
     return val;
+  }
+
+  var el = item.getElement();
+  if (el)
+  {
+    var dataValue = goog.dom.dataset.get(el, 'value');
+    if (dataValue)
+    {
+      return dataValue;
+    }
+  }
+
+  return val;
 };
 
 /**
@@ -121,7 +121,7 @@ morning.forms.Select.prototype.getItemValue = function(item)
  */
 morning.forms.Select.prototype.reset = function()
 {
-    this.setSelectedIndex(0);
+  this.setSelectedIndex(0);
 };
 
 /**
@@ -129,24 +129,24 @@ morning.forms.Select.prototype.reset = function()
  */
 morning.forms.Select.prototype.setConfig = function(config)
 {
-    if (config['caption'])
-    {
-        this.setCaption(config['caption']);
-    }
+  if (config['caption'])
+  {
+    this.setCaption(config['caption']);
+  }
 
-    if (config['options'] && config['options'] instanceof Array)
+  if (config['options'] && config['options'] instanceof Array)
+  {
+    var options = config['options'];
+    for (var i = 0; i < options.length; i++)
     {
-        var options = config['options'];
-        for (var i = 0; i < options.length; i++)
-        {
-            this.addItem(new goog.ui.Option(options[i]['text'], options[i]['model']));
-        }
+      this.addItem(new goog.ui.Option(options[i]['text'], options[i]['model']));
     }
+  }
 
-    if (goog.isDef(config['fieldName']))
-    {
-        this.fieldName = config['fieldName'];
-    }
+  if (goog.isDef(config['fieldName']))
+  {
+    this.fieldName_ = config['fieldName'];
+  }
 };
 
 /**
@@ -158,7 +158,7 @@ morning.forms.Select.prototype.setInvalid = goog.nullFunction;
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'select',
-    function() {
-      return new morning.forms.Select();
-    });
+  'select',
+  function() {
+    return new morning.forms.Select();
+  });
