@@ -318,7 +318,8 @@ morning.net.BackendService.prototype.handleXhrReady_ = function(request,
 
   // POST Data
   var postData = request.postData || {};
-  var postDataStr = goog.uri.utils.buildQueryDataFromMap(postData);
+  var postDataStr = typeof postData == 'object' ?
+    goog.uri.utils.buildQueryDataFromMap(postData) : postData;
 
   // Sending Request
   if (goog.DEBUG)
