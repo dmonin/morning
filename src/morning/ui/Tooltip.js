@@ -457,7 +457,8 @@ morning.ui.Tooltip.prototype.getPositionToElement_ = function(selector)
   }
 
   var tooltipSize = this.getSize(),
-    attachedElements = this.getAttachedElements_(selector),
+    attachedElements = this.getAttachedElements_(/** @type {string} */ (
+      selector)),
     directionEnum = morning.ui.Tooltip.Direction,
     position = goog.style.getPageOffset(attachedElements[0]),
     size = goog.style.getSize(attachedElements[0]);

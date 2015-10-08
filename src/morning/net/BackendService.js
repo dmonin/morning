@@ -319,7 +319,8 @@ morning.net.BackendService.prototype.handleXhrReady_ = function(request,
   // POST Data
   var postData = request.postData || {};
   var postDataStr = typeof postData == 'object' ?
-    goog.uri.utils.buildQueryDataFromMap(postData) : postData;
+    goog.uri.utils.buildQueryDataFromMap(postData) : /** @type {string} */
+    (postData);
 
   // Sending Request
   if (goog.DEBUG)
@@ -353,7 +354,7 @@ morning.net.BackendService.prototype.handleXhrReady_ = function(request,
   path: string,
   method: (string|undefined),
   getParams: (Object|undefined),
-  postData: (Object|undefined),
+  postData: (Object|string|undefined),
   transactionId: (string|undefined),
   xhr: (goog.net.XhrIo|undefined)
 }} */
