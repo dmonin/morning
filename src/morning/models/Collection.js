@@ -258,7 +258,7 @@ morning.models.Collection.prototype.serialize = function()
 /**
  * Sorts an array by specified sorter function.
  *
- * @param  {Function} fn
+ * @param  {function(?,?)} fn
  */
 morning.models.Collection.prototype.sort = function(fn)
 {
