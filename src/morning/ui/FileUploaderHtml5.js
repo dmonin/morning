@@ -88,21 +88,18 @@ morning.ui.FileUploaderHtml5.prototype.enterDocument = function()
   var doc = goog.dom.getDocument();
 
   // Add dragenter listener to the owner document of the element.
-  this.getHandler().listen(doc,
-  goog.events.EventType.DRAGENTER,
-  this.handleDocDragEnter_);
+  this.getHandler().listen(doc, goog.events.EventType.DRAGENTER,
+    this.handleDocDragEnter_);
 
   // Add dragover listener to the owner document of the element only if the
   // document is not the element itself.
-  this.getHandler().listen(doc,
-  goog.events.EventType.DRAGOVER,
-  this.handleDocDragOver_);
+  this.getHandler().listen(doc, goog.events.EventType.DRAGOVER,
+    this.handleDocDragOver_);
 
 
   // Add dragover and drop listeners to the element.
-  this.getHandler().listen(this.getElement(),
-  goog.events.EventType.DRAGOVER,
-  this.handleElemDragOver_);
+  this.getHandler().listen(this.getElement(), goog.events.EventType.DRAGOVER,
+    this.handleElemDragOver_);
 };
 
 
@@ -134,7 +131,7 @@ morning.ui.FileUploaderHtml5.prototype.filesFactory_ = function(fileData)
 */
 morning.ui.FileUploaderHtml5.prototype.handleClick_ = function(e)
 {
-  this.fileInput_.click();
+  this.openFileSelectDialog();
 };
 
 /**
@@ -249,6 +246,14 @@ morning.ui.FileUploaderHtml5.prototype.handleSelect_ = function(e)
 morning.ui.FileUploaderHtml5.prototype.resetValue = function()
 {
   this.fileInput_.value = '';
+};
+
+/**
+ * Opens file select dialog.
+ */
+monin.ui.FileUploaderHtml5.prototype.openFileSelectDialog = function()
+{
+  this.fileInput_.click();
 };
 
 /** @inheritDoc */
