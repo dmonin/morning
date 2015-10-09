@@ -256,6 +256,16 @@ morning.models.Collection.prototype.serialize = function()
 };
 
 /**
+ * Sorts an array by specified sorter function.
+ *
+ * @param  {Function} fn
+ */
+morning.models.Collection.prototype.sort = function(fn)
+{
+  this.data_.sort(fn);
+};
+
+/**
  * Converts data to an array.
  *
  * @return {T}
