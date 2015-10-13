@@ -105,8 +105,9 @@ morning.forms.TooltipErrorProvider.prototype.displayError = function(element, me
   {
     var pos = goog.style.getPageOffset(element);
     var docScroll = goog.dom.getDocumentScroll();
+    var viewportSize = goog.dom.getViewportSize();
     this.scroll_.setStartPoint([docScroll.x, docScroll.y]);
-    this.scroll_.setEndPoint([pos.x, pos.y]);
+    this.scroll_.setEndPoint([pos.x, pos.y - viewportSize.height / 2]);
     this.scroll_.play();
   }
 
