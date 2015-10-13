@@ -256,6 +256,26 @@ morning.models.Collection.prototype.serialize = function()
 };
 
 /**
+ * Calls f for each element of an array. If any call returns true, some()
+ * returns true (without checking the remaining elements). If all calls
+ * return false, some() returns false.
+ *
+ * See {@link http://tinyurl.com/developer-mozilla-org-array-some}
+ *
+ * @param {?function(this:S, T, number, ?) : boolean} f The function to call for
+ *     for every element. This function takes 3 arguments (the element, the
+ *     index and the array) and should return a boolean.
+ * @param {S=} opt_obj  The object to be used as the value of 'this'
+ *     within f.
+ * @return {boolean} true if any element passes the test.
+ * @template T,S
+ */
+morning.models.Collection.prototype.some = function(f, opt_obj)
+{
+  return goog.array.some(this.data_, f, opt_obj);
+};
+
+/**
  * Sorts an array by specified sorter function.
  *
  * @param  {function(?,?)} fn
