@@ -1,4 +1,4 @@
-// Copyright 2012 Dmitry Monin. All Rights Reserved.
+// Copyright 2012 Dmitry morning. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,30 +16,30 @@
 /**
  * @fileoverview Textbox Renderer
  */
-goog.provide('monin.mdl.TextboxRenderer');
+goog.provide('morning.mdl.TextboxRenderer');
 
-goog.require('monin.forms.TextboxRenderer');
+goog.require('morning.forms.TextboxRenderer');
 
 /**
  * Textbox Renderer
  *
  * @constructor
- * @extends {monin.forms.TextboxRenderer}
+ * @extends {morning.forms.TextboxRenderer}
  */
-monin.mdl.TextboxRenderer = function()
+morning.mdl.TextboxRenderer = function()
 {
     goog.base(this);
 };
 
-goog.inherits(monin.mdl.TextboxRenderer, monin.forms.TextboxRenderer);
-goog.addSingletonGetter(monin.mdl.TextboxRenderer);
+goog.inherits(morning.mdl.TextboxRenderer, morning.forms.TextboxRenderer);
+goog.addSingletonGetter(morning.mdl.TextboxRenderer);
 
 /**
  * Default CSS class to be applied to the root element of components rendered
  * by this renderer.
  * @type {string}
  */
-monin.mdl.TextboxRenderer.CSS_CLASS = goog.getCssName('mdl-textfield');
+morning.mdl.TextboxRenderer.CSS_CLASS = goog.getCssName('mdl-textfield');
 
 
 /**
@@ -47,7 +47,7 @@ monin.mdl.TextboxRenderer.CSS_CLASS = goog.getCssName('mdl-textfield');
  * @return {Element}
  * @override
  */
-monin.mdl.TextboxRenderer.prototype.createDom = function(textbox) {
+morning.mdl.TextboxRenderer.prototype.createDom = function(textbox) {
     this.setUpTextbox_(textbox);
 
     var element = textbox.getDomHelper().createDom('input', {
@@ -61,7 +61,7 @@ monin.mdl.TextboxRenderer.prototype.createDom = function(textbox) {
 };
 
 /** @override */
-monin.mdl.TextboxRenderer.prototype.decorate = function(control, element)
+morning.mdl.TextboxRenderer.prototype.decorate = function(control, element)
 {
   this.setUpTextbox_(control);
   goog.base(this, 'decorate', control, element);
@@ -72,10 +72,10 @@ monin.mdl.TextboxRenderer.prototype.decorate = function(control, element)
 };
 
 /** @override */
-monin.mdl.TextboxRenderer.prototype.setFocusable = goog.nullFunction;
+morning.mdl.TextboxRenderer.prototype.setFocusable = goog.nullFunction;
 
 /** @override */
-monin.mdl.TextboxRenderer.prototype.setState = function(textbox, state,
+morning.mdl.TextboxRenderer.prototype.setState = function(textbox, state,
     enable)
 {
     goog.base(this, 'setState', textbox, state, enable);
@@ -90,14 +90,14 @@ monin.mdl.TextboxRenderer.prototype.setState = function(textbox, state,
 /**
  * @override
  */
-monin.mdl.TextboxRenderer.prototype.updateAriaState = goog.nullFunction;
+morning.mdl.TextboxRenderer.prototype.updateAriaState = goog.nullFunction;
 
 
 /**
  * @param {goog.ui.Control} textbox Textbox control to configure
  * @private
  */
-monin.mdl.TextboxRenderer.prototype.setUpTextbox_ = function(textbox)
+morning.mdl.TextboxRenderer.prototype.setUpTextbox_ = function(textbox)
 {
     textbox.setHandleMouseEvents(false);
     textbox.setAutoStates(goog.ui.Component.State.ALL, false);
@@ -106,7 +106,7 @@ monin.mdl.TextboxRenderer.prototype.setUpTextbox_ = function(textbox)
 
 
 /** @override **/
-monin.mdl.TextboxRenderer.prototype.setContent = function(element, value)
+morning.mdl.TextboxRenderer.prototype.setContent = function(element, value)
 {
     if (element)
     {
@@ -115,7 +115,7 @@ monin.mdl.TextboxRenderer.prototype.setContent = function(element, value)
 };
 
 /** @override **/
-monin.mdl.TextboxRenderer.prototype.getCssClass = function()
+morning.mdl.TextboxRenderer.prototype.getCssClass = function()
 {
-    return monin.mdl.TextboxRenderer.CSS_CLASS;
+    return morning.mdl.TextboxRenderer.CSS_CLASS;
 };

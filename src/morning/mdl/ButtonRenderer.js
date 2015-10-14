@@ -1,4 +1,4 @@
-// Copyright 2012 Dmitry Monin. All Rights Reserved.
+// Copyright 2012 Dmitry morning. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  * Standards
  */
 
-goog.provide('monin.mdl.ButtonRenderer');
+goog.provide('morning.mdl.ButtonRenderer');
 goog.require('goog.ui.NativeButtonRenderer');
 
 goog.require('goog.ui.ButtonSide');
@@ -42,11 +42,11 @@ goog.require('goog.ui.ControlRenderer');
  * @constructor
  * @extends {goog.ui.NativeButtonRenderer}
  */
-monin.mdl.ButtonRenderer = function() {
+morning.mdl.ButtonRenderer = function() {
   goog.ui.ControlRenderer.call(this);
 };
-goog.inherits(monin.mdl.ButtonRenderer, goog.ui.NativeButtonRenderer);
-goog.addSingletonGetter(monin.mdl.ButtonRenderer);
+goog.inherits(morning.mdl.ButtonRenderer, goog.ui.NativeButtonRenderer);
+goog.addSingletonGetter(morning.mdl.ButtonRenderer);
 
 
 /**
@@ -54,11 +54,11 @@ goog.addSingletonGetter(monin.mdl.ButtonRenderer);
  * by this renderer.
  * @type {string}
  */
-monin.mdl.ButtonRenderer.CSS_CLASS = goog.getCssName('mdl-button');
+morning.mdl.ButtonRenderer.CSS_CLASS = goog.getCssName('mdl-button');
 
 
 /** @inheritDoc */
-monin.mdl.ButtonRenderer.prototype.initializeDom = function(control) {
+morning.mdl.ButtonRenderer.prototype.initializeDom = function(control) {
   goog.base(this, 'initializeDom', control);
 
   this.enableClassName(control, 'mdl-button', true);
@@ -74,5 +74,5 @@ monin.mdl.ButtonRenderer.prototype.initializeDom = function(control) {
 goog.ui.registry.setDecoratorByClassName(
   'mdl-button',
   function() {
-    return new goog.ui.Button('', monin.mdl.ButtonRenderer.getInstance());
+    return new goog.ui.Button('', morning.mdl.ButtonRenderer.getInstance());
 });
