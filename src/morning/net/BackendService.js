@@ -350,6 +350,17 @@ morning.net.BackendService.prototype.handleXhrReady_ = function(request,
   );
 };
 
+/**
+ * Sets the header.
+ *
+ * @param {string} key
+ * @param {string} value
+ */
+morning.net.BackendService.prototype.setHeader = function(key, value)
+{
+  this.headers_.set(key, value);
+};
+
 /** @typedef {{
   path: string,
   method: (string|undefined),
