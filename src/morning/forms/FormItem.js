@@ -226,7 +226,7 @@ morning.forms.FormItem.prototype.setData = function(data)
     var control = /** @type {morning.forms.IControl} */ (child);
     if (control.getFieldName)
     {
-      control.setValue(data[control.getFieldName()]);
+      control.setValue(data[control.getFieldName()] || null);
     }
   });
 };
