@@ -251,7 +251,7 @@ morning.ui.FileUploaderHtml5.prototype.resetValue = function()
 /**
  * Opens file select dialog.
  */
-monin.ui.FileUploaderHtml5.prototype.openFileSelectDialog = function()
+morning.ui.FileUploaderHtml5.prototype.openFileSelectDialog = function()
 {
   this.fileInput_.click();
 };
