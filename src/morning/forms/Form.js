@@ -59,9 +59,11 @@ goog.inherits(morning.forms.Form, goog.ui.Component);
  * @param {string} label
  * @param {string} className
  * @param {Object=} controlConfig
+ * @param {number=} opt_index
  * @return {!morning.forms.FormItem}
  */
-morning.forms.Form.prototype.addFormItem = function(label, className, controlConfig)
+morning.forms.Form.prototype.addFormItem = function(label, className,
+  controlConfig, opt_index)
 {
   controlConfig = controlConfig || {};
 
@@ -79,9 +81,39 @@ morning.forms.Form.prototype.addFormItem = function(label, className, controlCon
 
   control.setConfig(controlConfig);
   formItem.addChild(control, true);
-  this.addChild(formItem, true);
+
+  if (typeof opt_index == 'number')
+  {
+    this.addChildAt(formItem, opt_index, true);
+  }
+  else
+  {
+    this.addChild(formItem, true);
+  }
+
 
   return formItem;
+};
+
+/**
+ * Removes all form items
+ */
+morning.forms.Form.prototype.removeFormItems = function()
+{
+  var formItems = [];
+  this.forEachChild(function(child) {
+    if (child instanceof morning.forms.FormItem)
+    {
+      formItems.push(child);
+    }
+  }, this);
+
+  for (var i = 0; i < formItems.length; i++)
+  {
+    this.removeChild(formItems[i], true);
+  }
+
+  return formItems;
 };
 
 /**
@@ -222,7 +254,7 @@ morning.forms.Form.prototype.bind = function(bind)
   for (var fieldName in bind)
   {
     formItem = this.getFormItemByName(fieldName);
-    if (!formItem)
+    if (!formItem && goog.DEBUG)
     {
       console.warn('Form: Form item not found: %s', fieldName);
     }
