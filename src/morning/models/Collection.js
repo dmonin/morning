@@ -110,6 +110,7 @@ morning.models.Collection.prototype.forEachRight = function(f, opt_obj)
 };
 
 /**
+ * @param {number} index
  * @return {*}
  */
 morning.models.Collection.prototype.getAt = function(index)
