@@ -75,6 +75,15 @@ morning.net.BackendService = function(apiEndPoint, opt_withCredentials)
    * @type {number}
    */
   this.requestTimeout = 5000;
+
+  /**
+   * @param {Object} response
+   * @return {boolean}
+   */
+  this.successCheck = function(response)
+  {
+    return response['success'] === true;
+  };
 };
 goog.inherits(morning.net.BackendService, goog.events.EventTarget);
 
@@ -157,8 +166,8 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
   var xhr = /** @type {goog.net.XhrIo} */ (e.target);
 
   // Getting request object
-  // try
-  // {
+  try
+  {
     // Parsing response
     var response = e.target.getResponseJson();
     if (goog.DEBUG)
@@ -167,7 +176,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
     }
 
     // Response is fine, checking what does server says
-    if (response['success'] &&
+    if (this.successCheck(response) &&
       this.dispatchEvent(new morning.net.BackendServiceEvent(
         morning.net.BackendService.EventType.RESPONSE,
         request,
@@ -211,40 +220,40 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
         errorCallback(response);
       }
     }
-  // }
-  // catch (exc)
-  // {
-  //   // In debug mode, we want to see it right: in browser console.
-  //   if (goog.DEBUG)
-  //   {
-  //     console.log(xhr.getResponseText());
-  //     console.error(exc);
-  //     // throw exc;
-  //   }
+  }
+  catch (exc)
+  {
+    // In debug mode, we want to see it right: in browser console.
+    if (goog.DEBUG)
+    {
+      console.log(xhr.getResponseText());
+      console.error(exc);
+      // throw exc;
+    }
 
-  //   if (e.target.isAbortedByUser)
-  //   {
-  //     this.releaseRequest_(xhr, transactionId);
-  //     return;
-  //   }
+    if (e.target.isAbortedByUser)
+    {
+      this.releaseRequest_(xhr, transactionId);
+      return;
+    }
 
-  //   // Something went wrong in processing of response (parsing or executing the
-  //   // callback function), in case no one can solve the problem, calling
-  //   // the error callback
-  //   if (this.dispatchEvent(new morning.net.BackendServiceEvent(
-  //       morning.net.BackendService.EventType.PROCESSING_ERROR,
-  //       request,
-  //       callback,
-  //       errorCallback,
-  //       response)) && errorCallback)
-  //   {
-  //     errorCallback();
-  //   }
-  // }
-  // finally
-  // {
-  //   this.releaseRequest_(xhr, transactionId);
-  // }
+    // Something went wrong in processing of response (parsing or executing the
+    // callback function), in case no one can solve the problem, calling
+    // the error callback
+    if (this.dispatchEvent(new morning.net.BackendServiceEvent(
+        morning.net.BackendService.EventType.PROCESSING_ERROR,
+        request,
+        callback,
+        errorCallback,
+        response)) && errorCallback)
+    {
+      errorCallback();
+    }
+  }
+  finally
+  {
+    this.releaseRequest_(xhr, transactionId);
+  }
 };
 
 /**
