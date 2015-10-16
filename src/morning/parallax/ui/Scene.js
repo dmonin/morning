@@ -79,6 +79,12 @@ morning.parallax.ui.Scene.prototype.initializeElement_ = function(id, config,
     element = goog.dom.getElement(id);
   }
 
+  if (!element)
+  {
+    console.error('Scene: Element not found %s %o %o.', id, config, this.getElement());
+    throw new Error('Scene: Element not found.');
+  }
+
   // Decorating
   var cmp = goog.ui.registry.getDecorator(element);
   if (!cmp)
