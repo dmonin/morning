@@ -95,6 +95,11 @@ morning.controllers.NavigationController.prototype.initialize = function(config)
 
   this.getHandler().listen(document.documentElement,
     goog.events.EventType.CLICK, this.handleClick_);
+
+  if (goog.DEBUG)
+  {
+    console.info('Initialized NavigationController');
+  }
 };
 
 /**
