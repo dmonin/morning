@@ -108,11 +108,16 @@ morning.app.ModularApp.prototype.addController = function(name, controller,
     controller.initialize(opt_config);
   }
 
+  controller.setParentEventTarget(this);
+
   this.controllers_.set(name, controller);
   return this;
 };
 
 /**
+ * Adds a route to the application. After navigation controller changed token,
+ * the router match against all available routes and find appropriate view.
+ *
  * @param {morning.routing.Route} route
  * @return {morning.app.ModularApp}
  */
@@ -120,6 +125,17 @@ morning.app.ModularApp.prototype.addRoute = function(route)
 {
   this.router_.addRoute(route);
   return this;
+};
+
+/**
+ * Returns controller by specified key.
+ *
+ * @param {string} key
+ * @return {morning.controllers.BaseController}
+ */
+morning.app.ModularApp.prototype.getController = function(key)
+{
+  return this.controllers_.get(key);
 };
 
 /**
@@ -213,8 +229,11 @@ morning.app.ModularApp.prototype.removeView_ = function()
 
 /**
  * Initializes app
+ *
+ * @param {morning.app.View=} opt_view Start view of the app. If no view
+ * provided, the app will try to find the view from navigation controller.
  */
-morning.app.ModularApp.prototype.start = function()
+morning.app.ModularApp.prototype.start = function(opt_view)
 {
   if (morning.MODULAR)
   {
@@ -229,7 +248,11 @@ morning.app.ModularApp.prototype.start = function()
       this.handleRouteMatch_);
 
   var navController = this.controllers_.get('navigation');
-  if (navController)
+  if (opt_view)
+  {
+    this.setView(opt_view);
+  }
+  else if (navController)
   {
     this.navigate(navController.getToken());
   }
@@ -261,7 +284,10 @@ morning.app.ModularApp.prototype.setView = function(view)
   if (view)
   {
     this.view = view;
-    this.view.render(this.viewContainer);
+    if (!view.isInDocument())
+    {
+      this.view.render(this.viewContainer);
+    }
     this.view.setParentEventTarget(this);
   }
 };
