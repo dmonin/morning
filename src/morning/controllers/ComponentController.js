@@ -62,7 +62,7 @@ morning.controllers.ComponentController.prototype.destroy = function(element,
     {
       if (goog.DEBUG)
       {
-        console.log('Destroyed component %o', cmp);
+        console.info('Destroyed component %o', cmp);
       }
 
       cmp.dispose();
@@ -78,7 +78,7 @@ morning.controllers.ComponentController.prototype.disposeInternal = function()
 
   if (goog.DEBUG)
   {
-    console.log('Disposing components: %o', this.components_.getValues());
+    console.info('Disposing components: %o', this.components_.getValues());
   }
 
   goog.disposeAll(this.components_.getValues());
@@ -137,7 +137,7 @@ morning.controllers.ComponentController.prototype.initialize =
     }
     else if (goog.DEBUG)
     {
-      console.log('Initialized component %s: %o %o', name, cmp, elements[i]);
+      console.info('Initialized component %s: %o %o', name, cmp, elements[i]);
     }
 
     this.components_.set(name, cmp);
