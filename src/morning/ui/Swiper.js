@@ -73,6 +73,9 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
 
   var slidesPerView = goog.dom.dataset.get(el, 'slidesperview') || null;
 
+  var centeredSlides = goog.dom.dataset.get(el, 'centeredslides') || null;
+  var spaceBetween = goog.dom.dataset.get(el, 'spacebetween') || null;
+
   var cfg = {
     'loop': loop,
     'paginationClickable': paginationClickable
@@ -86,6 +89,16 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
   if (slidesPerView)
   {
     cfg['slidesPerView'] = slidesPerView;
+  }
+
+  if (centeredSlides)
+  {
+    cfg['centeredSlides'] = centeredSlides;
+  }
+
+  if (spaceBetween)
+  {
+    cfg['spaceBetween'] = Number(spaceBetween);
   }
 
   this.setConfig(cfg);
