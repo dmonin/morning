@@ -59,6 +59,11 @@ morning.parallax.effects.CounterEffect.prototype.apply = function(parallaxElemen
     element = element.querySelector(this.selector);
   }
 
+  if (typeof this.to == 'undefined')
+  {
+    this.to = parseInt(parallaxElement.getElement().innerHTML, 10);
+  }
+
   offset = this.strictRange(offset);
 
   var percent = (offset - this.range.start) /
