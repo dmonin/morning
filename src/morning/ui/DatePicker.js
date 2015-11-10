@@ -510,8 +510,16 @@ morning.ui.DatePicker.prototype.handleGridOver_ = function(e)
     return;
   }
 
-  var highlight = this.selectionMode_ == morning.ui.DatePicker.SelectionMode.START ? startEnd[0] : startEnd[1];
-  this.highlight(startEnd[0], startEnd[1], highlight);
+
+  if (this.selectionMode_ == morning.ui.DatePicker.SelectionMode.BOTH)
+  {
+    this.highlight(this.startDate_, this.endDate_, startEnd[0]);
+  }
+  else
+  {
+    var highlight = this.selectionMode_ == morning.ui.DatePicker.SelectionMode.START ? startEnd[0] : startEnd[1];
+    this.highlight(startEnd[0], startEnd[1], highlight);
+  }
 
   this.dispatchEvent(new morning.ui.DatePickerEvent(
     morning.ui.DatePicker.EventType.HIGHLIGHT,
