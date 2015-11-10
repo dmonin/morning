@@ -70,11 +70,15 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
   var loop = goog.dom.dataset.get(el, 'loop') == 'true';
   var paginationClickable =
     goog.dom.dataset.get(el, 'paginationclickable') == 'true';
+  var paginationBulletRender = goog.dom.dataset.get(el, 'paginationbulletrenderer') || null;
 
   var slidesPerView = goog.dom.dataset.get(el, 'slidesperview') || null;
 
   var centeredSlides = goog.dom.dataset.get(el, 'centeredslides') || null;
   var spaceBetween = goog.dom.dataset.get(el, 'spacebetween') || null;
+
+  var nextBtn = goog.dom.dataset.get(el, 'nextBtn') || null;
+  var prevBtn = goog.dom.dataset.get(el, 'prevBtn') || null;
 
   var cfg = {
     'loop': loop,
@@ -84,6 +88,11 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
   if (pagination)
   {
     cfg['pagination'] = pagination;
+  }
+
+  if (paginationBulletRender)
+  {
+    cfg['paginationBulletRender'] = goog.getObjectByName(paginationBulletRender);
   }
 
   if (slidesPerView)
@@ -99,6 +108,15 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
   if (spaceBetween)
   {
     cfg['spaceBetween'] = Number(spaceBetween);
+  }
+
+  if (nextBtn)
+  {
+    cfg['nextButton'] = nextBtn;
+  }
+  if (prevBtn)
+  {
+    cfg['prevButton'] = prevBtn;
   }
 
   this.setConfig(cfg);
