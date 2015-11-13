@@ -39,8 +39,9 @@ morning.parallax.effects.AbstractPropertyEffect.prototype.setConfig = function(c
 
   if (config['randomize'])
   {
-    this.from = this.randomize_(this.from, config['randomize']);
-    this.to = this.randomize_(this.to, config['randomize']);
+    var random = Math.random() * config['randomize'];
+    this.from = this.randomize_(this.from, random);
+    this.to = this.randomize_(this.to, random);
   }
 };
 
@@ -86,6 +87,7 @@ morning.parallax.effects.AbstractPropertyEffect.prototype.apply = function(eleme
  * Randomizes value
  *
  * @param  {number|Array.<number>} val
+ * @param {number} diff
  * @private
  */
 morning.parallax.effects.AbstractPropertyEffect.prototype.randomize_ = function(val, diff)
