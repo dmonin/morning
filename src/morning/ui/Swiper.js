@@ -142,7 +142,7 @@ morning.ui.Swiper.prototype.handleSwiperReady_ = function(e)
 {
   this.swiper = new Swiper(this.getElement(), this.config_);
 
-  this.dispatchEvent(morning.ui.Swiper.EventType.swiperREADY);
+  this.dispatchEvent(morning.ui.Swiper.EventType.SWIPER_READY);
 };
 
 /**
