@@ -192,7 +192,6 @@ morning.ui.Swiper.prototype.onSlideChangeEnd = function(e)
 };
 
 
-
 /**
  * Returns index of currently displayed slide
  *
@@ -201,6 +200,23 @@ morning.ui.Swiper.prototype.onSlideChangeEnd = function(e)
 morning.ui.Swiper.prototype.getActiveIndex = function()
 {
   return this.swiper_.activeIndex;
+};
+
+
+/**
+ * Run transition to the slide with index number equal to 'index' 
+ * parameter for the duration equal to 'speed' parameter.
+ *
+ * @param  {number} index
+ * @param  {number=} speed
+ * @param  {boolean=} runCallbacks
+ */
+morning.ui.Swiper.prototype.swipeTo = function(index, speed, runCallbacks)
+{
+  if (this.swiper_)
+  {
+    this.swiper_.swipeTo(index, speed, runCallbacks);
+  }
 };
 
 
