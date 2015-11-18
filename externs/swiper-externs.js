@@ -28,7 +28,7 @@ Swiper.prototype.swipePrev = function() {};
 /**
  *
  */
-Swiper.prototype.swipeTo = function(index, speed, runCallbacks) {};
+Swiper.prototype.slideTo = function(index, speed, runCallbacks) {};
 
 /**
  *
