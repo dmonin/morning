@@ -42,7 +42,7 @@ morning.ui.Swiper = function()
 
   /**
    * @type {Swiper}
-   * @private
+   * @protected
    */
   this.swiper_ = null;
 };
@@ -119,6 +119,8 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
     cfg['prevButton'] = prevBtn;
   }
 
+  cfg['onSlideChangeEnd'] = goog.bind(this.onSlideChangeEnd, this);
+
   this.setConfig(cfg);
 };
 
@@ -157,6 +159,8 @@ morning.ui.Swiper.prototype.disposeInternal = function()
 morning.ui.Swiper.prototype.handleSwiperReady_ = function(e)
 {
   this.swiper_ = new Swiper(this.getElement(), this.config_);
+
+  this.dispatchEvent(morning.ui.Swiper.EventType.SWIPER_READY);
 };
 
 /**
@@ -176,6 +180,36 @@ morning.ui.Swiper.prototype.load_ = function()
 morning.ui.Swiper.prototype.setConfig = function(cfg)
 {
   goog.mixin(this.config_, cfg);
+};
+
+
+/**
+ * @param  {goog.events.Event} e
+ */
+morning.ui.Swiper.prototype.onSlideChangeEnd = function(e)
+{
+  this.dispatchEvent(morning.ui.Swiper.EventType.SLIDE_CHANGE_END);
+};
+
+
+
+/**
+ * Returns index of currently displayed slide
+ *
+ * @return {number}
+ */
+morning.ui.Swiper.prototype.getActiveIndex = function()
+{
+  return this.swiper_.activeIndex;
+};
+
+
+/**
+ * @enum {string}
+ */
+morning.ui.Swiper.EventType = {
+  SWIPER_READY: 'swiperready',
+  SLIDE_CHANGE_END: 'slidechangeend'
 };
 
 /**

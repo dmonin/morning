@@ -60,4 +60,4 @@ Swiper.prototype.activeSlide = function() {
 /**
  * @type {number}
  */
-Swiper.prototype.activeLoopIndex = 0;
+Swiper.prototype.activeIndex = 0;
