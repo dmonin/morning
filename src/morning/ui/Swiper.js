@@ -215,7 +215,7 @@ morning.ui.Swiper.prototype.swipeTo = function(index, speed, runCallbacks)
 {
   if (this.swiper_)
   {
-    this.swiper_.swipeTo(index, speed, runCallbacks);
+    this.swiper_.slideTo(index, speed, runCallbacks);
   }
 };
 
