@@ -76,7 +76,7 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
     for (var i = 0; i < readCfg[type].length; i++)
     {
       var key = readCfg[type][i];
-      var val = goog.dom.dataset.get(key);
+      var val = goog.dom.dataset.get(el, key);
 
       if (!val)
       {
