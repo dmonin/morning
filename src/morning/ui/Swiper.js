@@ -67,7 +67,7 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
     'number': ['slidesPerView', 'spaceBetween'],
     'boolean': ['loop', 'paginationClickable', 'centerSlides'],
     'string': ['pagination', 'nextBtn', 'prevBtn'],
-    'closures': ['paginationBulletRender']
+    'closure': ['paginationBulletRender']
   };
 
   var cfg = {};
