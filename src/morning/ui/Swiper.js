@@ -44,7 +44,7 @@ morning.ui.Swiper = function()
    * @type {Swiper}
    * @protected
    */
-  this.swiper_ = null;
+  this.swiper = null;
 };
 goog.inherits(morning.ui.Swiper, goog.ui.Component);
 
@@ -63,63 +63,45 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
 {
   goog.base(this, 'decorateInternal', el);
 
-  var pagination = /** @type {string} */
-    (goog.dom.dataset.get(el, 'pagination')) != null ?
-    goog.dom.dataset.get(el, 'pagination') : '';
-
-  var loop = goog.dom.dataset.get(el, 'loop') == 'true';
-  var paginationClickable =
-    goog.dom.dataset.get(el, 'paginationclickable') == 'true';
-  var paginationBulletRender = goog.dom.dataset.get(el, 'paginationbulletrenderer') || null;
-
-  var slidesPerView = goog.dom.dataset.get(el, 'slidesperview') || null;
-
-  var centeredSlides = goog.dom.dataset.get(el, 'centeredslides') || null;
-  var spaceBetween = goog.dom.dataset.get(el, 'spacebetween') || null;
-
-  var nextBtn = goog.dom.dataset.get(el, 'nextBtn') || null;
-  var prevBtn = goog.dom.dataset.get(el, 'prevBtn') || null;
-
-  var cfg = {
-    'loop': loop,
-    'paginationClickable': paginationClickable
+  var readCfg = {
+    'number': ['slidesPerView', 'spaceBetween'],
+    'boolean': ['loop', 'paginationClickable', 'centerSlides'],
+    'string': ['pagination', 'nextBtn', 'prevBtn'],
+    'closures': ['paginationBulletRender']
   };
 
-  if (pagination)
+  var cfg = {};
+  for (var type in readCfg)
   {
-    cfg['pagination'] = pagination;
+    for (var i = 0; i < readCfg[type].length; i++)
+    {
+      var key = readCfg[type][i];
+      var val = goog.dom.dataset.get(key);
+
+      if (!val)
+      {
+        continue;
+      }
+
+      switch (type)
+      {
+        case 'number':
+          cfg[key] = Number(val);
+          break;
+        case 'boolean':
+          cfg[key] = val == 'true';
+          break;
+        case 'closure':
+          cfg[key] = goog.getObjectByName(val);
+          break;
+        default:
+          cfg[key] = val;
+          break;
+      }
+    }
   }
 
-  if (paginationBulletRender)
-  {
-    cfg['paginationBulletRender'] = goog.getObjectByName(paginationBulletRender);
-  }
-
-  if (slidesPerView)
-  {
-    cfg['slidesPerView'] = slidesPerView;
-  }
-
-  if (centeredSlides)
-  {
-    cfg['centeredSlides'] = centeredSlides;
-  }
-
-  if (spaceBetween)
-  {
-    cfg['spaceBetween'] = Number(spaceBetween);
-  }
-
-  if (nextBtn)
-  {
-    cfg['nextButton'] = nextBtn;
-  }
-  if (prevBtn)
-  {
-    cfg['prevButton'] = prevBtn;
-  }
-
-  cfg['onSlideChangeEnd'] = goog.bind(this.onSlideChangeEnd, this);
+  cfg['onSlideChangeEnd'] = this.handleSlideChangeEnd_.bind(this);
 
   this.setConfig(cfg);
 };
@@ -144,10 +126,10 @@ morning.ui.Swiper.prototype.enterDocument = function()
 morning.ui.Swiper.prototype.disposeInternal = function()
 {
   goog.base(this, 'disposeInternal');
-  if (this.swiper_)
+  if (this.swiper)
   {
     goog.Timer.callOnce(function() {
-      this.swiper_.destroy();
+      this.swiper.destroy();
     }, 1000, this);
   }
 };
@@ -158,9 +140,9 @@ morning.ui.Swiper.prototype.disposeInternal = function()
  */
 morning.ui.Swiper.prototype.handleSwiperReady_ = function(e)
 {
-  this.swiper_ = new Swiper(this.getElement(), this.config_);
+  this.swiper = new Swiper(this.getElement(), this.config_);
 
-  this.dispatchEvent(morning.ui.Swiper.EventType.SWIPER_READY);
+  this.dispatchEvent(morning.ui.Swiper.EventType.swiperREADY);
 };
 
 /**
@@ -184,9 +166,12 @@ morning.ui.Swiper.prototype.setConfig = function(cfg)
 
 
 /**
+ * Handles slide change event and propagates it.
+ *
  * @param  {goog.events.Event} e
+ * @private
  */
-morning.ui.Swiper.prototype.onSlideChangeEnd = function(e)
+morning.ui.Swiper.prototype.handleSlideChangeEnd_ = function(e)
 {
   this.dispatchEvent(morning.ui.Swiper.EventType.SLIDE_CHANGE_END);
 };
@@ -199,12 +184,12 @@ morning.ui.Swiper.prototype.onSlideChangeEnd = function(e)
  */
 morning.ui.Swiper.prototype.getActiveIndex = function()
 {
-  return this.swiper_.activeIndex;
+  return this.swiper.activeIndex;
 };
 
 
 /**
- * Run transition to the slide with index number equal to 'index' 
+ * Run transition to the slide with index number equal to 'index'
  * parameter for the duration equal to 'speed' parameter.
  *
  * @param  {number} index
@@ -213,9 +198,9 @@ morning.ui.Swiper.prototype.getActiveIndex = function()
  */
 morning.ui.Swiper.prototype.swipeTo = function(index, speed, runCallbacks)
 {
-  if (this.swiper_)
+  if (this.swiper)
   {
-    this.swiper_.slideTo(index, speed, runCallbacks);
+    this.swiper.slideTo(index, speed, runCallbacks);
   }
 };
 
