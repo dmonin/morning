@@ -64,10 +64,10 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
   goog.base(this, 'decorateInternal', el);
 
   var readCfg = {
-    'number': ['slidesPerView', 'spaceBetween'],
+    'number': ['spaceBetween'],
     'boolean': ['loop', 'paginationClickable', 'centerSlides'],
-    'string': ['pagination', 'nextButton', 'prevButton'],
-    'closure': ['paginationBulletRender']
+    'string': ['pagination', 'nextButton', 'prevButton', 'slidesPerView'],
+    'closure': ['paginationBulletRender', 'onSlideChangeEnd']
   };
 
   var cfg = {};
@@ -101,7 +101,10 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
     }
   }
 
-  cfg['onSlideChangeEnd'] = this.handleSlideChangeEnd_.bind(this);
+  if (!cfg['onSlideChangeEnd'])
+  {
+    cfg['onSlideChangeEnd'] = this.handleSlideChangeEnd_.bind(this);
+  }
 
   this.setConfig(cfg);
 };
@@ -140,7 +143,18 @@ morning.ui.Swiper.prototype.disposeInternal = function()
  */
 morning.ui.Swiper.prototype.handleSwiperReady_ = function(e)
 {
-  this.swiper = new Swiper(this.getElement(), this.config_);
+  try
+  {
+    this.swiper = new Swiper(this.getElement(), this.config_);
+  }
+  catch (exc)
+  {
+    if (goog.DEBUG)
+    {
+      console.error('Couldn\'t initialize swiper %o', this.config_);
+    }
+  }
+
 
   this.dispatchEvent(morning.ui.Swiper.EventType.SWIPER_READY);
 };
@@ -184,7 +198,17 @@ morning.ui.Swiper.prototype.handleSlideChangeEnd_ = function(e)
  */
 morning.ui.Swiper.prototype.getActiveIndex = function()
 {
-  return this.swiper.activeIndex;
+  return this.swiper ? this.swiper.activeIndex : 0;
+};
+
+/**
+ * Returns an array of slide elements.
+ *
+ * @return {goog.array.ArrayLike<Element>}
+ */
+morning.ui.Swiper.prototype.getSlides = function()
+{
+  return this.swiper ? this.swiper.slides : [];
 };
 
 
