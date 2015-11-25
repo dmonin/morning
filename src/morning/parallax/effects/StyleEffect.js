@@ -88,6 +88,14 @@ morning.parallax.effects.StyleEffect.prototype.setProperty = function(element, v
       morning.style.setTransform(node, 'scale(' + value + ')');
       break;
 
+    case 'scaleX':
+      morning.style.setTransform(node, 'scaleX(' + value + ')');
+      break;
+
+    case 'scaleY':
+      morning.style.setTransform(node, 'scaleY(' + value + ')');
+      break;
+
     case 'translate':
       morning.style.translate(node, value[0], value[1], this.unit);
       break;
