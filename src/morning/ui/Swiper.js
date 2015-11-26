@@ -65,7 +65,7 @@ morning.ui.Swiper.prototype.decorateInternal = function(el)
 
   var readCfg = {
     'number': ['spaceBetween'],
-    'boolean': ['loop', 'paginationClickable', 'centerSlides'],
+    'boolean': ['loop', 'paginationClickable', 'centeredSlides'],
     'string': ['pagination', 'nextButton', 'prevButton', 'slidesPerView'],
     'closure': ['paginationBulletRender', 'onSlideChangeEnd']
   };
