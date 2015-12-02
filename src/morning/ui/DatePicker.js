@@ -125,6 +125,20 @@ morning.ui.DatePicker = function()
    * @type {boolean}
    */
   this.enableDayInteraction = true;
+
+  /**
+   * Delay after which mouse out selection will be restored.
+   * @type {number}
+   */
+  this.mouseOutDelayMs = 0;
+
+  /**
+   * @type {goog.async.Delay}
+   * @private
+   */
+  this.mouseOutDelay_ = new goog.async.Delay(this.restoreSelection_,
+    1000,
+    this);
 };
 goog.inherits(morning.ui.DatePicker, goog.ui.Component);
 
@@ -291,6 +305,19 @@ morning.ui.DatePicker.prototype.getRange = function()
 morning.ui.DatePicker.prototype.getBaseCssClass = function()
 {
   return morning.ui.DatePicker.BASE_CSS_CLASS_;
+};
+
+/**
+ * @private
+ */
+morning.ui.DatePicker.prototype.restoreSelection_ = function()
+{
+  this.redrawCalendarGrid_();
+
+  this.dispatchEvent(new morning.ui.DatePickerEvent(
+    morning.ui.DatePicker.EventType.UNHIGHLIGHT,
+    this, null, null));
+
 };
 
 /**
@@ -486,7 +513,13 @@ morning.ui.DatePicker.prototype.handleGridMouseDown_ = function(e)
 
   if (this.dispatchEvent(evt))
   {
-    this.selectRange(startEnd[0], startEnd[1]);
+    var changeEvent = new morning.ui.DatePickerEvent(
+      morning.ui.DatePicker.EventType.CHANGE, this, startEnd[0], startEnd[1]);
+
+    if (this.dispatchEvent(changeEvent))
+    {
+      this.selectRange(startEnd[0], startEnd[1]);
+    }
   }
 };
 
@@ -498,6 +531,8 @@ morning.ui.DatePicker.prototype.handleGridMouseDown_ = function(e)
  */
 morning.ui.DatePicker.prototype.handleGridOver_ = function(e)
 {
+  this.mouseOutDelay_.stop();
+
   if (!this.enableDayInteraction)
   {
     return;
@@ -624,18 +659,14 @@ morning.ui.DatePicker.prototype.handleGridOut_ = function(e)
     return;
   }
 
-  var target = /** @type {Element} */ (e.target);
-  if (!goog.dom.classlist.contains(target,
-    goog.getCssName(this.getBaseCssClass(), 'date')))
+  if (this.mouseOutDelayMs === 0)
   {
-    return;
+    this.restoreSelection_();
   }
-
-  this.redrawCalendarGrid_();
-
-  this.dispatchEvent(new morning.ui.DatePickerEvent(
-    morning.ui.DatePicker.EventType.UNHIGHLIGHT,
-    this, null, null));
+  else
+  {
+    this.mouseOutDelay_.start(this.mouseOutDelayMs);
+  }
 };
 
 /**
@@ -675,16 +706,12 @@ morning.ui.DatePicker.prototype.isVisible = function()
  */
 morning.ui.DatePicker.prototype.selectRange = function(start, end)
 {
-  var changeEvent = new morning.ui.DatePickerEvent(
-    morning.ui.DatePicker.EventType.CHANGE, this, start, end);
+  this.startDate_ = start;
+  this.endDate_ = end;
 
-  if (this.dispatchEvent(changeEvent))
-  {
-    this.startDate_ = start;
-    this.endDate_ = end;
+  this.updateHighlightDate_();
 
-    this.redrawCalendarGrid_(start, end);
-  }
+  this.redrawCalendarGrid_(start, end);
 };
 
 /**
