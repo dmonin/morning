@@ -226,6 +226,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
     // In debug mode, we want to see it right: in browser console.
     if (goog.DEBUG)
     {
+      console.log(request);
       console.log(xhr.getResponseText());
       console.error(exc);
       // throw exc;
