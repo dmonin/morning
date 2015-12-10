@@ -272,7 +272,6 @@ morning.forms.Textbox.prototype.setValue = function(value)
   {
     this.getElement().value = value;
     this.value_ = /** @type {string} */ (value);
-    this.dispatchEvent(goog.events.EventType.CHANGE);
   }
 };
 

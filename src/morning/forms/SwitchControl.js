@@ -107,9 +107,6 @@ morning.forms.SwitchControl.prototype.setChecked_ = function(isChecked)
   {
     this.isChecked_ = isChecked;
     goog.dom.classlist.enable(this.getElement(), 'on', this.isChecked_);
-
-    this.dispatchEvent(goog.events.EventType.CHANGE);
-    this.dispatchEvent(goog.ui.Component.EventType.ACTION);
   }
 };
 

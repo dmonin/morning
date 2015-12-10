@@ -126,7 +126,6 @@ morning.forms.Hidden.prototype.setValue = function(value)
   if (this.getElement() && this.getElement().value != value)
   {
     this.getElement().value = value;
-    this.dispatchEvent(goog.events.EventType.CHANGE);
   }
 
   this.value_ = /** @type {string} */ (value);

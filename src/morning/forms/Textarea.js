@@ -221,7 +221,6 @@ morning.forms.Textarea.prototype.setValue = function(value)
     {
         goog.base(this, 'setValue', value);
         this.value_ = /** @type {string} */ (value);
-        this.dispatchEvent(goog.events.EventType.CHANGE);
     }
 };
 
