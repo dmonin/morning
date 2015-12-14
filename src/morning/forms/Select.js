@@ -37,6 +37,12 @@ morning.forms.Select = function()
    * @private
    */
   this.fieldName_ = '';
+
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this.preventDispatch_ = false;
 };
 goog.inherits(morning.forms.Select, goog.ui.Select);
 
@@ -59,6 +65,15 @@ morning.forms.Select.prototype.decorateInternal = function(el)
       }
     }
   }
+};
+
+/** @inheritDoc */
+morning.forms.Select.prototype.enterDocument = function()
+{
+  goog.base(this, 'enterDocument');
+
+  this.getHandler().listen(this, goog.events.EventType.CHANGE,
+    this.handleChange_);
 };
 
 
@@ -117,6 +132,20 @@ morning.forms.Select.prototype.getItemValue = function(item)
 };
 
 /**
+ * Handles change event.
+ *
+ * @param  {goog.events.Event} e
+ * @private
+ */
+morning.forms.Select.prototype.handleChange_ = function(e)
+{
+  if (this.preventDispatch_)
+  {
+    e.stopPropagation();
+  }
+};
+
+/**
  * Resets select value to default
  */
 morning.forms.Select.prototype.reset = function()
@@ -139,7 +168,8 @@ morning.forms.Select.prototype.setConfig = function(config)
     var options = config['options'];
     for (var i = 0; i < options.length; i++)
     {
-      this.addItem(new goog.ui.Option(options[i]['text'], options[i]['model']));
+      var item = new goog.ui.MenuItem(options[i]['text'], options[i]['model']);
+      this.addItem(item);
     }
   }
 
@@ -153,6 +183,14 @@ morning.forms.Select.prototype.setConfig = function(config)
  * Defines whether control is in invalid state
  */
 morning.forms.Select.prototype.setInvalid = goog.nullFunction;
+
+/** @inheritDoc */
+morning.forms.Select.prototype.setValue = function(value)
+{
+  this.preventDispatch_ = true;
+  goog.base(this, 'setValue', value);
+  this.preventDispatch_ = false;
+};
 
 /**
  * Register this control so it can be created from markup.
