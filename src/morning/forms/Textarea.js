@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -30,86 +30,86 @@ goog.require('morning.forms.IControl');
  *
  * @param {string} content Text to set as the textarea's value.
  * @param {goog.ui.TextareaRenderer=} opt_renderer Renderer used to render or
- *     decorate the textarea. Defaults to {@link goog.ui.TextareaRenderer}.
+ *   decorate the textarea. Defaults to {@link goog.ui.TextareaRenderer}.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for
- *     document interaction.
+ *   document interaction.
  * @constructor
  * @extends {goog.ui.Textarea}
  * @implements {morning.forms.IControl}
  */
 morning.forms.Textarea = function(content, opt_renderer, opt_domHelper)
 {
-    goog.base(this, content, opt_renderer, opt_domHelper);
+  goog.base(this, content, opt_renderer, opt_domHelper);
 
-    this.addClassName('form-control');
+  this.addClassName('form-control');
 
-    /**
-     * @type {goog.async.Delay}
-     * @private
-     */
-    this.changeDelay_ = new goog.async.Delay(this.update_, 300, this);
+  /**
+   * @type {goog.async.Delay}
+   * @private
+   */
+  this.changeDelay_ = new goog.async.Delay(this.update_, 300, this);
 
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.delayChangeEvent_ = true;
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this.delayChangeEvent_ = true;
 
-    /**
-     * @type {string}
-     * @private
-     */
-    this.fieldName = '';
+  /**
+   * @type {string}
+   * @private
+   */
+  this.fieldName = '';
 
-    /**
-     * @type {*}
-     * @private
-     */
-    this.value_ = '';
+  /**
+   * @type {*}
+   * @private
+   */
+  this.value_ = '';
 
-    /**
-     * @type {string}
-     * @private
-     */
-    this.placeholder_ = '';
+  /**
+   * @type {string}
+   * @private
+   */
+  this.placeholder_ = '';
 };
 goog.inherits(morning.forms.Textarea, goog.ui.Textarea);
 
 /** @inheritDoc */
 morning.forms.Textarea.prototype.decorateInternal = function(el)
 {
-    goog.base(this, 'decorateInternal', el);
+  goog.base(this, 'decorateInternal', el);
 
-    this.fieldName = el.name;
+  this.fieldName = el.name;
 
-    if (this.className_)
-    {
-        goog.dom.classlist.add(el, this.className_);
-    }
+  if (this.className_)
+  {
+    goog.dom.classlist.add(el, this.className_);
+  }
 
 };
 
 /** @override **/
 morning.forms.Textarea.prototype.enterDocument = function()
 {
-    goog.base(this, 'enterDocument');
+  goog.base(this, 'enterDocument');
 
-    var el = this.getElement();
+  var el = this.getElement();
 
-    if (this.placeholder_)
-    {
-        el.placeholder = this.placeholder_;
-    }
+  if (this.placeholder_)
+  {
+    el.placeholder = this.placeholder_;
+  }
 
-    this.getHandler().listen(el, [
-        goog.events.EventType.FOCUS,
-        goog.events.EventType.BLUR
-    ], this.handleFocus_);
+  this.getHandler().listen(el, [
+    goog.events.EventType.FOCUS,
+    goog.events.EventType.BLUR
+  ], this.handleFocus_);
 
-    this.getHandler()
-        .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
-        .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
-        .listen(el, goog.events.EventType.CHANGE, this.update_);
+  this.getHandler()
+    .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
+    .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
+    .listen(el, goog.events.EventType.CHANGE, this.update_);
 };
 
 /**
@@ -119,46 +119,49 @@ morning.forms.Textarea.prototype.enterDocument = function()
  */
 morning.forms.Textarea.prototype.getFieldName = function()
 {
-    return this.fieldName;
+  return this.fieldName;
 };
 
 /**
  * Handles user focus on textarea
  *
  * @param {goog.events.BrowserEvent} e
+ * @private
  */
 morning.forms.Textarea.prototype.handleFocus_ = function(e)
 {
-    this.dispatchEvent(e.type);
+  this.dispatchEvent(e.type);
 };
 
 /**
  * Handles keydown event
  *
  * @param {goog.events.BrowserEvent} e
+ * @private
  */
 morning.forms.Textarea.prototype.handleKeyDown_ = function(e)
 {
-    this.dispatchEvent(goog.events.EventType.KEYDOWN);
+  this.dispatchEvent(goog.events.EventType.KEYDOWN);
 };
 
 /**
  * Handles key up events and forces change event
  *
  * @param {goog.events.BrowserEvent} e
+ * @private
  */
 morning.forms.Textarea.prototype.handleKeyUp_ = function(e)
 {
-    this.dispatchEvent(goog.events.EventType.KEYUP);
+  this.dispatchEvent(goog.events.EventType.KEYUP);
 
-    if (this.delayChangeEvent_)
-    {
-        this.changeDelay_.start();
-    }
-    else
-    {
-        this.update_();
-    }
+  if (this.delayChangeEvent_)
+  {
+    this.changeDelay_.start();
+  }
+  else
+  {
+    this.update_();
+  }
 };
 
 /**
@@ -166,7 +169,7 @@ morning.forms.Textarea.prototype.handleKeyUp_ = function(e)
  */
 morning.forms.Textarea.prototype.reset = function()
 {
-    this.getElement().value = '';
+  this.getElement().value = '';
 };
 
 
@@ -177,31 +180,30 @@ morning.forms.Textarea.prototype.reset = function()
  */
 morning.forms.Textarea.prototype.setConfig = function(config)
 {
-    if (goog.isDef(config['delayChangeEvent']))
-    {
-        this.delayChangeEvent_ = !!config['delayChangeEvent'];
-    }
+  if (goog.isDef(config['delayChangeEvent']))
+  {
+    this.delayChangeEvent_ = !!config['delayChangeEvent'];
+  }
 
-    if (goog.isDef(config['className']))
-    {
-        this.addClassName(config['className']);
-    }
+  if (goog.isDef(config['className']))
+  {
+    this.addClassName(config['className']);
+  }
 
-    if (goog.isDef(config['fieldName']))
-    {
-        this.fieldName = config['fieldName'];
-    }
+  if (goog.isDef(config['fieldName']))
+  {
+    this.fieldName = config['fieldName'];
+  }
 
-    if (goog.isDef(config['placeholder']))
+  if (goog.isDef(config['placeholder']))
+  {
+    this.placeholder_ = config['placeholder'];
+    if (this.getElement())
     {
-        this.placeholder_ = config['placeholder'];
-        if (this.getElement())
-        {
-            this.getElement()['placeholder'] = this.placeholder_;
-        }
+      this.getElement()['placeholder'] = this.placeholder_;
     }
+  }
 };
-
 
 /**
  *
@@ -209,7 +211,7 @@ morning.forms.Textarea.prototype.setConfig = function(config)
  */
 morning.forms.Textarea.prototype.setInvalid = function(isInvalid)
 {
-    goog.dom.classlist.enable(this.getElement(), 'invalid', isInvalid);
+  goog.dom.classlist.enable(this.getElement(), 'invalid', isInvalid);
 };
 
 /**
@@ -217,11 +219,12 @@ morning.forms.Textarea.prototype.setInvalid = function(isInvalid)
  */
 morning.forms.Textarea.prototype.setValue = function(value)
 {
-    if (this.getElement().value != value)
-    {
-        goog.base(this, 'setValue', value);
-        this.value_ = /** @type {string} */ (value);
-    }
+  value = value || '';
+  if (this.getElement().value != value)
+  {
+    goog.base(this, 'setValue', value);
+    this.value_ = /** @type {string} */ (value);
+  }
 };
 
 /**
@@ -229,11 +232,11 @@ morning.forms.Textarea.prototype.setValue = function(value)
  */
 morning.forms.Textarea.prototype.update_ = function()
 {
-    if (this.value_ != this.getValue())
-    {
-        this.value_ = this.getValue();
-        this.dispatchEvent(goog.events.EventType.CHANGE);
-    }
+  if (this.value_ != this.getValue())
+  {
+    this.value_ = this.getValue();
+    this.dispatchEvent(goog.events.EventType.CHANGE);
+  }
 };
 
 
@@ -241,7 +244,7 @@ morning.forms.Textarea.prototype.update_ = function()
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'textarea',
-    function() {
-      return new morning.forms.Textarea('');
-    });
+  'textarea',
+  function() {
+    return new morning.forms.Textarea('');
+  });
