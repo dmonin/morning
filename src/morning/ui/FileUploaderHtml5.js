@@ -4,6 +4,7 @@ goog.require('goog.events.FileDropHandler');
 goog.require('goog.json');
 goog.require('goog.ui.Component');
 goog.require('morning.ui.FileUploader');
+goog.require('goog.dom.classlist');
 
 /**
 * @fileoverview SWF File Uploader, based on YUI SWF Uploader
@@ -40,6 +41,14 @@ morning.ui.FileUploaderHtml5 = function()
    * @private
    */
   this.allowMultiple_ = false;
+
+  /**
+   * Drop Target
+   *
+   * @type {Element}
+   * @private
+   */
+  this.dropTarget_ = null;
 };
 goog.inherits(morning.ui.FileUploaderHtml5, morning.ui.FileUploader);
 
@@ -87,19 +96,13 @@ morning.ui.FileUploaderHtml5.prototype.enterDocument = function()
 
   var doc = goog.dom.getDocument();
 
-  // Add dragenter listener to the owner document of the element.
-  this.getHandler().listen(doc, goog.events.EventType.DRAGENTER,
-    this.handleDocDragEnter_);
-
   // Add dragover listener to the owner document of the element only if the
   // document is not the element itself.
-  this.getHandler().listen(doc, goog.events.EventType.DRAGOVER,
-    this.handleDocDragOver_);
+  this.getHandler().listen(doc, goog.events.EventType.DRAGENTER,
+    this.handleDocDragStart_);
 
-
-  // Add dragover and drop listeners to the element.
-  this.getHandler().listen(this.getElement(), goog.events.EventType.DRAGOVER,
-    this.handleElemDragOver_);
+  this.getHandler().listen(doc, goog.events.EventType.DRAGLEAVE,
+    this.handleDocDragEnd_);
 };
 
 
@@ -138,18 +141,20 @@ morning.ui.FileUploaderHtml5.prototype.handleClick_ = function(e)
 * @param {goog.events.Event} e
 * @private
 */
-morning.ui.FileUploaderHtml5.prototype.handleDocDragEnter_ = function(e)
+morning.ui.FileUploaderHtml5.prototype.handleDocDragStart_ = function(e)
 {
-  //console.log('doc drag enter');
+  console.debug('doc drag start');
+  goog.dom.classlist.add(this.dropTarget_, 'file-doc-drag-ready');
 };
 
 /**
-* @param {goog.events.Event} e
+* @param  {goog.events.Event} e
 * @private
 */
-morning.ui.FileUploaderHtml5.prototype.handleDocDragOver_ = function(e)
+morning.ui.FileUploaderHtml5.prototype.handleDocDragEnd_ = function(e)
 {
-  //console.log('doc drag over');
+  console.debug('doc drag end');
+  goog.dom.classlist.remove(this.dropTarget_, 'file-doc-drag-ready');
 };
 
 /**
@@ -158,7 +163,18 @@ morning.ui.FileUploaderHtml5.prototype.handleDocDragOver_ = function(e)
 */
 morning.ui.FileUploaderHtml5.prototype.handleElemDragOver_ = function(e)
 {
-  //console.log('elem drag over');
+  console.debug('over', this.dropTarget_);
+  goog.dom.classlist.add(this.dropTarget_, 'file-drag-over');
+};
+
+/**
+* @param  {goog.events.Event} e
+* @private
+*/
+morning.ui.FileUploaderHtml5.prototype.handleElemDragLeave_ = function(e)
+{
+  console.debug('leave', this.dropTarget_);
+  goog.dom.classlist.remove(this.dropTarget_, 'file-drag-over');
 };
 
 /**
@@ -296,10 +312,18 @@ morning.ui.FileUploaderHtml5.prototype.setDropTarget = function(target)
   {
     this.fileDropHandler_.dispose();
   }
+  this.dropTarget_ = target;
 
   this.fileDropHandler_ = new goog.events.FileDropHandler(target, true);
   this.getHandler().listen(this.fileDropHandler_,
   goog.events.FileDropHandler.EventType.DROP, this.handleFileDrop_);
+
+  // Add dragover and drop listeners to the element.
+  this.getHandler().listen(target, goog.events.EventType.DRAGENTER,
+    this.handleElemDragOver_);
+
+  this.getHandler().listen(target, goog.events.EventType.DRAGLEAVE,
+    this.handleElemDragLeave_);
 };
 
 /**
