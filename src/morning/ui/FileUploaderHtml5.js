@@ -143,8 +143,8 @@ morning.ui.FileUploaderHtml5.prototype.handleClick_ = function(e)
 */
 morning.ui.FileUploaderHtml5.prototype.handleDocDragStart_ = function(e)
 {
-  console.debug('doc drag start');
-  goog.dom.classlist.add(this.dropTarget_, 'file-doc-drag-ready');
+  // console.debug('doc drag start');
+  // goog.dom.classlist.add(this.dropTarget_, 'file-doc-drag-ready');
 };
 
 /**
@@ -153,8 +153,8 @@ morning.ui.FileUploaderHtml5.prototype.handleDocDragStart_ = function(e)
 */
 morning.ui.FileUploaderHtml5.prototype.handleDocDragEnd_ = function(e)
 {
-  console.debug('doc drag end');
-  goog.dom.classlist.remove(this.dropTarget_, 'file-doc-drag-ready');
+  // console.debug('doc drag end');
+  // goog.dom.classlist.remove(this.dropTarget_, 'file-doc-drag-ready');
 };
 
 /**
@@ -163,7 +163,7 @@ morning.ui.FileUploaderHtml5.prototype.handleDocDragEnd_ = function(e)
 */
 morning.ui.FileUploaderHtml5.prototype.handleElemDragOver_ = function(e)
 {
-  console.debug('over', this.dropTarget_);
+  // console.debug('over', this.dropTarget_);
   goog.dom.classlist.add(this.dropTarget_, 'file-drag-over');
 };
 
@@ -173,7 +173,7 @@ morning.ui.FileUploaderHtml5.prototype.handleElemDragOver_ = function(e)
 */
 morning.ui.FileUploaderHtml5.prototype.handleElemDragLeave_ = function(e)
 {
-  console.debug('leave', this.dropTarget_);
+  // console.debug('leave', this.dropTarget_);
   goog.dom.classlist.remove(this.dropTarget_, 'file-drag-over');
 };
 
