@@ -204,7 +204,8 @@ morning.ui.FileUploaderHtml5.prototype.handleLoadComplete_ = function(e)
 {
   try
   {
-    var response = /** @type {string} */ goog.json.parse(e.target.responseText);
+    var responseText = /** @type {string} */ (e.target.responseText);
+    var response = goog.json.parse(responseText);
     this.dispatchEvent({
       type: morning.ui.FileUploader.EventType.COMPLETE,
       data: response
