@@ -126,6 +126,10 @@ morning.controllers.ComponentController.prototype.initialize =
     // Component already initialized.
     if (name && this.components_.get(name))
     {
+      if (goog.DEBUG)
+      {
+        console.warn('Product with the same name already exists.');
+      }
       continue;
     }
     var cmp = goog.ui.decorate(elements[i]);
