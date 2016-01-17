@@ -87,6 +87,16 @@ morning.forms.SwitchControl.prototype.getValue = function()
 morning.forms.SwitchControl.prototype.handleClick_ = function(e)
 {
   this.setChecked_(!this.isChecked_);
+  this.dispatchEvent(goog.ui.Component.EventType.ACTION);
+};
+
+/**
+ * Returns whether control is currently checked.
+ * @return {boolean}
+ */
+morning.forms.SwitchControl.prototype.isChecked = function()
+{
+  return this.isChecked_;
 };
 
 /** @inheritDoc */
