@@ -53,18 +53,28 @@ morning.forms.Select.prototype.decorateInternal = function(el)
 
   this.fieldName_ = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
 
+
   // set value if data-value is set
   var value = goog.dom.dataset.get(el, 'value');
-  if (value) {
-    var items = this.getSelectionModel().getItems();
-    for (var i = 0; i < items.length; i++) {
-      var item = items[i];
-      if (item.getValue() == value ||
-        goog.dom.dataset.get(item.getElement(), 'value') == value) {
-        this.setSelectedIndex(i);
-      }
+
+  var items = this.getSelectionModel().getItems();
+  for (var i = 0; i < items.length; i++)
+  {
+    var item = items[i];
+    var itemValue = goog.dom.dataset.get(item.getElement(), 'value');
+
+    if (itemValue)
+    {
+      item.setModel(itemValue);
+    }
+
+    if (value && (item.getValue() == value ||
+      itemValue == value))
+    {
+      this.setSelectedIndex(i);
     }
   }
+
 };
 
 /** @inheritDoc */
