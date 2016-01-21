@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -27,7 +27,7 @@ goog.require('goog.events.EventTarget');
  */
 morning.models.BaseModel = function()
 {
-    goog.base(this);
+  goog.base(this);
 };
 goog.inherits(morning.models.BaseModel, goog.events.EventTarget);
 
@@ -37,10 +37,10 @@ goog.inherits(morning.models.BaseModel, goog.events.EventTarget);
  */
 morning.models.BaseModel.prototype.bind = function(eh, data)
 {
-    for (var i in data)
-    {
-        eh.listen(this, i + 'Changed', data[i]);
-    }
+  for (var i in data)
+  {
+    eh.listen(this, i + 'Changed', data[i]);
+  }
 };
 
 /**
@@ -49,10 +49,10 @@ morning.models.BaseModel.prototype.bind = function(eh, data)
  */
 morning.models.BaseModel.prototype.unbind = function(eh, data)
 {
-    for (var i in data)
-    {
-        eh.unlisten(this, i + 'Changed', data[i]);
-    }
+  for (var i in data)
+  {
+    eh.unlisten(this, i + 'Changed', data[i]);
+  }
 };
 
 /**
@@ -60,19 +60,19 @@ morning.models.BaseModel.prototype.unbind = function(eh, data)
  */
 morning.models.BaseModel.prototype.update = function(data)
 {
-    var fireChange = false;
-    for (var i in data)
+  var fireChange = false;
+  for (var i in data)
+  {
+    if (this[i] != data[i])
     {
-        if (this[i] != data[i])
-        {
-            this[i] = data[i];
-            fireChange = true;
-            this.dispatchEvent(i + 'Changed');
-        }
+      this[i] = data[i];
+      fireChange = true;
+      this.dispatchEvent(i + 'Changed');
     }
+  }
 
-    if (fireChange)
-    {
-        this.dispatchEvent(goog.events.EventType.CHANGE);
-    }
+  if (fireChange)
+  {
+    this.dispatchEvent(goog.events.EventType.CHANGE);
+  }
 };

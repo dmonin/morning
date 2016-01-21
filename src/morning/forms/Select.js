@@ -176,6 +176,11 @@ morning.forms.Select.prototype.setConfig = function(config)
   if (config['options'] && config['options'] instanceof Array)
   {
     var options = config['options'];
+
+    // Clearing options
+    goog.dispose(this.getMenu().removeChildren(true));
+    this.getSelectionModel().clear();
+
     for (var i = 0; i < options.length; i++)
     {
       var item = new goog.ui.MenuItem(options[i]['text'], options[i]['model']);
