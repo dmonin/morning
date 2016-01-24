@@ -69,7 +69,8 @@ morning.controllers.NavigationController.prototype.handleClick_ = function(e)
   // Static urls, requering redirect
   if (link.rel == 'redirect')
   {
-    window.open(link.href, '_blank');
+    document.location = link.href;
+    // window.open(link.href, '_blank');
     return;
   }
 
