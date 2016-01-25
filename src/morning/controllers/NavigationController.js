@@ -19,6 +19,12 @@ morning.controllers.NavigationController = function()
    * @private
    */
   this.history_ = null;
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.token_ = '';
 };
 goog.inherits(morning.controllers.NavigationController,
   morning.controllers.BaseController);
@@ -94,12 +100,15 @@ morning.controllers.NavigationController.prototype.initialize = function(config)
   this.history_.setEnabled(true);
   this.history_.setParentEventTarget(this);
 
-  this.getHandler().listen(document.documentElement,
-    goog.events.EventType.CLICK, this.handleClick_);
+  this.getHandler().
+    listen(document.documentElement, goog.events.EventType.CLICK,
+      this.handleClick_).
+    listen(this.history_, goog.history.EventType.NAVIGATE,
+      this.handleNavigate_);
 
   if (goog.DEBUG)
   {
-    console.info('Initialized NavigationController');
+    console.info('Initialized NavigationController with token %s', this.token_);
   }
 };
 
@@ -109,6 +118,20 @@ morning.controllers.NavigationController.prototype.initialize = function(config)
 morning.controllers.NavigationController.prototype.getToken = function()
 {
   return this.history_.getToken();
+};
+
+/**
+ * Handles navigate event.
+ *
+ * @param  {goog.events.Event} e
+ * @private
+ */
+morning.controllers.NavigationController.prototype.handleNavigate_ = function(e)
+{
+  if (this.token_ == e.token)
+  {
+    e.stopPropagation();
+  }
 };
 
 /**
