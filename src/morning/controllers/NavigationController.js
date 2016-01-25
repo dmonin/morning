@@ -75,8 +75,14 @@ morning.controllers.NavigationController.prototype.handleClick_ = function(e)
   // Static urls, requering redirect
   if (link.rel == 'redirect')
   {
-    document.location = link.href;
-    // window.open(link.href, '_blank');
+    if (link.target)
+    {
+      window.open(link.href, link.target);
+    }
+    else
+    {
+      document.location = link.href;
+    }
     return;
   }
 
@@ -132,6 +138,8 @@ morning.controllers.NavigationController.prototype.handleNavigate_ = function(e)
   {
     e.stopPropagation();
   }
+
+  this.token_ = e.token;
 };
 
 /**
