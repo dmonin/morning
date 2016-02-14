@@ -46,6 +46,15 @@ morning.forms.Select = function()
 };
 goog.inherits(morning.forms.Select, goog.ui.Select);
 
+/**
+ * Clears form
+ */
+morning.forms.Select.prototype.clear = function()
+{
+  goog.dispose(this.getMenu().removeChildren(true));
+  this.getSelectionModel().clear();
+};
+
 /** @inheritDoc */
 morning.forms.Select.prototype.decorateInternal = function(el)
 {
@@ -53,8 +62,7 @@ morning.forms.Select.prototype.decorateInternal = function(el)
 
   this.fieldName_ = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
 
-
-  // set value if data-value is set
+  // Set value if data-value is set
   var value = goog.dom.dataset.get(el, 'value');
 
   var items = this.getSelectionModel().getItems();
@@ -176,10 +184,6 @@ morning.forms.Select.prototype.setConfig = function(config)
   if (config['options'] && config['options'] instanceof Array)
   {
     var options = config['options'];
-
-    // Clearing options
-    goog.dispose(this.getMenu().removeChildren(true));
-    this.getSelectionModel().clear();
 
     for (var i = 0; i < options.length; i++)
     {
