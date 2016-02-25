@@ -228,8 +228,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
     {
       console.log(request);
       console.log(xhr.getResponseText());
-      console.error(exc);
-      // throw exc;
+      // console.error(exc.stack);
     }
 
     if (e.target.isAbortedByUser)
@@ -249,6 +248,11 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
         response)) && errorCallback)
     {
       errorCallback();
+    }
+
+    if (goog.DEBUG)
+    {
+      throw exc;
     }
   }
   finally

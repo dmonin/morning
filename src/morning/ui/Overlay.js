@@ -52,6 +52,14 @@ morning.ui.Overlay.prototype.enterDocument = function()
     this.handleClick_);
 };
 
+/** @inheritDoc */
+morning.ui.Overlay.prototype.exitDocument = function()
+{
+  goog.base(this, 'exitDocument');
+
+  goog.dom.classlist.remove(document.body, 'body-overlay');
+};
+
 /**
  * Handles click events
  *
