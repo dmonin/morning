@@ -871,7 +871,7 @@ morning.ui.DatePicker.prototype.redrawWeekdays_ = function()
   for (var x = 0; x < 7; x++)
   {
     var el = this.elTable_[0][x];
-    var wday = (x - firstDayOfWeek + 1) % 7;
+    var wday = (x + firstDayOfWeek + 1) % 7;
     goog.dom.setTextContent(el, this.wdayNames_[wday]);
   }
 };
