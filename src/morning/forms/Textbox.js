@@ -162,7 +162,7 @@ morning.forms.Textbox.prototype.getFieldName = function()
  */
 morning.forms.Textbox.prototype.getValue = function()
 {
-  return this.getElement().value;
+  return this.getElement() ? this.getElement().value : '';
 };
 
 /**
