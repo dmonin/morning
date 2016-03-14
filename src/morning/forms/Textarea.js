@@ -220,7 +220,7 @@ morning.forms.Textarea.prototype.setInvalid = function(isInvalid)
 morning.forms.Textarea.prototype.setValue = function(value)
 {
   value = value || '';
-  if (this.getElement().value != value)
+  if (this.getElement() && this.getElement().value != value)
   {
     goog.base(this, 'setValue', value);
     this.value_ = /** @type {string} */ (value);
