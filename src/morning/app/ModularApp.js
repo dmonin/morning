@@ -267,6 +267,7 @@ morning.app.ModularApp.prototype.setViewFromState_ = function()
 {
   this.setView(
     this.viewFactory_.getView(this.state_.route.name));
+  this.view.setState(this.state_);
 };
 
 /**
@@ -299,6 +300,13 @@ morning.app.ModularApp.prototype.setView = function(view)
 */
 morning.app.ModularApp.prototype.setState = function(state)
 {
+  if (this.view && this.state_.route.name == state.route.name)
+  {
+    this.view.setState(state);
+    this.state_ = state;
+    return;
+  }
+
   this.removeView_();
 
   if (goog.DEBUG)

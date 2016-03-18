@@ -18,6 +18,14 @@ morning.app.View = function(name)
   this.name = name;
 
   /**
+   * View state
+   *
+   * @type {Object}
+   * @protected
+   */
+  this.state = null;
+
+  /**
    * Dynamically initialized components in the view
    *
    * @type {morning.controllers.ComponentController}
@@ -57,4 +65,14 @@ morning.app.View.prototype.decorateInternal = function(el)
 morning.app.View.prototype.getComponent = function(name)
 {
   return this.componentController.getComponentByName(name);
+};
+
+/**
+ * Sets the state of the view.
+ *
+ * @param {Object} state
+ */
+morning.app.View.prototype.setState = function(state)
+{
+  this.state = state;
 };
