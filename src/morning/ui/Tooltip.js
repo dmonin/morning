@@ -1,4 +1,4 @@
-// Copyright 2012 Dmitry morning. All Rights Reserved.
+// Copyright 2012 Dmitry Monin. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -123,6 +123,11 @@ morning.ui.Tooltip = function()
    * @private
    */
   this.hideDelay_ = new goog.async.Delay(this.hide_, 3000, this);
+
+  /**
+   * @type {number}
+   */
+  this.appearOffset = 10;
 };
 goog.inherits(morning.ui.Tooltip, goog.ui.Component);
 
@@ -485,19 +490,19 @@ morning.ui.Tooltip.prototype.getPositionToElement_ = function(selector)
   }
   else if (this.direction_ & directionEnum.LEFT)
   {
-    position.x += size.width + 10;
+    position.x += size.width + this.appearOffset;
   }
   else if (this.direction_ & directionEnum.RIGHT)
   {
-    position.x -= tooltipSize.width + 10;
+    position.x -= tooltipSize.width + this.appearOffset;
   }
   else if (this.direction_ & directionEnum.TOP)
   {
-    position.y += size.height + 10;
+    position.y += size.height + this.appearOffset;
   }
   else if (this.direction_ & directionEnum.BOTTOM)
   {
-    position.y -= tooltipSize.height + 10;
+    position.y -= tooltipSize.height + this.appearOffset;
   }
   else if (this.direction_ === 0)
   {
