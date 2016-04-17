@@ -146,7 +146,7 @@ morning.controllers.NavigationController.prototype.handleNavigate_ = function(e)
  * Navigates to specified url
  *
  * @param {string} path
- * @param {boolean} opt_replace
+ * @param {boolean=} opt_replace
  */
 morning.controllers.NavigationController.prototype.navigate = function(path,
   opt_replace)
