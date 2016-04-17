@@ -197,6 +197,19 @@ morning.models.Collection.prototype.indexOf = function(item)
 };
 
 /**
+ * Get the array of primary keys.
+ * @return {Array}
+ */
+morning.models.Collection.prototype.modelIds = function()
+{
+  var ids = [];
+  this.forEach(function(model) {
+    ids.push(model.id);
+  });
+  return ids;
+};
+
+/**
  * @param {number} oldIndex
  * @param {number} newIndex
  */
