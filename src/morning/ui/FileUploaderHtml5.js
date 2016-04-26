@@ -71,7 +71,11 @@ morning.ui.FileUploaderHtml5.prototype.decorateInternal = function(el)
     type: 'file'
   });
   el.appendChild(this.fileInput_);
-  this.fileInput_.style.left = '-9999px';
+  this.fileInput_.style.left = '0';
+  this.fileInput_.style.right = '0';
+  this.fileInput_.style.top = '0';
+  this.fileInput_.style.bottom = '0';
+  this.fileInput_.style.opacity = '0';
   this.fileInput_.style.position = 'absolute';
 
   if (this.allowMultiple_)
