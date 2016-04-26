@@ -8,6 +8,7 @@ goog.require('goog.structs.Map');
 goog.require('morning.app.ViewFactory');
 goog.require('goog.dom');
 goog.require('morning.routing.Router');
+goog.require('morning.routing.Route');
 
 /**
  * @define {boolean}
