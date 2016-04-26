@@ -48,7 +48,7 @@ morning.mdl.TextboxRenderer.CSS_CLASS = goog.getCssName('mdl-textfield');
  * @override
  */
 morning.mdl.TextboxRenderer.prototype.createDom = function(textbox) {
-    this.setUpTextbox_(textbox);
+    this.setUpTextbox(textbox);
 
     var element = textbox.getDomHelper().createDom('input', {
         'type': 'text',
@@ -63,7 +63,7 @@ morning.mdl.TextboxRenderer.prototype.createDom = function(textbox) {
 /** @override */
 morning.mdl.TextboxRenderer.prototype.decorate = function(control, element)
 {
-  this.setUpTextbox_(control);
+  this.setUpTextbox(control);
   goog.base(this, 'decorate', control, element);
 
   control.setContent(element.value);
@@ -97,7 +97,7 @@ morning.mdl.TextboxRenderer.prototype.updateAriaState = goog.nullFunction;
  * @param {goog.ui.Control} textbox Textbox control to configure
  * @private
  */
-morning.mdl.TextboxRenderer.prototype.setUpTextbox_ = function(textbox)
+morning.mdl.TextboxRenderer.prototype.setUpTextbox = function(textbox)
 {
     textbox.setHandleMouseEvents(false);
     textbox.setAutoStates(goog.ui.Component.State.ALL, false);
