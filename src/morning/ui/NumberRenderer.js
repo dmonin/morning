@@ -68,7 +68,9 @@ morning.ui.NumberRenderer.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    this.getHandler().listen(this.animation_, goog.fx.Animation.EventType.ANIMATE,
+    this.getHandler().listen(this.animation_, [
+        goog.fx.Animation.EventType.ANIMATE,
+        goog.fx.Animation.EventType.END],
         this.handleAnimation_);
 };
 
