@@ -142,7 +142,7 @@ morning.app.ModularApp.prototype.getController = function(key)
 /**
  * Handles navigate event.
  *
- * @param  {goog.events.Event} e
+ * @param  {morning.routing.RouteMatchEvent} e
  * @private
  */
 morning.app.ModularApp.prototype.handleNavigate_ = function(e)
@@ -157,7 +157,7 @@ morning.app.ModularApp.prototype.handleNavigate_ = function(e)
 
 /**
  * Handles matching of route
- * @param  {goog.events.Event} e
+ * @param  {morning.routing.RouteMatchEvent} e
  * @private
  */
 morning.app.ModularApp.prototype.handleRouteMatch_ = function(e)
