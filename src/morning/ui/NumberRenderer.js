@@ -28,11 +28,14 @@ goog.require('morning.fx.Animation');
  * Number renderer
  *
  * @constructor
+ * @param {string=} opt_format
  * @extends {goog.ui.Component}
  */
-morning.ui.NumberRenderer = function()
+morning.ui.NumberRenderer = function(opt_format)
 {
     goog.base(this);
+
+    var format = opt_format || '#,##0';
 
     /**
      * Number formatting
@@ -40,7 +43,7 @@ morning.ui.NumberRenderer = function()
      * @type {goog.i18n.NumberFormat}
      * @private
      */
-    this.formatter_ = new goog.i18n.NumberFormat('#,##0');
+    this.formatter_ = new goog.i18n.NumberFormat(format);
 
     /**
      * Current value
