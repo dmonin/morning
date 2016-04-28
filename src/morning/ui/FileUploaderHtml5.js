@@ -89,11 +89,6 @@ morning.ui.FileUploaderHtml5.prototype.enterDocument = function()
 {
   goog.base(this, 'enterDocument');
 
-  var evtType = goog.userAgent.MOBILE ? goog.events.EventType.TOUCHSTART :
-    goog.events.EventType.CLICK;
-
-  this.getHandler().listen(this.getElement(), evtType, this.handleClick_);
-
   this.getHandler().listen(this.fileInput_, goog.events.EventType.CHANGE,
     this.handleSelect_);
 
@@ -128,17 +123,6 @@ morning.ui.FileUploaderHtml5.prototype.filesFactory_ = function(fileData)
   }
 
   return files;
-};
-
-/**
-* Handles click event and opens file select dialog
-*
-* @param {goog.events.BrowserEvent} e
-* @private
-*/
-morning.ui.FileUploaderHtml5.prototype.handleClick_ = function(e)
-{
-  this.openFileSelectDialog();
 };
 
 /**
