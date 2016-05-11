@@ -802,8 +802,8 @@ morning.ui.DatePicker.prototype.redrawCalendarGrid_ = function(opt_start, opt_en
       }
 
       // Checking if item is disabled
-      if (this.minDate_ && date.getTime() < this.minDate_ ||
-        this.maxDate_ && date.getTime() > this.maxDate_)
+      if (this.minDate_ && date.getTime() < this.minDate_.getTime() ||
+        this.maxDate_ && date.getTime() > this.maxDate_.getTime())
       {
         classes.push(goog.getCssName(this.getBaseCssClass(), 'disabled'));
       }
