@@ -33,9 +33,8 @@ morning.net.BackendService = function(apiEndPoint, opt_withCredentials)
    * End point for the backend API
    *
    * @type {string}
-   * @private
    */
-  this.apiEndpoint_ = apiEndPoint;
+  this.apiEndpoint = apiEndPoint;
 
   /**
    * Flag if credentials should be send with each request.
@@ -319,7 +318,7 @@ morning.net.BackendService.prototype.handleXhrReady_ = function(request,
   }
 
   // Generating URL
-  var hostAndPath = this.apiEndpoint_ + request.path;
+  var hostAndPath = this.apiEndpoint + request.path;
   var url = new goog.Uri(hostAndPath);
 
   // GET Parameters
