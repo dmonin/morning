@@ -53,7 +53,7 @@ morning.controllers.NavigationController.prototype.handleClick_ = function(e)
       return false;
   });
 
-  if (!link || !link.href)
+  if (!link || !link.href || link.tagName.toLowerCase() != 'a')
   {
     return;
   }
@@ -65,6 +65,7 @@ morning.controllers.NavigationController.prototype.handleClick_ = function(e)
 
   var currentDomain = goog.uri.utils.getDomain(document.location.href);
   var domain = goog.uri.utils.getDomain(link.href);
+
   if (domain != currentDomain)
   {
       return;
