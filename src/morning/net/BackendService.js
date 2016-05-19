@@ -81,7 +81,7 @@ morning.net.BackendService = function(apiEndPoint, opt_withCredentials)
    */
   this.successCheck = function(response)
   {
-    return response['success'] === true;
+    return !!response['data'];
   };
 };
 goog.inherits(morning.net.BackendService, goog.events.EventTarget);
