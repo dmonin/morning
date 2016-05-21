@@ -181,7 +181,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
         request,
         callback,
         errorCallback,
-        response)))
+        xhr)))
     {
       // Calling callback
       callback(response);
@@ -198,7 +198,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
         request,
         callback,
         errorCallback,
-        response)
+        xhr)
       );
     }
     else
@@ -214,7 +214,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
           request,
           callback,
           errorCallback,
-          response)) && errorCallback)
+          xhr)) && errorCallback)
       {
         errorCallback(response);
       }
@@ -244,7 +244,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
         request,
         callback,
         errorCallback,
-        response)) && errorCallback)
+        xhr)) && errorCallback)
     {
       errorCallback();
     }
@@ -404,11 +404,11 @@ morning.net.BackendService.EventType = {
  * @param {morning.net.BackendService.ApiRequest} request
  * @param {Function} callback
  * @param {Function=} opt_errorCallback
- * @param {Object=} opt_response
+ * @param {goog.net.XhrIo=} opt_xhr
  * @extends {goog.events.Event}
  */
 morning.net.BackendServiceEvent = function(type, request, callback, opt_errorCallback,
-  opt_response)
+  opt_xhr)
 {
   goog.base(this, type);
 
@@ -428,9 +428,9 @@ morning.net.BackendServiceEvent = function(type, request, callback, opt_errorCal
   this.errorCallback = opt_errorCallback || null;
 
   /**
-   * @type {Object}
+   * @type {goog.net.XhrIo}
    */
-  this.response = opt_response || null;
+  this.xhr = opt_xhr || null;
 };
 goog.inherits(morning.net.BackendServiceEvent,
   goog.events.Event);
