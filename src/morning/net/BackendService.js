@@ -76,12 +76,12 @@ morning.net.BackendService = function(apiEndPoint, opt_withCredentials)
   this.requestTimeout = 5000;
 
   /**
-   * @param {Object} response
+   * @param {goog.net.XhrIo} xhr
    * @return {boolean}
    */
-  this.successCheck = function(response)
+  this.successCheck = function(xhr)
   {
-    return !!response['data'];
+    return xhr.getStatus() == 200;
   };
 };
 goog.inherits(morning.net.BackendService, goog.events.EventTarget);
@@ -175,7 +175,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
     }
 
     // Response is fine, checking what does server says
-    if (this.successCheck(response) &&
+    if (this.successCheck(/** @type {goog.net.XhrIo} */ (e.target)) &&
       this.dispatchEvent(new morning.net.BackendServiceEvent(
         morning.net.BackendService.EventType.RESPONSE,
         request,
