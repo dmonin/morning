@@ -33,6 +33,11 @@ Swiper.prototype.slideTo = function(index, speed, runCallbacks) {};
 /**
  *
  */
+Swiper.prototype.onResize = function() {};
+
+/**
+ *
+ */
 Swiper.prototype.reInit = function() {};
 
 
