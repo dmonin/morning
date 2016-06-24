@@ -266,8 +266,14 @@ morning.app.ModularApp.prototype.start = function(opt_view)
  */
 morning.app.ModularApp.prototype.setViewFromState_ = function()
 {
-  this.setView(
-    this.viewFactory_.getView(this.state_.route.name));
+  var view = this.viewFactory_.getView(this.state_.route.name);
+  this.setView(view);
+
+  if (!view && goog.DEBUG)
+  {
+    console.warn('ModularApp: View not found ' + this.state_.route.name + '.');
+  }
+
   this.view.setState(this.state_);
 };
 

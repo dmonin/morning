@@ -128,7 +128,7 @@ morning.controllers.ComponentController.prototype.initialize =
     {
       if (goog.DEBUG)
       {
-        console.warn('Product with the same name already exists.');
+        console.warn('Component with the same name already exists %s.', name);
       }
       continue;
     }
