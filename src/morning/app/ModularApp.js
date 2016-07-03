@@ -275,6 +275,7 @@ morning.app.ModularApp.prototype.setViewFromState_ = function()
   }
 
   this.view.setState(this.state_);
+  this.dispatchEvent(morning.app.ModularApp.EventType.STATE_CHANGE);
 };
 
 /**
@@ -298,6 +299,8 @@ morning.app.ModularApp.prototype.setView = function(view)
     }
     this.view.setParentEventTarget(this);
   }
+
+  this.dispatchEvent(morning.app.ModularApp.EventType.VIEW_CHANGE);
 };
 
 /**
@@ -311,6 +314,7 @@ morning.app.ModularApp.prototype.setState = function(state)
   {
     this.view.setState(state);
     this.state_ = state;
+    this.dispatchEvent(morning.app.ModularApp.EventType.STATE_CHANGE);
     return;
   }
 
@@ -341,3 +345,9 @@ morning.app.ModularApp.prototype.setState = function(state)
  *          token: string}}
  */
 morning.app.ModularApp.State;
+
+/** @enum {string} */
+morning.app.ModularApp.EventType = {
+  STATE_CHANGE: 'state_change',
+  VIEW_CHANGE: 'view_change'
+};
