@@ -54,6 +54,12 @@ goog.inherits(morning.ui.Swiper, goog.ui.Component);
 morning.ui.Swiper.loaded = false;
 
 /**
+ * @type {boolean}
+ * @private
+ */
+morning.ui.Swiper.isLoading_ = false;
+
+/**
  * @type {string}
  */
 morning.ui.Swiper.scriptUrl = '/asset/morning/third-party/swiper.min.js';
@@ -143,6 +149,8 @@ morning.ui.Swiper.prototype.disposeInternal = function()
  */
 morning.ui.Swiper.prototype.handleSwiperReady_ = function(e)
 {
+  morning.ui.Swiper.loaded = true;
+
   try
   {
     this.swiper = new Swiper(this.getElement(), this.config_);
@@ -164,6 +172,11 @@ morning.ui.Swiper.prototype.handleSwiperReady_ = function(e)
  */
 morning.ui.Swiper.prototype.load_ = function()
 {
+  if (morning.ui.Swiper.isLoading_)
+  {
+    return;
+  }
+  morning.ui.Swiper.isLoading_ = true;
   var externalApi = morning.net.ExternalApi.getInstance();
   externalApi.addScript(document.body, morning.ui.Swiper.scriptUrl);
 };
