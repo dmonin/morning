@@ -175,7 +175,7 @@ morning.models.Collection.prototype.insertAt = function(item, index)
 
 /**
  * Inserts at the given index of the array, all elements of another array.
- * @param {goog.array.ArrayLike} elementsToAdd The array of elements to add.
+ * @param {IArrayLike} elementsToAdd The array of elements to add.
  * @param {number=} opt_i The index at which to insert the object. If omitted,
  *      treated as 0. A negative index is counted from the end of the array.
  */

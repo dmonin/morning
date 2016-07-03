@@ -38,7 +38,10 @@ morning.ui.ExpandableContent = function()
   this.minHeight_ = 0;
 
   /**
-   * @type {number}
+   * If click target is checkbox, defines, whether that value of checkbox
+   * should be reversed for toggled (default: false, checked = expand,
+   * unchecked = collapse).
+   * @type {boolean}
    * @private
    */
   this.reverseCheckbox_ = false;
@@ -59,9 +62,9 @@ morning.ui.ExpandableContent.prototype.decorateInternal = function(el)
   goog.base(this, 'decorateInternal', el);
 
   this.isExpanded_ = goog.dom.classlist.contains(el, 'expanded');
-  this.reverseCheckbox_ = goog.dom.dataset.get(el, 'reverseCheckbox');
+  this.reverseCheckbox_ = goog.dom.dataset.get(el, 'reverseCheckbox') == 'true';
 
-  var minHeight = goog.dom.dataset.get(el, 'minHeight') || 0;
+  var minHeight = Number(goog.dom.dataset.get(el, 'minHeight')) || 0;
   if (minHeight)
   {
     this.minHeight_ = Number(minHeight);

@@ -15,7 +15,7 @@ morning.routing.Router = function()
   goog.base(this);
 
   /**
-   * @type {Array.<morning.routing.RegexRoute>}
+   * @type {Array.<morning.routing.Route>}
    * @private
    */
   this.routes_ = [];
