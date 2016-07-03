@@ -7,6 +7,7 @@ goog.require('goog.dom.classlist');
 goog.require('goog.ui.Component');
 goog.require('goog.ui.registry');
 goog.require('morning.events.TapProvider');
+goog.require('goog.dom.dataset');
 
 /**
  * @constructor
@@ -30,6 +31,12 @@ morning.ui.HamburgerButton = function()
    * @private
    */
   this.tapProvider_ = null;
+
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this.autoHide_ = true;
 };
 goog.inherits(morning.ui.HamburgerButton, goog.ui.Component);
 
@@ -40,6 +47,8 @@ morning.ui.HamburgerButton.prototype.decorateInternal = function(el)
 
   this.tapProvider_ = morning.events.TapProvider.attach(el);
   this.registerDisposable(this.tapProvider_);
+
+  this.autoHide_ = goog.dom.dataset.get(el, 'autoHide') != 'false';
 };
 
 /** @inheritDoc */
@@ -67,8 +76,12 @@ morning.ui.HamburgerButton.prototype.handleClick_ = function(e)
   e.stopPropagation();
   if (this.isExpanded_)
   {
-    this.getHandler().listenOnce(document.documentElement,
-      goog.events.EventType.CLICK, this.handleDocClick_);
+    if (this.autoHide_)
+    {
+      this.getHandler().listenOnce(document.documentElement,
+        goog.events.EventType.CLICK, this.handleDocClick_);
+    }
+
     this.dispatchEvent(goog.ui.Component.EventType.OPEN);
   }
   else
