@@ -194,6 +194,11 @@ morning.ui.FileUploaderHtml5.prototype.handleLoadComplete_ = function(e)
   {
     var responseText = /** @type {string} */ (e.target.responseText);
     var response = goog.json.parse(responseText);
+    if (e.target['status'] != 200)
+    {
+      var msg = response['error'] ? response['error']['message'] : 'Unknown error';
+      throw new Error('Upload error: ' + msg);
+    }
     this.dispatchEvent({
       type: morning.ui.FileUploader.EventType.COMPLETE,
       data: response
