@@ -162,6 +162,8 @@ morning.ui.ExpandableContent.prototype.initialize_ = function()
  */
 morning.ui.ExpandableContent.prototype.setExpanded = function(isExpanded)
 {
+  this.updateHeight_();
+
   this.isExpanded_ = isExpanded;
 
   goog.dom.classlist.enable(this.getElement(), 'expanded', isExpanded);
@@ -170,6 +172,9 @@ morning.ui.ExpandableContent.prototype.setExpanded = function(isExpanded)
   if (this.isExpanded_)
   {
     this.dispatchEvent(goog.ui.Component.EventType.SHOW);
+    goog.Timer.callOnce(function() {
+      this.updateHeight_('auto');
+    }, 1000, this);
   }
   else
   {
@@ -188,13 +193,23 @@ morning.ui.ExpandableContent.prototype.setExpanded = function(isExpanded)
 /**
  * Updates height of the wrap element according expanded state.
  *
+ * @param {string=} opt_height
  * @private
  */
-morning.ui.ExpandableContent.prototype.updateHeight_ = function()
+morning.ui.ExpandableContent.prototype.updateHeight_ = function(opt_height)
 {
   var container = this.getElementByClass('expandable-bd');
-  var height = this.isExpanded_ ? this.getHeight_() : this.minHeight_;
-  container.style.height = height + 'px';
+  var height;
+  if (opt_height)
+  {
+    height = opt_height;
+  }
+  else
+  {
+    height = this.isExpanded_ ? this.getHeight_() : this.minHeight_;
+    height += 'px';
+  }
+  container.style.height = height;
 };
 
 /**
