@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -33,45 +33,45 @@ goog.require('morning.fx.Animation');
  */
 morning.ui.NumberRenderer = function(opt_format)
 {
-    goog.base(this);
+  goog.base(this);
 
-    var format = opt_format || '#,##0';
+  var format = opt_format || '#,##0';
 
-    /**
-     * Number formatting
-     *
-     * @type {goog.i18n.NumberFormat}
-     * @private
-     */
-    this.formatter_ = new goog.i18n.NumberFormat(format);
+  /**
+   * Number formatting
+   *
+   * @type {goog.i18n.NumberFormat}
+   * @private
+   */
+  this.formatter_ = new goog.i18n.NumberFormat(format);
 
-    /**
-     * Current value
-     *
-     * @type {number}
-     * @private
-     */
-    this.value_ = 0;
+  /**
+   * Current value
+   *
+   * @type {number}
+   * @private
+   */
+  this.value_ = 0;
 
-    /**
-     * Animation
-     *
-     * @type {morning.fx.Animation}
-     * @private
-     */
-    this.animation_ = new morning.fx.Animation([0], [0], 1000, goog.fx.easing.easeOut);
+  /**
+   * Animation
+   *
+   * @type {morning.fx.Animation}
+   * @private
+   */
+  this.animation_ = new morning.fx.Animation([0], [0], 1000, goog.fx.easing.easeOut);
 };
 goog.inherits(morning.ui.NumberRenderer, goog.ui.Component);
 
 /** @inheritDoc */
 morning.ui.NumberRenderer.prototype.enterDocument = function()
 {
-    goog.base(this, 'enterDocument');
+  goog.base(this, 'enterDocument');
 
-    this.getHandler().listen(this.animation_, [
-        goog.fx.Animation.EventType.ANIMATE,
-        goog.fx.Animation.EventType.END],
-        this.handleAnimation_);
+  this.getHandler().listen(this.animation_, [
+    goog.fx.Animation.EventType.ANIMATE,
+    goog.fx.Animation.EventType.END],
+    this.handleAnimation_);
 };
 
 /**
@@ -82,7 +82,7 @@ morning.ui.NumberRenderer.prototype.enterDocument = function()
  */
 morning.ui.NumberRenderer.prototype.displayValue_ = function(value)
 {
-    this.getElement().innerHTML = this.formatter_.format(value);
+  this.getElement().innerHTML = this.formatter_.format(value);
 };
 
 
@@ -94,7 +94,7 @@ morning.ui.NumberRenderer.prototype.displayValue_ = function(value)
  */
 morning.ui.NumberRenderer.prototype.handleAnimation_ = function(e)
 {
-    this.displayValue_(e.coords[0]);
+  this.displayValue_(e.coords[0]);
 };
 
 /**
@@ -104,25 +104,25 @@ morning.ui.NumberRenderer.prototype.handleAnimation_ = function(e)
  * @param {number} duration animation duration
  */
 morning.ui.NumberRenderer.prototype.setValue = function(value,
-    duration)
+  duration)
 {
-    if (duration)
+  if (duration)
+  {
+    if (this.animation_.isPlaying())
     {
-        if (this.animation_.isPlaying())
-        {
-            this.animation_.stop();
-        }
-
-        this.animation_.setStartPoint([this.value_]);
-        this.animation_.setEndPoint([value]);
-        this.animation_.setDuration(duration);
-
-        this.animation_.play();
-        this.value_ = value;
+      this.animation_.stop();
     }
-    else
-    {
-        this.displayValue_(value);
-        this.value_ = value;
-    }
+
+    this.animation_.setStartPoint([this.value_]);
+    this.animation_.setEndPoint([value]);
+    this.animation_.setDuration(duration);
+
+    this.animation_.play();
+    this.value_ = value;
+  }
+  else
+  {
+    this.displayValue_(value);
+    this.value_ = value;
+  }
 };
