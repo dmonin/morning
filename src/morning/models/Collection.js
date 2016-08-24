@@ -210,6 +210,18 @@ morning.models.Collection.prototype.modelIds = function()
 };
 
 /**
+ * Maps
+ * @param {Function} callback
+ * @param {Object=} thisArg
+ */
+morning.models.Collection.prototype.map = function(callback, thisArg)
+{
+  return this.data_.map(callback, thisArg);
+};
+
+/**
+ * Moves an item to a different index.
+ *
  * @param {number} oldIndex
  * @param {number} newIndex
  */
