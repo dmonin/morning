@@ -70,7 +70,7 @@ morning.ui.NumberRenderer.prototype.enterDocument = function()
 
   this.getHandler().listen(this.animation_, [
     goog.fx.Animation.EventType.ANIMATE,
-    goog.fx.Animation.EventType.END],
+    goog.fx.Transition.EventType.END],
     this.handleAnimation_);
 };
 
