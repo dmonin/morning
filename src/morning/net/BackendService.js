@@ -246,7 +246,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
         errorCallback,
         xhr)) && errorCallback)
     {
-      errorCallback();
+      errorCallback(response);
     }
 
     if (goog.DEBUG)
