@@ -26,10 +26,11 @@ goog.require('goog.events');
  * Collection of BaseModel classes.
  *
  * @constructor
+ * @param {Array=} opt_data
  * @extends {goog.events.EventTarget}
  * @template T
  */
-morning.models.Collection = function()
+morning.models.Collection = function(opt_data)
 {
   goog.base(this);
 
@@ -37,7 +38,7 @@ morning.models.Collection = function()
    * @type {Array.<T>}
    * @private
    */
-  this.data_ = [];
+  this.data_ = opt_data || [];
 
   /**
    * @type {goog.events.EventHandler}
