@@ -176,24 +176,6 @@ morning.app.ModularApp.prototype.handleRouteMatch_ = function(e)
  */
 morning.app.ModularApp.prototype.initializeModuleManager_ = function()
 {
-  var scripts = document.body.querySelectorAll('script');
-  var re = /app\.js\?v=([0-9]+)/;
-  var version = 'unknown';
-  for (var i = 0; i < scripts.length; i++)
-  {
-    if (scripts[i].src.match(re))
-    {
-      version = scripts[i].src.match(re)[1];
-      break;
-    }
-  }
-
-  var moduleUrls = goog.global['PLOVR_MODULE_URIS'];
-  for (var key in moduleUrls)
-  {
-    moduleUrls[key] += '?v=' + version;
-  }
-
   var moduleManager = goog.module.ModuleManager.getInstance();
   var moduleLoader = new goog.module.ModuleLoader();
   moduleManager.setLoader(moduleLoader);
