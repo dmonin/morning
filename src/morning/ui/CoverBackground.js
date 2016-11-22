@@ -255,7 +255,7 @@ morning.ui.CoverBackground.prototype.setImages = function(images)
     }
     else
     {
-        return null;
+        return 0;
     }
 
   });
