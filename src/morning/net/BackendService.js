@@ -15,9 +15,11 @@ goog.require('goog.uri.utils');
  * @constructor
  * @param {string} apiEndPoint URL to Backend API Endpoint.
  * @param {boolean=} opt_withCredentials
+ * @param {Object=} opt_callbackScope
  * @extends {goog.events.EventTarget}
  */
-morning.net.BackendService = function(apiEndPoint, opt_withCredentials)
+morning.net.BackendService = function(apiEndPoint, opt_withCredentials,
+  opt_callbackScope)
 {
   goog.base(this);
 
@@ -76,6 +78,11 @@ morning.net.BackendService = function(apiEndPoint, opt_withCredentials)
   this.requestTimeout = 5000;
 
   /**
+   * @type {Object}
+   */
+  this.callbackScope = opt_callbackScope || null;
+
+  /**
    * @param {goog.net.XhrIo} xhr
    * @return {boolean}
    */
@@ -100,6 +107,17 @@ morning.net.BackendService.prototype.api = function(request, opt_callback,
   opt_errorCallback)
 {
   var callback = opt_callback || goog.nullFunction;
+
+  // Attaching call scope
+  if (callback && this.callbackScope)
+  {
+    callback = goog.bind(callback, this.callbackScope);
+  }
+
+  if (opt_errorCallback && this.callbackScope)
+  {
+    opt_errorCallback = goog.bind(opt_errorCallback, this.callbackScope);
+  }
 
   if (goog.DEBUG)
   {
@@ -132,7 +150,7 @@ morning.net.BackendService.prototype.disposeInternal = function()
 {
   goog.base(this, 'disposeInternal');
 
-  goog.disposeAll(this.handler_, this.headers_, this.requests_);
+  goog.disposeAll(this.handler_, this.headers_, this.requests_, this.xhrPool_);
 };
 
 /**
