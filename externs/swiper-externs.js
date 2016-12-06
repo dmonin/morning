@@ -68,6 +68,6 @@ Swiper.prototype.activeSlide = function() {
 Swiper.prototype.activeIndex = 0;
 
 /**
- * @type {goog.array.ArrayLike<Element>}
+ * @type {IArrayLike<Element>}
  */
 Swiper.prototype.slides = [];

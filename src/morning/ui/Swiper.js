@@ -217,7 +217,7 @@ morning.ui.Swiper.prototype.getActiveIndex = function()
 /**
  * Returns an array of slide elements.
  *
- * @return {goog.array.ArrayLike<Element>}
+ * @return {IArrayLike<Element>}
  */
 morning.ui.Swiper.prototype.getSlides = function()
 {
