@@ -389,7 +389,9 @@ morning.net.BackendService.prototype.handleXhrReady_ = function(request,
  */
 morning.net.BackendService.prototype.setHeader = function(key, value)
 {
+  goog.dispose(this.xhrPool_);
   this.headers_.set(key, value);
+  this.xhrPool_ = new goog.net.XhrIoPool(this.headers_, 1, 15);
 };
 
 /** @typedef {{
