@@ -34,4 +34,5 @@ morning.app.ViewFactory.prototype.getView = function(name)
 morning.app.ViewFactory.prototype.register = function(name, func)
 {
   this.factory_.set(name, func);
+  return this;
 };

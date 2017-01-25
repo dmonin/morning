@@ -43,13 +43,21 @@ morning.app.ModularApp = function()
    */
   this.view = null;
 
+
+  /**
+   * Element used with initial view initialization.
+   *
+   * @type {Element}
+   * @private
+   */
+  this.initialViewElement_ = null;
+
   /**
    * View Factory
    *
    * @type {morning.app.ViewFactory}
-   * @private
    */
-  this.viewFactory_ = morning.app.ViewFactory.getInstance();
+  this.viewFactory = morning.app.ViewFactory.getInstance();
 
   /**
    * @type {morning.routing.Router}
@@ -213,7 +221,7 @@ morning.app.ModularApp.prototype.removeView_ = function()
 /**
  * Initializes app
  *
- * @param {morning.app.View=} opt_view Start view of the app. If no view
+ * @param {(Element|morning.app.View)=} opt_view Start view of the app. If no view
  * provided, the app will try to find the view from navigation controller.
  */
 morning.app.ModularApp.prototype.start = function(opt_view)
@@ -231,12 +239,17 @@ morning.app.ModularApp.prototype.start = function(opt_view)
       this.handleRouteMatch_);
 
   var navController = this.controllers_.get('navigation');
-  if (opt_view)
+  if (opt_view && opt_view instanceof morning.app.View)
   {
     this.setView(opt_view);
   }
   else if (navController)
   {
+    if (opt_view)
+    {
+      this.initialViewElement_ = opt_view;
+    }
+
     this.navigate(navController.getToken());
   }
 };
@@ -248,7 +261,7 @@ morning.app.ModularApp.prototype.start = function(opt_view)
  */
 morning.app.ModularApp.prototype.setViewFromState_ = function()
 {
-  var view = this.viewFactory_.getView(this.state_.route.name);
+  var view = this.viewFactory.getView(this.state_.route.name);
   this.setView(view);
 
   if (!view && goog.DEBUG)
@@ -272,15 +285,26 @@ morning.app.ModularApp.prototype.setView = function(view)
     console.info('ModularApp: Changing view to %o.', view);
   }
 
-  if (view)
+  if (!view)
   {
-    this.view = view;
-    if (!view.isInDocument())
+    this.dispatchEvent(morning.app.ModularApp.EventType.VIEW_CHANGE);
+  }
+
+  this.view = view;
+  if (!view.isInDocument())
+  {
+    if (this.initialViewElement_)
+    {
+      this.view.decorate(this.initialViewElement_);
+      this.initialViewElement_ = null;
+    }
+    else
     {
       this.view.render(this.viewContainer);
     }
-    this.view.setParentEventTarget(this);
+
   }
+  this.view.setParentEventTarget(this);
 
   this.dispatchEvent(morning.app.ModularApp.EventType.VIEW_CHANGE);
 };
