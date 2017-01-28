@@ -201,9 +201,9 @@ morning.app.ModularApp.prototype.navigate = function(urlToken)
 };
 
 /**
- * @private
+ * @protected
  */
-morning.app.ModularApp.prototype.removeView_ = function()
+morning.app.ModularApp.prototype.removeView = function()
 {
   if (this.view)
   {
@@ -278,16 +278,11 @@ morning.app.ModularApp.prototype.setViewFromState_ = function()
  */
 morning.app.ModularApp.prototype.setView = function(view)
 {
-  this.removeView_();
+  this.removeView();
 
   if (goog.DEBUG)
   {
     console.info('ModularApp: Changing view to %o.', view);
-  }
-
-  if (!view)
-  {
-    this.dispatchEvent(morning.app.ModularApp.EventType.VIEW_CHANGE);
   }
 
   this.view = view;
@@ -302,10 +297,9 @@ morning.app.ModularApp.prototype.setView = function(view)
     {
       this.view.render(this.viewContainer);
     }
-
   }
-  this.view.setParentEventTarget(this);
 
+  this.view.setParentEventTarget(this);
   this.dispatchEvent(morning.app.ModularApp.EventType.VIEW_CHANGE);
 };
 
@@ -324,7 +318,7 @@ morning.app.ModularApp.prototype.setState = function(state)
     return;
   }
 
-  this.removeView_();
+  this.removeView();
 
   if (goog.DEBUG)
   {
