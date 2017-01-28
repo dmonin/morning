@@ -23,16 +23,16 @@ goog.require('goog.style.transform');
 /**
  * Returns true if element visible in screen
  *
- * @param {Element} el
+ * @param {goog.math.Rect} rect
  * @param {goog.math.Size} viewportSize
  * @param {goog.math.Coordinate} docScroll
  * @return {boolean}
  */
-morning.style.isVerticallyVisible = function(el, viewportSize, docScroll)
+morning.style.isVerticallyVisible = function(rect, viewportSize, docScroll)
 {
-  var pos = goog.style.getPageOffset(el);
-  var size = goog.style.getSize(el);
-  return pos.y + size.height > docScroll.y && pos.y < docScroll.y + viewportSize.height;
+  return
+    rect.y + rect.height > docScroll.y &&
+    rect.y < docScroll.y + viewportSize.height;
 };
 
 /**
