@@ -30,9 +30,10 @@ goog.require('goog.style.transform');
  */
 morning.style.isVerticallyVisible = function(rect, viewportSize, docScroll)
 {
-  return
-    rect.y + rect.height > docScroll.y &&
-    rect.y < docScroll.y + viewportSize.height;
+  return !!(rect.top + rect.height > docScroll.y &&
+    rect.top < docScroll.y + viewportSize.height);
+
+
 };
 
 /**
