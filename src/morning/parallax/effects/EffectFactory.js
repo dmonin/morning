@@ -3,6 +3,7 @@ goog.provide('morning.parallax.effects.EffectFactory');
 goog.require('morning.parallax.effects.CounterEffect');
 goog.require('morning.parallax.effects.ParallaxEffect');
 goog.require('morning.parallax.effects.StyleEffect');
+goog.require('morning.parallax.effects.AttributeEffect');
 
 /**
  * @constructor
@@ -24,6 +25,11 @@ morning.parallax.effects.EffectFactory.prototype.getEffect = function(config)
   {
     case 'parallax':
       effect = new morning.parallax.effects.ParallaxEffect();
+      effect.setConfig(config);
+      break;
+
+    case 'attribute':
+      effect = new morning.parallax.effects.AttributeEffect();
       effect.setConfig(config);
       break;
 
