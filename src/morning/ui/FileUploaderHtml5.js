@@ -190,6 +190,7 @@ morning.ui.FileUploaderHtml5.prototype.handleFileDrop_ = function(e)
 */
 morning.ui.FileUploaderHtml5.prototype.handleLoadComplete_ = function(e)
 {
+  var success = false;
   try
   {
     var responseText = /** @type {string} */ (e.target.responseText);
@@ -199,10 +200,7 @@ morning.ui.FileUploaderHtml5.prototype.handleLoadComplete_ = function(e)
       var msg = response['error'] ? response['error']['message'] : 'Unknown error';
       throw new Error('Upload error: ' + msg);
     }
-    this.dispatchEvent({
-      type: morning.ui.FileUploader.EventType.COMPLETE,
-      data: response
-    });
+    success = true;
   }
   catch (exc)
   {
@@ -212,6 +210,14 @@ morning.ui.FileUploaderHtml5.prototype.handleLoadComplete_ = function(e)
     }
     this.dispatchEvent({
       type: morning.ui.FileUploader.EventType.ERROR,
+      data: response
+    });
+  }
+
+  if (success)
+  {
+    this.dispatchEvent({
+      type: morning.ui.FileUploader.EventType.COMPLETE,
       data: response
     });
   }
