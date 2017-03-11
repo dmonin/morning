@@ -55,6 +55,32 @@ morning.app.View.prototype.decorateInternal = function(el)
   });
 };
 
+/** @inheritDoc */
+morning.app.View.prototype.enterDocument = function()
+{
+  goog.base(this, 'enterDocument');
+
+  this.componentController.getAll().forEach(function(child) {
+    if (!child.isInDocument())
+    {
+      child.enterDocument();
+    }
+  }, this);
+};
+
+/** @inheritDoc */
+morning.app.View.prototype.exitDocument = function()
+{
+  goog.base(this, 'exitDocument');
+
+  this.componentController.getAll().forEach(function(child) {
+    if (child.isInDocument())
+    {
+      child.exitDocument();
+    }
+  }, this);
+};
+
 /**
  * Returns sub component by specified name, which was initialized automatically
  * (through .cmp selector)
