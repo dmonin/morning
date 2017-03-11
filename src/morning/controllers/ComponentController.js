@@ -111,6 +111,7 @@ morning.controllers.ComponentController.prototype.getComponentByName =
  * Initializes components
  *
  * @param {Object} config
+ * @return {Array<goog.ui.Component>}
  */
 morning.controllers.ComponentController.prototype.initialize =
   function(config)
@@ -119,9 +120,16 @@ morning.controllers.ComponentController.prototype.initialize =
   var selector = config.selector || '.cmp';
   var elements = element.querySelectorAll(selector);
 
+  var components = [];
+
   for (var i = 0; i < elements.length; i++)
   {
     var name = goog.dom.dataset.get(elements[i], 'name');
+    if (!name)
+    {
+      var ts = +new Date();
+      name = 'cmp' + ts + Math.random();
+    }
 
     // Component already initialized.
     if (name && this.components_.get(name))
@@ -146,5 +154,8 @@ morning.controllers.ComponentController.prototype.initialize =
 
     this.components_.set(name, cmp);
     cmp.setParentEventTarget(this);
+    components.push(cmp);
   }
+
+  return components;
 };
