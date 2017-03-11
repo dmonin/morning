@@ -49,6 +49,7 @@ morning.controllers.BaseController.prototype.disposeInternal = function()
  * Initializes controller
  *
  * @param {Object} config
+ * @return {Object|undefined}
  */
 morning.controllers.BaseController.prototype.initialize = function(config)
 {

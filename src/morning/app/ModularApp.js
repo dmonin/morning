@@ -7,6 +7,7 @@ goog.require('goog.history.EventType');
 goog.require('goog.structs.Map');
 goog.require('morning.app.ViewFactory');
 goog.require('goog.dom');
+goog.require('morning.app.View');
 goog.require('morning.routing.Router');
 goog.require('morning.routing.Route');
 

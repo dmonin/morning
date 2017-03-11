@@ -154,7 +154,7 @@ morning.ui.AppearEffect.prototype.handleScroll = function(e)
  * @param {goog.events.Event} e
  * @private
  */
-morning.ui.AppearEffect.prototype.handleResize_ = function()
+morning.ui.AppearEffect.prototype.handleResize_ = function(e)
 {
   this.updatePositionDelay_.start();
 };

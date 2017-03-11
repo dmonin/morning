@@ -51,7 +51,7 @@ morning.parallax.effects.AttributeEffect.prototype.setConfig = function(config)
 morning.parallax.effects.AttributeEffect.prototype.setProperty = function(element, value)
 {
   var node = element.getElement();
-  var property = this.property;
+  var attribute = this.attribute;
 
   var state = null;
   if (node.id)
@@ -59,7 +59,7 @@ morning.parallax.effects.AttributeEffect.prototype.setProperty = function(elemen
     state = morning.parallax.effects.AttributeEffect.states_.get(node.id) || {};
   }
 
-  if (state && state[this.property] == value)
+  if (state && state[this.attribute] == value)
   {
     return;
   }
@@ -69,11 +69,11 @@ morning.parallax.effects.AttributeEffect.prototype.setProperty = function(elemen
     node = node.querySelector(this.selector);
   }
 
-  node.setAttribute(this.attribute, value);
+  node.setAttribute(this.attribute, String(value));
 
   if (state)
   {
-    state[property] = value;
+    state[attribute] = value;
     morning.parallax.effects.AttributeEffect.states_.set(node.id, state);
   }
 };
