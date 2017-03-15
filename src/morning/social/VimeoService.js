@@ -67,7 +67,7 @@ morning.social.VimeoService.prototype.getVideoIdFromUrl = function(videoUrl)
  */
 morning.social.VimeoService.prototype.getEmbedUrl = function(videoId, opt_data)
 {
-    var url = 'http://player.vimeo.com/video/' + videoId + '/';
+    var url = '//player.vimeo.com/video/' + videoId + '/';
     if (opt_data)
     {
         for (var i in opt_data)
@@ -106,9 +106,9 @@ morning.social.VimeoService.prototype.getVideoData = function(videoId, callback,
 /**
  * @const
  */
-morning.social.VimeoService.VIDEO_API_URL = 'http://vimeo.com/api/v2/video/{video_id}.json';
+morning.social.VimeoService.VIDEO_API_URL = '//vimeo.com/api/v2/video/{video_id}.json';
 
 /**
  * @const
  */
-morning.social.VimeoService.OEMBED_API_URL = 'http://vimeo.com/api/oembed.json';
+morning.social.VimeoService.OEMBED_API_URL = '//vimeo.com/api/oembed.json';

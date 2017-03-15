@@ -41,7 +41,7 @@ goog.addSingletonGetter(morning.social.YouTubeService);
  */
 morning.social.YouTubeService.prototype.getEmbedUrl = function(videoId, opt_data)
 {
-    var url = 'http://www.youtube.com/embed/' + videoId;
+    var url = '//www.youtube.com/embed/' + videoId;
     if (opt_data)
     {
         for (var i in opt_data)
@@ -69,7 +69,7 @@ morning.social.YouTubeService.prototype.getVideoData = function(videoId, callbac
     }
 
     callback({
-        'thumbnail': 'http://img.youtube.com/vi/' + videoId + '/0.jpg'
+        'thumbnail': '//img.youtube.com/vi/' + videoId + '/0.jpg'
     });
 };
 
