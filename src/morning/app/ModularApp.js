@@ -34,15 +34,19 @@ morning.app.ModularApp = function()
   this.handler_ = new goog.events.EventHandler(this);
 
   /**
+   * List of all loaded controllers.
    * @type {goog.structs.Map}
    * @private
    */
   this.controllers_ = new goog.structs.Map();
 
   /**
+   * Current view.
+   *
    * @type {morning.app.View}
+   * @private
    */
-  this.view = null;
+  this.view_ = null;
 
 
   /**
@@ -67,14 +71,6 @@ morning.app.ModularApp = function()
   this.router_ = new morning.routing.Router();
 
   /**
-   * Currently active route
-   *
-   * @type {morning.routing.Route}
-   * @private
-   */
-  this.route_ = null;
-
-  /**
    * @type {Object}
    * @private
    */
@@ -86,13 +82,6 @@ morning.app.ModularApp = function()
    */
   this.moduleManager_ = morning.MODULAR ?
     goog.module.ModuleManager.getInstance() : null;
-
-  /**
-   *
-   * @type {string}
-   * @private
-   */
-  this.token_ = '';
 
   /**
    * An element where the view containers will be rendered.
@@ -146,6 +135,26 @@ morning.app.ModularApp.prototype.addRoute = function(route)
 morning.app.ModularApp.prototype.getController = function(key)
 {
   return this.controllers_.get(key);
+};
+
+/**
+ * Returns current app state.
+ *
+ * @return {Object}
+ */
+morning.app.ModularApp.prototype.getState = function()
+{
+  return this.state_;
+};
+
+/**
+ * Returns currently active view.
+ *
+ * @return {morning.app.View}
+ */
+morning.app.ModularApp.prototype.getView = function()
+{
+  return this.view_;
 };
 
 /**
@@ -206,15 +215,15 @@ morning.app.ModularApp.prototype.navigate = function(urlToken)
  */
 morning.app.ModularApp.prototype.removeView = function()
 {
-  if (this.view)
+  if (this.view_)
   {
     goog.dom.removeNode(this.view.getElement());
     goog.dispose(this.view);
-    this.view = null;
+    this.view_ = null;
 
     if (goog.DEBUG)
     {
-      console.info('Disposed view %o', this.view);
+      console.info('Disposed view %o', this.view_);
     }
   }
 };
@@ -270,7 +279,7 @@ morning.app.ModularApp.prototype.setViewFromState_ = function()
     console.warn('ModularApp: View not found ' + this.state_.route.name + '.');
   }
 
-  this.view.setState(this.state_);
+  this.view_.setState(this.state_);
   this.dispatchEvent(morning.app.ModularApp.EventType.STATE_CHANGE);
 };
 
@@ -286,21 +295,21 @@ morning.app.ModularApp.prototype.setView = function(view)
     console.info('ModularApp: Changing view to %o.', view);
   }
 
-  this.view = view;
+  this.view_ = view;
   if (!view.isInDocument())
   {
     if (this.initialViewElement_)
     {
-      this.view.decorate(this.initialViewElement_);
+      this.view_.decorate(this.initialViewElement_);
       this.initialViewElement_ = null;
     }
     else
     {
-      this.view.render(this.viewContainer);
+      this.view_.render(this.viewContainer);
     }
   }
 
-  this.view.setParentEventTarget(this);
+  this.view_.setParentEventTarget(this);
   this.dispatchEvent(morning.app.ModularApp.EventType.VIEW_CHANGE);
 };
 
@@ -311,9 +320,9 @@ morning.app.ModularApp.prototype.setView = function(view)
 */
 morning.app.ModularApp.prototype.setState = function(state)
 {
-  if (this.view && this.state_.route.name == state.route.name)
+  if (this.view_ && this.state_.route.name == state.route.name)
   {
-    this.view.setState(state);
+    this.view_.setState(state);
     this.state_ = state;
     this.dispatchEvent(morning.app.ModularApp.EventType.STATE_CHANGE);
     return;
