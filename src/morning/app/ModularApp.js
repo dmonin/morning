@@ -217,8 +217,8 @@ morning.app.ModularApp.prototype.removeView = function()
 {
   if (this.view_)
   {
-    goog.dom.removeNode(this.view.getElement());
-    goog.dispose(this.view);
+    goog.dom.removeNode(this.view_.getElement());
+    goog.dispose(this.view_);
     this.view_ = null;
 
     if (goog.DEBUG)
