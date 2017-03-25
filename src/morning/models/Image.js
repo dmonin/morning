@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS-IS" BASIS,
@@ -30,44 +30,64 @@ goog.require('goog.events.EventTarget');
  */
 morning.models.Image = function(src, opt_size)
 {
-    goog.base(this);
+  goog.base(this);
 
-    /**
-     * @type {string}
-     */
-    this.src = src;
+  /**
+   * Image source
+   *
+   * @type {string}
+   */
+  this.src = src;
 
-    /**
-     * @type {goog.math.Size}
-     */
-    this.size = opt_size || null;
+  /**
+   * Image node
+   *
+   * @type {Element}
+   */
+  this.element = null;
 
-    /**
-     * @type {boolean}
-     */
-    this.isLoaded = false;
+  /**
+   * Size of the image
+   *
+   * @type {goog.math.Size}
+   */
+  this.size = opt_size || null;
 
-    /**
-     * @type {boolean}
-     */
-    this.isLoading_ = false;
+  /**
+   * Defines whether image is already loaded.
+   *
+   * @type {boolean}
+   */
+  this.isLoaded = false;
 
-    /**
-     * @type {Array.<Function>}
-     * @private
-     */
-    this.afterLoadCallbacks_ = [];
+  /**
+   * Defines whether image is currently loading.
+   *
+   * @type {boolean}
+   * @private
+   */
+  this.isLoading_ = false;
+
+  /**
+   * List of callbacks which are called after image is loaded.
+   *
+   * @type {Array.<Function>}
+   * @private
+   */
+  this.afterLoadCallbacks_ = [];
 };
-
 goog.inherits(morning.models.Image, goog.events.EventTarget);
 
 /**
+ * Creates a new
+ *
+ * @param {Object} data object with image attributes (width, height, src)
  * @return {morning.models.Image}
  */
 morning.models.Image.create = function(data)
 {
-    var size = data['width'] ? new goog.math.Size(data['width'], data['height']) : null;
-    return new morning.models.Image(data['src'], size);
+  var size = data['width'] ? new goog.math.Size(data['width'], data['height']) : null;
+  return new morning.models.Image(data['src'], size);
 
 };
 
@@ -78,15 +98,17 @@ morning.models.Image.create = function(data)
  */
 morning.models.Image.prototype.handleLoadComplete_ = function(e)
 {
-    this.size = new goog.math.Size(e.target.naturalWidth, e.target.naturalHeight);
-    this.isLoaded = true;
-    this.isLoading_ = false;
+  this.size = new goog.math.Size(e.target.naturalWidth, e.target.naturalHeight);
+  this.isLoaded = true;
+  this.isLoading_ = false;
 
-    goog.array.forEach(this.afterLoadCallbacks_, function(callback) {
-        callback(this);
-    }, this);
+  this.element = e.target;
 
-    this.dispatchEvent(goog.events.EventType.LOAD);
+  goog.array.forEach(this.afterLoadCallbacks_, function(callback) {
+    callback(this);
+  }, this);
+
+  this.dispatchEvent(goog.events.EventType.LOAD);
 };
 
 /**
@@ -97,37 +119,37 @@ morning.models.Image.prototype.handleLoadComplete_ = function(e)
  */
 morning.models.Image.prototype.load = function(opt_callback, opt_handler)
 {
-    if (opt_callback && opt_handler)
-    {
-        opt_callback = goog.bind(opt_callback, opt_handler);
-    }
+  if (opt_callback && opt_handler)
+  {
+    opt_callback = goog.bind(opt_callback, opt_handler);
+  }
 
-    if (this.isLoaded)
-    {
-        if (opt_callback)
-        {
-            opt_callback(this);
-        }
-        return;
-    }
-
+  if (this.isLoaded)
+  {
     if (opt_callback)
     {
-        this.afterLoadCallbacks_.push(opt_callback);
+      opt_callback(this);
     }
+    return;
+  }
 
-    if (this.isLoading_)
-    {
-        return;
-    }
+  if (opt_callback)
+  {
+    this.afterLoadCallbacks_.push(opt_callback);
+  }
 
-    this.isLoading_ = true;
+  if (this.isLoading_)
+  {
+    return;
+  }
 
-    var loader = new goog.net.ImageLoader();
-    loader.addImage(this.src.replace(/[^a-z]/, ''), this.src);
+  this.isLoading_ = true;
 
-    goog.events.listen(loader, goog.events.EventType.LOAD,
-        this.handleLoadComplete_, false, this);
+  var loader = new goog.net.ImageLoader();
+  loader.addImage(this.src.replace(/[^a-z]/, ''), this.src);
 
-    loader.start();
+  goog.events.listen(loader, goog.events.EventType.LOAD,
+    this.handleLoadComplete_, false, this);
+
+  loader.start();
 };
