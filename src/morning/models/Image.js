@@ -93,7 +93,7 @@ morning.models.Image.create = function(data)
 
 /**
  * Handles Image load complete event
- * @param  {goog.events.Event} e
+ * @param  {goog.events.BrowserEvent} e
  * @private
  */
 morning.models.Image.prototype.handleLoadComplete_ = function(e)
@@ -102,7 +102,7 @@ morning.models.Image.prototype.handleLoadComplete_ = function(e)
   this.isLoaded = true;
   this.isLoading_ = false;
 
-  this.element = e.target;
+  this.element = /** @type {Element} */ (e.target);
 
   goog.array.forEach(this.afterLoadCallbacks_, function(callback) {
     callback(this);
