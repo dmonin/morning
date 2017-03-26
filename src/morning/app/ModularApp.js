@@ -195,8 +195,11 @@ morning.app.ModularApp.prototype.handleRouteMatch_ = function(e)
 morning.app.ModularApp.prototype.initializeModuleManager_ = function()
 {
   var moduleManager = goog.module.ModuleManager.getInstance();
-  var moduleLoader = new goog.module.ModuleLoader();
-  moduleManager.setLoader(moduleLoader);
+  if (!moduleManager.getLoader())
+  {
+    var moduleLoader = new goog.module.ModuleLoader();
+    moduleManager.setLoader(moduleLoader);
+  }
   moduleManager.setAllModuleInfo(goog.global['PLOVR_MODULE_INFO']);
   moduleManager.setModuleUris(goog.global['PLOVR_MODULE_URIS']);
   moduleManager.setLoaded('app');
