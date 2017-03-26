@@ -44,9 +44,9 @@ morning.app.ModularApp = function()
    * Current view.
    *
    * @type {morning.app.View}
-   * @private
+   * @protected
    */
-  this.view_ = null;
+  this.view = null;
 
 
   /**
@@ -154,7 +154,7 @@ morning.app.ModularApp.prototype.getState = function()
  */
 morning.app.ModularApp.prototype.getView = function()
 {
-  return this.view_;
+  return this.view;
 };
 
 /**
@@ -215,15 +215,15 @@ morning.app.ModularApp.prototype.navigate = function(urlToken)
  */
 morning.app.ModularApp.prototype.removeView = function()
 {
-  if (this.view_)
+  if (this.view)
   {
-    goog.dom.removeNode(this.view_.getElement());
-    goog.dispose(this.view_);
-    this.view_ = null;
+    goog.dom.removeNode(this.view.getElement());
+    goog.dispose(this.view);
+    this.view = null;
 
     if (goog.DEBUG)
     {
-      console.info('Disposed view %o', this.view_);
+      console.info('Disposed view %o', this.view);
     }
   }
 };
@@ -279,7 +279,7 @@ morning.app.ModularApp.prototype.setViewFromState_ = function()
     console.warn('ModularApp: View not found ' + this.state_.route.name + '.');
   }
 
-  this.view_.setState(this.state_);
+  this.view.setState(this.state_);
   this.dispatchEvent(morning.app.ModularApp.EventType.STATE_CHANGE);
 };
 
@@ -295,21 +295,21 @@ morning.app.ModularApp.prototype.setView = function(view)
     console.info('ModularApp: Changing view to %o.', view);
   }
 
-  this.view_ = view;
+  this.view = view;
   if (!view.isInDocument())
   {
     if (this.initialViewElement_)
     {
-      this.view_.decorate(this.initialViewElement_);
+      this.view.decorate(this.initialViewElement_);
       this.initialViewElement_ = null;
     }
     else
     {
-      this.view_.render(this.viewContainer);
+      this.view.render(this.viewContainer);
     }
   }
 
-  this.view_.setParentEventTarget(this);
+  this.view.setParentEventTarget(this);
   this.dispatchEvent(morning.app.ModularApp.EventType.VIEW_CHANGE);
 };
 
@@ -320,9 +320,9 @@ morning.app.ModularApp.prototype.setView = function(view)
 */
 morning.app.ModularApp.prototype.setState = function(state)
 {
-  if (this.view_ && this.state_.route.name == state.route.name)
+  if (this.view && this.state_.route.name == state.route.name)
   {
-    this.view_.setState(state);
+    this.view.setState(state);
     this.state_ = state;
     this.dispatchEvent(morning.app.ModularApp.EventType.STATE_CHANGE);
     return;
