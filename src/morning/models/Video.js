@@ -48,6 +48,11 @@ morning.models.Video = function(src)
    */
   this.isLoaded = false;
 
+  /**
+   * @type {goog.math.Size}
+   */
+  this.size = new goog.math.Size(10, 10);
+
 };
 goog.inherits(morning.models.Video, goog.events.EventTarget);
 
@@ -61,6 +66,8 @@ morning.models.Video.prototype.load = function()
     this.isLoaded = true;
     this.element.width = this.element['videoWidth'];
     this.element.height = this.element['videoHeight'];
+    this.size.width = Number(this.element.width);
+    this.size.height = Number(this.element.height);
   }.bind(this));
 
 };
