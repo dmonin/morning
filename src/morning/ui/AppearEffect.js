@@ -66,11 +66,11 @@ morning.ui.AppearEffect = function()
 
   /**
    * @type {goog.async.Delay}
-   * @private
+   * @protected
    */
-  this.updatePositionDelay_ = new goog.async.Delay(this.updatePosition_,
+  this.updatePositionDelay = new goog.async.Delay(this.updatePosition,
     300, this);
-  this.registerDisposable(this.updatePositionDelay_);
+  this.registerDisposable(this.updatePositionDelay);
 
   /**
    * Update css class with a certain delay.
@@ -118,9 +118,9 @@ morning.ui.AppearEffect.prototype.enterDocument = function()
     listen(window, goog.events.EventType.SCROLL, this.handleScroll).
     listen(window, goog.events.EventType.RESIZE, this.handleResize_);
 
-  this.updatePosition_();
-  this.updatePositionDelay_.start();
-  goog.Timer.callOnce(this.updatePosition_, 2000, this);
+  this.updatePosition();
+  this.updatePositionDelay.start();
+  goog.Timer.callOnce(this.updatePosition, 2000, this);
 
   this.handleScroll(null);
 };
@@ -156,7 +156,7 @@ morning.ui.AppearEffect.prototype.handleScroll = function(e)
  */
 morning.ui.AppearEffect.prototype.handleResize_ = function(e)
 {
-  this.updatePositionDelay_.start();
+  this.updatePositionDelay.start();
 };
 
 /**
@@ -172,7 +172,7 @@ morning.ui.AppearEffect.prototype.isVisible = function()
 /**
  * @private
  */
-morning.ui.AppearEffect.prototype.updatePosition_ = function()
+morning.ui.AppearEffect.prototype.updatePosition = function()
 {
   this.bounds = goog.style.getBounds(this.getElement());
   this.viewportSize = goog.dom.getViewportSize();
