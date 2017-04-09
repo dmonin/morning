@@ -124,11 +124,13 @@ morning.controllers.ComponentController.prototype.initialize =
 
   for (var i = 0; i < elements.length; i++)
   {
-    var name = goog.dom.dataset.get(elements[i], 'name');
+    var name = goog.dom.dataset.get(elements[i], 'name') ||
+      elements[i].componentControllerId;
     if (!name)
     {
       var ts = +new Date();
       name = 'cmp' + ts + Math.random();
+      elements[i].componentControllerId = name;
     }
 
     // Component already initialized.
