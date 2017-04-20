@@ -299,7 +299,7 @@ morning.app.ModularApp.prototype.setView = function(view)
   }
 
   this.view = view;
-  if (!view.isInDocument())
+  if (!view.getElement())
   {
     if (this.initialViewElement_)
     {
