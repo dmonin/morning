@@ -232,7 +232,11 @@ morning.forms.Textbox.prototype.setConfig = function(config)
   if (goog.isDef(config['placeholder']))
   {
     this.setPlaceholder(config['placeholder']);
+  }
 
+  if (goog.isDef(config['enabled']))
+  {
+    this.setEnabled(config['enabled']);
   }
 };
 
