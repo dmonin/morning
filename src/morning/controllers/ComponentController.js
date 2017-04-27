@@ -106,6 +106,21 @@ morning.controllers.ComponentController.prototype.getComponentByName =
   return this.components_.get(name);
 };
 
+/**
+ * Returns component for element.
+ *
+ * @param {Element} element
+ * @return {goog.ui.Component}
+ */
+morning.controllers.ComponentController.prototype.getComponentForElement =
+  function(element)
+{
+  var name = goog.dom.dataset.get(element, 'name') ||
+      goog.getUid(element);
+
+  return this.components_.get(name);
+};
+
 
 /**
  * Initializes components
@@ -125,13 +140,7 @@ morning.controllers.ComponentController.prototype.initialize =
   for (var i = 0; i < elements.length; i++)
   {
     var name = goog.dom.dataset.get(elements[i], 'name') ||
-      elements[i].componentControllerId;
-    if (!name)
-    {
-      var ts = +new Date();
-      name = 'cmp' + ts + Math.random();
-      elements[i].componentControllerId = name;
-    }
+      goog.getUid(elements[i]);
 
     // Component already initialized.
     if (name && this.components_.get(name))
