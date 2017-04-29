@@ -291,6 +291,11 @@ morning.app.ModularApp.prototype.setViewFromState_ = function()
  */
 morning.app.ModularApp.prototype.setView = function(view)
 {
+  if (view == this.view)
+  {
+    return;
+  }
+
   this.removeView();
 
   if (goog.DEBUG)
