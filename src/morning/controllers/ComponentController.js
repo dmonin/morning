@@ -56,7 +56,9 @@ morning.controllers.ComponentController.prototype.destroy = function(element,
 
   for (var i = 0; i < elements.length; i++)
   {
-    var name = goog.dom.dataset.get(elements[i], 'name');
+    var name = goog.dom.dataset.get(elements[i], 'name') ||
+      goog.getUid(elements[i]);
+
     var cmp = this.components_.get(name);
     if (name && cmp)
     {
@@ -147,7 +149,8 @@ morning.controllers.ComponentController.prototype.initialize =
     {
       if (goog.DEBUG)
       {
-        console.warn('Component with the same name already exists %s.', name);
+        console.warn('Component with the same name already exists %s %o.',
+          name, elements[i]);
       }
       continue;
     }
