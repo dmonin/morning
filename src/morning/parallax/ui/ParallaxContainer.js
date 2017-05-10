@@ -617,7 +617,7 @@ morning.parallax.ui.ParallaxContainer.prototype.snap_ = function()
     return;
   }
   goog.array.forEach(this.scenes_.getValues(), function(scene) {
-    if (scene.getConfig().snappable && Math.abs(scene.getPosition() - this.scrollPos_) < 500)
+    if (scene.getConfig() && scene.getConfig().snappable && Math.abs(scene.getPosition() - this.scrollPos_) < 500)
     {
       this.setTargetPosition(scene.getPosition());
     }
