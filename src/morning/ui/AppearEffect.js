@@ -78,8 +78,7 @@ morning.ui.AppearEffect = function()
    * @type {goog.async.Delay}
    * @private
    */
-  this.updateClsDelay_ = new goog.async.Delay(this.updateVisibility,
-    100 + 300 * Math.random(), this);
+  this.updateClsDelay_ = null;
   this.registerDisposable(this.updateClsDelay_);
 };
 goog.inherits(morning.ui.AppearEffect, goog.ui.Component);
@@ -145,8 +144,15 @@ morning.ui.AppearEffect.prototype.handleScroll = function(e)
   if (isVisible != this.isVisible_)
   {
     this.isVisible_ = isVisible;
+    if (this.updateClsDelay_)
+    {
+      this.updateClsDelay_.start();
+    }
+    else
+    {
+      this.updateVisibility();
+    }
 
-    this.updateClsDelay_.start();
   }
 };
 
