@@ -27,6 +27,8 @@ goog.require('goog.events.EventTarget');
  */
 morning.models.Video = function(src)
 {
+  goog.base(this);
+
   /**
    * Video source
    *
@@ -49,18 +51,42 @@ morning.models.Video = function(src)
   this.isLoaded = false;
 
   /**
+   * Size of the video.
+   *
    * @type {goog.math.Size}
    */
   this.size = new goog.math.Size(10, 10);
 
+  /**
+   * List of callbacks which are called after video is loaded.
+   *
+   * @type {Array.<Function>}
+   * @private
+   */
+  this.afterLoadCallbacks_ = [];
+
 };
 goog.inherits(morning.models.Video, goog.events.EventTarget);
 
-morning.models.Video.prototype.load = function()
+/**
+ * @param  {Function=} opt_callback
+ * @param {Object=} opt_handler
+ */
+morning.models.Video.prototype.load = function(opt_callback, opt_handler)
 {
   this.element = goog.dom.getDomHelper().createDom('video', {
     'src': this.src
   });
+
+  if (opt_callback && opt_handler)
+  {
+    opt_callback = goog.bind(opt_callback, opt_handler);
+  }
+
+  if (opt_callback)
+  {
+    this.afterLoadCallbacks_.push(opt_callback);
+  }
 
   goog.events.listen(this.element, 'canplay', function() {
     this.isLoaded = true;
@@ -68,6 +94,11 @@ morning.models.Video.prototype.load = function()
     this.element.height = this.element['videoHeight'];
     this.size.width = Number(this.element.width);
     this.size.height = Number(this.element.height);
+    this.dispatchEvent(goog.events.EventType.LOAD);
+
+    goog.array.forEach(this.afterLoadCallbacks_, function(callback) {
+      callback(this);
+    }, this);
   }.bind(this));
 
 };
