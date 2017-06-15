@@ -180,7 +180,11 @@ morning.ui.AppearEffect.prototype.isVisible = function()
  */
 morning.ui.AppearEffect.prototype.updatePosition = function()
 {
-  this.bounds = goog.style.getBounds(this.getElement());
+  if (this.getElement())
+  {
+    this.bounds = goog.style.getBounds(this.getElement());
+  }
+
   this.viewportSize = goog.dom.getViewportSize();
 };
 
