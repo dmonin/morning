@@ -317,6 +317,8 @@ morning.app.ModularApp.prototype.setView = function(view)
     }
   }
 
+  window.scrollTo(0, 0);
+
   this.view.setParentEventTarget(this);
   this.dispatchEvent(morning.app.ModularApp.EventType.VIEW_CHANGE);
 };
