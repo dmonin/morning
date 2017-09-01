@@ -832,6 +832,18 @@ morning.ui.DatePicker.prototype.redrawCalendarGrid_ = function(opt_start, opt_en
         classes.push(goog.getCssName(this.getBaseCssClass(), 'highlight'));
       }
 
+      // Start date
+      if (date.equals(start))
+      {
+        classes.push(goog.getCssName(this.getBaseCssClass(), 'range-start'));
+      }
+
+      // End date
+      if (date.equals(end))
+      {
+        classes.push(goog.getCssName(this.getBaseCssClass(), 'range-end'));
+      }
+
       classes.push('d' + date.toIsoString());
 
       // Set cell text to the date and apply classes.
