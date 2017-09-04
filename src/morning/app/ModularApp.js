@@ -220,6 +220,7 @@ morning.app.ModularApp.prototype.removeView = function()
 {
   if (this.view)
   {
+    this.view.setActive(false);
     goog.dom.removeNode(this.view.getElement());
     goog.dispose(this.view);
     this.view = null;
@@ -316,6 +317,8 @@ morning.app.ModularApp.prototype.setView = function(view)
       this.view.render(this.viewContainer);
     }
   }
+
+  this.view.setActive(true);
 
   window.scrollTo(0, 0);
 

@@ -94,6 +94,23 @@ morning.app.View.prototype.getComponent = function(name)
 };
 
 /**
+ * Sets whether component is active.
+ *
+ * @param {boolean} isActive
+ */
+morning.app.View.prototype.setActive = function(isActive)
+{
+  this.forEachChild(function(child) {
+    if (child.setActive && typeof child.setActive == 'function')
+    {
+      child.setActive(isActive);
+    }
+  }, this);
+
+  this.isActive = isActive;
+};
+
+/**
  * Sets the state of the view.
  *
  * @param {Object} state
