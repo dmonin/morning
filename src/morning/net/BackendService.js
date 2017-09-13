@@ -16,10 +16,11 @@ goog.require('goog.uri.utils');
  * @param {string} apiEndPoint URL to Backend API Endpoint.
  * @param {boolean=} opt_withCredentials
  * @param {Object=} opt_callbackScope
+ * @param {goog.structs.Map=} opt_headers
  * @extends {goog.events.EventTarget}
  */
 morning.net.BackendService = function(apiEndPoint, opt_withCredentials,
-  opt_callbackScope)
+  opt_callbackScope, opt_headers)
 {
   goog.base(this);
 
@@ -52,7 +53,7 @@ morning.net.BackendService = function(apiEndPoint, opt_withCredentials,
    * @type {goog.structs.Map}
    * @private
    */
-  this.headers_ = new goog.structs.Map();
+  this.headers_ = opt_headers || new goog.structs.Map();
 
   /**
    * Stores currently open transactions into the map
@@ -68,7 +69,7 @@ morning.net.BackendService = function(apiEndPoint, opt_withCredentials,
    * @type {goog.net.XhrIoPool}
    * @private
    */
-  this.xhrPool_ = new goog.net.XhrIoPool(this.headers_, 1, 15);
+  this.xhrPool_ = new goog.net.XhrIoPool(this.headers_, 1, 30);
 
   /**
    * Request timeout in milliseconds.
@@ -269,6 +270,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
 
     if (goog.DEBUG)
     {
+      this.releaseRequest_(xhr, transactionId);
       throw exc;
     }
   }
@@ -389,9 +391,8 @@ morning.net.BackendService.prototype.handleXhrReady_ = function(request,
  */
 morning.net.BackendService.prototype.setHeader = function(key, value)
 {
-  goog.dispose(this.xhrPool_);
   this.headers_.set(key, value);
-  this.xhrPool_ = new goog.net.XhrIoPool(this.headers_, 1, 15);
+  this.xhrPool_ = new goog.net.XhrIoPool(this.headers_, 1, 30);
 };
 
 /** @typedef {{

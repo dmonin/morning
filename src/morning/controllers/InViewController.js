@@ -230,10 +230,10 @@ morning.controllers.InViewController.prototype.updateBounds = function()
 {
   this.components_.forEach(function(item) {
     var bounds = goog.style.getBounds(item.cmp.getElement());
-    bounds.top += item.cmp.reduceBoundsBy.top;
-    bounds.left += item.cmp.reduceBoundsBy.left;
-    bounds.width -= item.cmp.reduceBoundsBy.right;
-    bounds.height -= item.cmp.reduceBoundsBy.bottom;
+    bounds.top += item.cmp.changeBoundsBy.top;
+    bounds.left += item.cmp.changeBoundsBy.left;
+    bounds.width -= item.cmp.changeBoundsBy.right;
+    bounds.height -= item.cmp.changeBoundsBy.bottom;
 
     item.bounds = bounds;
   }, this);

@@ -102,18 +102,6 @@ morning.ui.AnimatedComponent.prototype.getBounds = function()
 };
 
 /**
- * Sets whether component is active.
- *
- * @param {boolean} isActive
- */
-morning.ui.AnimatedComponent.prototype.setActive = function(isActive)
-{
-  goog.base(this, 'setActive', isActive);
-
-  this.updateAnimated();
-};
-
-/**
  * Sets whether component is in visible in current browser view.
  * @param {boolean} isInView
  */
@@ -154,7 +142,7 @@ morning.ui.AnimatedComponent.prototype.setAnimated = function(isAnimated)
  */
 morning.ui.AnimatedComponent.prototype.updateAnimated = function()
 {
-  var isAnimated = this.isActive && this.inView;
+  var isAnimated = this.isInDocument() && this.inView;
 
   if (isAnimated == this.isAnimated)
   {
