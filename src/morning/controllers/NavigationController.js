@@ -33,9 +33,9 @@ goog.addSingletonGetter(morning.controllers.NavigationController);
 
 /**
  * @param {goog.events.BrowserEvent} e
- * @private
+ * @protected
  */
-morning.controllers.NavigationController.prototype.handleClick_ = function(e)
+morning.controllers.NavigationController.prototype.handleClick = function(e)
 {
   if (!e.isMouseActionButton())
   {
@@ -110,7 +110,7 @@ morning.controllers.NavigationController.prototype.initialize = function(config)
 
   this.getHandler().
     listen(document.documentElement, goog.events.EventType.CLICK,
-      this.handleClick_).
+      this.handleClick).
     listen(this.history, goog.history.EventType.NAVIGATE,
       this.handleNavigate_);
 
