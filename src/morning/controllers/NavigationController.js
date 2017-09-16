@@ -68,7 +68,7 @@ morning.controllers.NavigationController.prototype.handleClick_ = function(e)
 
   if (domain != currentDomain)
   {
-      return;
+    return;
   }
 
   e.preventDefault();
@@ -99,7 +99,8 @@ morning.controllers.NavigationController.prototype.handleClick_ = function(e)
 morning.controllers.NavigationController.prototype.initialize = function(config)
 {
   this.history = new goog.history.Html5History();
-  this.history.setUseFragment(false);
+  var useFragment = config.useFragment || false;
+  this.history.setUseFragment(useFragment);
 
   var urlToken = goog.uri.utils.getPath(goog.dom.getDocument().location.href);
   this.token_ = this.history.getToken() || urlToken.substr(1);
