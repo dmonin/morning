@@ -102,8 +102,13 @@ morning.controllers.NavigationController.prototype.initialize = function(config)
   var useFragment = config.useFragment || false;
   this.history.setUseFragment(useFragment);
 
-  var urlToken = goog.uri.utils.getPath(goog.dom.getDocument().location.href);
-  this.token_ = this.history.getToken() || urlToken.substr(1);
+  var path = goog.uri.utils.getPath(goog.dom.getDocument().location.href);
+  this.token_ = this.history.getToken();
+  if (!this.token_ && !useFragment)
+  {
+    this.token_ = path.substr(1);
+  }
+
   this.history.setToken(this.token_);
   this.history.setEnabled(true);
   this.history.setParentEventTarget(this);
