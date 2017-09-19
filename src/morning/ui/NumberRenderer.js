@@ -46,6 +46,11 @@ morning.ui.NumberRenderer = function(opt_format)
   this.formatter_ = new goog.i18n.NumberFormat(format);
 
   /**
+   * @type {Function}
+   */
+  this.formatter = null;
+
+  /**
    * Current value
    *
    * @type {number}
@@ -82,7 +87,8 @@ morning.ui.NumberRenderer.prototype.enterDocument = function()
  */
 morning.ui.NumberRenderer.prototype.displayValue_ = function(value)
 {
-  this.getElement().innerHTML = this.formatter_.format(value);
+  this.getElement().innerHTML = this.formatter ?
+    this.formatter(value) : this.formatter_.format(value);
 };
 
 
