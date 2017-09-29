@@ -111,6 +111,23 @@ morning.models.Collection.prototype.forEachRight = function(f, opt_obj)
 };
 
 /**
+ * Search an array for the first element that satisfies a given condition and
+ * return that element.
+ * @param {?function(this:S, T, number, ?) : boolean} f The function to call
+ *     for every element. This function takes 3 arguments (the element, the
+ *     index and the array) and should return a boolean.
+ * @param {S=} opt_obj An optional "this" context for the function.
+ * @return {T|null} The first array element that passes the test, or null if no
+ *     element is found.
+ * @template T,S
+ */
+morning.models.Collection.prototype.find = function(f, opt_obj)
+{
+  return goog.array.find(this.data_, f, opt_obj);
+}
+
+
+/**
  * @param {number} index
  * @return {*}
  */
