@@ -151,7 +151,7 @@ morning.net.BackendService.prototype.disposeInternal = function()
 {
   goog.base(this, 'disposeInternal');
 
-  goog.disposeAll(this.handler_, this.headers_, this.requests_, this.xhrPool_);
+  goog.disposeAll(this.handler_, this.headers_, this.requests_);
 };
 
 /**
@@ -179,6 +179,11 @@ morning.net.BackendService.prototype.getHandler = function()
 morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
   callback, errorCallback, e)
 {
+  if (this.isDisposed())
+  {
+    return;
+  }
+
   // Request was aborted
   var request = this.requests_.get(transactionId);
   var xhr = /** @type {goog.net.XhrIo} */ (e.target);
