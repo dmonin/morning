@@ -265,6 +265,18 @@ morning.ui.DatePicker.prototype.getActiveMonth = function()
 };
 
 /**
+ * Sets currently active month.
+ *
+ * @param {goog.date.Date} activeDate
+ */
+morning.ui.DatePicker.prototype.setActiveMonth = function(activeDate)
+{
+  this.activeMonth_ = activeDate.clone();
+  this.activeMonth_.setDate(1);
+  this.updateCalendarGrid_();
+};
+
+/**
  * @return {number} The first day of week, 0 = Monday, 6 = Sunday.
  */
 morning.ui.DatePicker.prototype.getFirstWeekday = function()
