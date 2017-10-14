@@ -140,7 +140,7 @@ morning.models.Collection.prototype.getAt = function(index)
  * Returns model with specified ID.
  *
  * @param {number} id
- * @return {*}
+ * @return {T}
  */
 morning.models.Collection.prototype.getById = function(id)
 {
