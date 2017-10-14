@@ -129,7 +129,7 @@ morning.models.Collection.prototype.find = function(f, opt_obj)
 
 /**
  * @param {number} index
- * @return {*}
+ * @return {T}
  */
 morning.models.Collection.prototype.getAt = function(index)
 {
