@@ -156,7 +156,7 @@ morning.models.Collection.prototype.getById = function(id)
 };
 
 /**
- * Pushes an item into an array, if it's not already in the array.
+ * Pushes an item into an array.
  *
  * @param {T} item Value to add.
  */
@@ -170,6 +170,19 @@ morning.models.Collection.prototype.insert = function(item)
     item: item,
     index: this.data_.length - 1
   });
+};
+
+/**
+ * Pushes an item into an array, if it's not already in the array.
+ *
+ * @param {T} item Value to add.
+ */
+morning.models.Collection.prototype.insertIfNotExists = function(item)
+{
+  if (!this.getById(item))
+  {
+    this.add(item);
+  }
 };
 
 /**
