@@ -181,7 +181,7 @@ morning.models.Collection.prototype.insertIfNotExists = function(item)
 {
   if (!this.getById(item))
   {
-    this.add(item);
+    this.insert(item);
   }
 };
 
