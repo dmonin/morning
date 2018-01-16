@@ -63,7 +63,10 @@ goog.inherits(morning.events.EndOfPageDetector,
  */
 morning.events.EndOfPageDetector.prototype.attach = function()
 {
-  this.eventHandler_.listen(this.element_, goog.events.EventType.SCROLL,
+  var element = this.element_ == document.documentElement ?
+    window : this.element_;
+
+  this.eventHandler_.listen(element, goog.events.EventType.SCROLL,
     this.handleScroll_);
 };
 
