@@ -305,7 +305,7 @@ morning.forms.Form.prototype.validate = function()
 };
 
 /**
- * Returns form data as object
+ * Sets form data.
  *
  * @param {Object} data
  */
