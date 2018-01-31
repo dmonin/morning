@@ -50,6 +50,12 @@ morning.forms.Textarea = function(content, opt_renderer, opt_domHelper)
   this.changeDelay_ = new goog.async.Delay(this.update_, 300, this);
 
   /**
+   * @type {goog.async.Delay}
+   * @private
+   */
+  this.resizeDelay_ = new goog.async.Delay(this.resize, 150, this);
+
+  /**
    * @type {boolean}
    * @private
    */
@@ -110,6 +116,8 @@ morning.forms.Textarea.prototype.enterDocument = function()
     .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
     .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
     .listen(el, goog.events.EventType.CHANGE, this.update_);
+
+  this.resizeDelay_.start();
 };
 
 /**
