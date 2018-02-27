@@ -256,6 +256,7 @@ morning.ui.NarratedVideo.prototype.initVideoPlayer_ = function(videoId)
       'videoId': videoId,
       'playerVars': {
         'autoplay': 1,
+        'modestbranding': 1,
         'controls': 1,
         'showinfo': 0,
         'rel' : 0
