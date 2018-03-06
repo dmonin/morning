@@ -16,11 +16,12 @@
  * @fileoverview Narrated Video Player
  */
 goog.provide('morning.ui.NarratedVideo');
-goog.require('morning.templates.NarratedVideo');
+goog.require('goog.async.Throttle');
 goog.require('goog.net.XhrIo');
 goog.require('goog.soy');
 goog.require('goog.ui.Component');
 goog.require('morning.social.YouTubeService');
+goog.require('morning.templates.NarratedVideo');
 
 /**
  * @constructor
@@ -84,6 +85,18 @@ morning.ui.NarratedVideo = function(videoService)
    * @private
    */
   this.narrationEl_ = null;
+
+  /**
+   * @type {number}
+   * @private
+   */
+  this.aspectRatio_ = 16.0 / 9.0;
+
+  /**
+   * @type {goog.async.Throttle}
+   * @private
+   */
+  this.resizeThrottle_ = new goog.async.Throttle(this.resize_, 70, this);
 };
 goog.inherits(morning.ui.NarratedVideo, goog.ui.Component);
 
@@ -104,8 +117,44 @@ morning.ui.NarratedVideo.prototype.enterDocument = function()
 
   this.narrationEl_ = this.getElement().querySelector('.narration-text');
 
-  this.getHandler().
-    listen(this.timer_, goog.Timer.TICK, this.handleTick_);
+  this.getHandler()
+    .listen(this.timer_, goog.Timer.TICK, this.handleTick_)
+    .listen(window, goog.events.EventType.RESIZE, this.handleResize_);
+};
+
+/**
+ * @param  {goog.events.Event} e
+ * @private
+ */
+morning.ui.NarratedVideo.prototype.handleResize_ = function(e)
+{
+  this.resizeThrottle_.fire();
+};
+
+/**
+ * @private
+ */
+morning.ui.NarratedVideo.prototype.resize_ = function()
+{
+  var el = this.getElement();
+  var ytContainer = el.querySelector('.yt-player-container');
+
+  var height = el.offsetWidth / this.aspectRatio_;
+  ytContainer.style.height = height + 'px';
+
+  if (ytContainer.offsetHeight > 0)
+  {
+    var width = ytContainer.offsetHeight * this.aspectRatio_;
+    ytContainer.style.width = width + 'px';
+  }
+};
+
+/**
+ * @param {number} ratio
+ */
+morning.ui.NarratedVideo.prototype.setAspectRatio = function(ratio)
+{
+  this.aspectRatio_ = ratio;
 };
 
 /**
@@ -267,8 +316,6 @@ morning.ui.NarratedVideo.prototype.initVideoPlayer_ = function(videoId)
  */
 morning.ui.NarratedVideo.prototype.createYoutubePlayer_ = function(videoId)
 {
-  var timer = this.timer_;
-
   return new YT.Player('youtube-player', {
     'videoId': videoId,
     'playerVars': {
@@ -279,7 +326,10 @@ morning.ui.NarratedVideo.prototype.createYoutubePlayer_ = function(videoId)
       'rel' : 0
     },
     'events': {
-      'onReady': function() { timer.start(); }
+      'onReady': function() {
+        this.timer_.start();
+        this.resize_();
+      }.bind(this)
     }
   });
 };
