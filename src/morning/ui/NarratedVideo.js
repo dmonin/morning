@@ -96,7 +96,7 @@ morning.ui.NarratedVideo = function(videoService)
    * @type {goog.async.Throttle}
    * @private
    */
-  this.resizeThrottle_ = new goog.async.Throttle(this.resize_, 70, this);
+  this.resizeThrottle_ = new goog.async.Throttle(this.resize, 70, this);
 };
 goog.inherits(morning.ui.NarratedVideo, goog.ui.Component);
 
@@ -132,9 +132,8 @@ morning.ui.NarratedVideo.prototype.handleResize_ = function(e)
 };
 
 /**
- * @private
  */
-morning.ui.NarratedVideo.prototype.resize_ = function()
+morning.ui.NarratedVideo.prototype.resize = function()
 {
   var el = this.getElement();
   var ytContainer = el.querySelector('.yt-player-container');
@@ -291,18 +290,17 @@ morning.ui.NarratedVideo.prototype.setVideoUrl = function(url)
  */
 morning.ui.NarratedVideo.prototype.initVideoPlayer_ = function(videoId)
 {
-  // Load youtube api
-  var tag = document.createElement('script');
-
-  tag.src = 'https://www.youtube.com/iframe_api';
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
   if (window['onYouTubeIframeAPIReady'])
   {
     this.ytPlayer_ = this.createYoutubePlayer_(videoId);
     return;
   }
+
+  // Load youtube api
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
   window['onYouTubeIframeAPIReady'] = function() {
     this.ytPlayer_ = this.createYoutubePlayer_(videoId);
@@ -328,7 +326,7 @@ morning.ui.NarratedVideo.prototype.createYoutubePlayer_ = function(videoId)
     'events': {
       'onReady': function() {
         this.timer_.start();
-        this.resize_();
+        this.resize();
       }.bind(this)
     }
   });
