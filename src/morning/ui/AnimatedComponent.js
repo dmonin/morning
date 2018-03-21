@@ -80,7 +80,10 @@ morning.ui.AnimatedComponent.prototype.enterDocument = function()
 {
   goog.base(this, 'enterDocument');
 
-  daesk.app.getController('inview').register(this);
+  if (morning.app.getController('inview'))
+  {
+    morning.app.getController('inview').register(this);
+  }
 };
 
 /** @inheritDoc */
@@ -88,7 +91,10 @@ morning.ui.AnimatedComponent.prototype.exitDocument = function()
 {
   goog.base(this, 'exitDocument');
 
-  daesk.app.getController('inview').unregister(this);
+  if (morning.app.getController('inview'))
+  {
+    morning.app.getController('inview').unregister(this);
+  }
 };
 
 /**
@@ -98,7 +104,9 @@ morning.ui.AnimatedComponent.prototype.exitDocument = function()
  */
 morning.ui.AnimatedComponent.prototype.getBounds = function()
 {
-  return daesk.app.getController('inview').getBounds(this);
+  var inViewController = morning.app.getController('inview');
+  return inViewController ?
+    morning.app.getController('inview').getBounds(this) : null;
 };
 
 /**
