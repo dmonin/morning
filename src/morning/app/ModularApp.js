@@ -282,8 +282,11 @@ morning.app.ModularApp.prototype.setViewFromState_ = function()
     console.warn('ModularApp: View not found ' + this.state_.route.name + '.');
   }
 
-  this.view.setState(this.state_);
-  this.dispatchEvent(morning.app.ModularApp.EventType.STATE_CHANGE);
+  if (this.view)
+  {
+    this.view.setState(this.state_);
+    this.dispatchEvent(morning.app.ModularApp.EventType.STATE_CHANGE);
+  }
 };
 
 /**
