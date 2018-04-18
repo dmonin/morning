@@ -20,6 +20,7 @@ goog.provide('morning.ui.AnimatedComponent');
 goog.require('goog.dom.dataset');
 goog.require('goog.math.Box');
 goog.require('goog.ui.Component');
+goog.require('morning.app.ModularApp');
 
 /**
  * @constructor
@@ -80,9 +81,10 @@ morning.ui.AnimatedComponent.prototype.enterDocument = function()
 {
   goog.base(this, 'enterDocument');
 
-  if (morning.app.getController('inview'))
+  var app = morning.app.ModularApp.getInstance();
+  if (app.getController('inview'))
   {
-    morning.app.getController('inview').register(this);
+    app.getController('inview').register(this);
   }
 };
 
@@ -91,9 +93,10 @@ morning.ui.AnimatedComponent.prototype.exitDocument = function()
 {
   goog.base(this, 'exitDocument');
 
-  if (morning.app.getController('inview'))
+  var app = morning.app.ModularApp.getInstance();
+  if (app.getController('inview'))
   {
-    morning.app.getController('inview').unregister(this);
+    app.getController('inview').unregister(this);
   }
 };
 
@@ -104,9 +107,10 @@ morning.ui.AnimatedComponent.prototype.exitDocument = function()
  */
 morning.ui.AnimatedComponent.prototype.getBounds = function()
 {
-  var inViewController = morning.app.getController('inview');
+  var app = morning.app.ModularApp.getInstance();
+  var inViewController = app.getController('inview');
   return inViewController ?
-    morning.app.getController('inview').getBounds(this) : null;
+    app.getController('inview').getBounds(this) : null;
 };
 
 /**
