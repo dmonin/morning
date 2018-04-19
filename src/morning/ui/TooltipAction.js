@@ -24,9 +24,12 @@ goog.require('goog.ui.Component');
  * Tooltip Action Component
  *
  * @constructor
+ * @param {string} text
+ * @param {string} name
+ * @param {boolean} isPrimary
  * @extends {goog.ui.Component}
  */
-morning.ui.TooltipAction = function(text, name)
+morning.ui.TooltipAction = function(text, name, isPrimary)
 {
     goog.base(this);
 
@@ -44,6 +47,13 @@ morning.ui.TooltipAction = function(text, name)
      * @type {string}
      */
     this.name = name;
+
+    /**
+     * Is Primary Action?
+     *
+     * @type {boolean}
+     */
+    this.isPrimary = isPrimary;
 };
 goog.inherits(morning.ui.TooltipAction, goog.ui.Component);
 
@@ -52,6 +62,10 @@ morning.ui.TooltipAction.prototype.createDom = function()
 {
     var domHelper = this.getDomHelper();
     var el = domHelper.createDom('span', 'tooltip-action', this.text_);
+    if (this.isPrimary)
+    {
+        goog.dom.classlist.add(el, 'primary');
+    }
     this.decorateInternal(el);
 };
 
