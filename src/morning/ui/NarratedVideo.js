@@ -135,7 +135,7 @@ morning.ui.NarratedVideo.prototype.handleResize_ = function(e)
  */
 morning.ui.NarratedVideo.prototype.resize = function()
 {
-  var el = this.getElement();
+  var el = this.getElementByClass('video-wrap');
   var ytContainer = el.querySelector('.yt-player-container');
 
   var height = el.offsetWidth / this.aspectRatio_;
