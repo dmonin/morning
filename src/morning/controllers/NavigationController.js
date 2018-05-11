@@ -5,6 +5,8 @@ goog.require('goog.history.Html5History');
 goog.require('goog.uri.utils');
 goog.require('morning.controllers.BaseController');
 goog.require('morning.routing.Router');
+goog.require('goog.fx.easing');
+goog.require('morning.fx.WindowScroll');
 
 /**
  * @constructor
@@ -25,6 +27,13 @@ morning.controllers.NavigationController = function()
    * @private
    */
   this.token_ = '';
+
+  /**
+   * @type {morning.fx.WindowScroll}
+   * @private
+   */
+  this.scrollAnim_ = new morning.fx.WindowScroll(window, [0, 0], [0, 0], 1000,
+    goog.fx.easing.easeOut);
 };
 goog.inherits(morning.controllers.NavigationController,
   morning.controllers.BaseController);
@@ -88,9 +97,20 @@ morning.controllers.NavigationController.prototype.handleClick = function(e)
   }
 
   var path = goog.uri.utils.getPath(link.href);
+  var currentPath = goog.uri.utils.getPath(document.location.href);
 
   var token = path.substr(1);
-  this.navigate(token, false);
+  var currentToken = currentPath.substr(1);
+  if (currentToken == token && TweenLite)
+  {
+    var scrollPosition = goog.dom.getDocumentScroll();
+    this.scrollAnim_.setStartPoint([scrollPosition.x, scrollPosition.y]);
+    this.scrollAnim_.play();
+  }
+  else
+  {
+    this.navigate(token, false);
+  }
 };
 
 /**
