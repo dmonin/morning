@@ -144,7 +144,7 @@ morning.ui.AppearEffect.prototype.handleScroll = function(e)
   if (isVisible != this.isVisible_)
   {
     this.isVisible_ = isVisible;
-    if (this.updateClsDelay_)
+    if (this.updateClsDelay_ && !this.updateClsDelay_.isActive())
     {
       this.updateClsDelay_.start();
     }
@@ -176,7 +176,6 @@ morning.ui.AppearEffect.prototype.isVisible = function()
 };
 
 /**
- * @private
  */
 morning.ui.AppearEffect.prototype.updatePosition = function()
 {
