@@ -28,6 +28,12 @@ morning.ui.AppearEffect = function()
   this.offset_ = 100;
 
   /**
+   * @type {number}
+   * @private
+   */
+  this.offsetRatio_ = 0;
+
+  /**
    * Defines whether element is appeared.
    *
    * @type {boolean}
@@ -93,7 +99,12 @@ morning.ui.AppearEffect.prototype.decorateInternal = function(el)
   var offset = goog.dom.dataset.get(el, 'offset');
   if (offset)
   {
-    this.offset_ = parseInt(offset, 10);
+    this.offset_ = parseFloat(offset);
+    if (this.offset_ < 1 && this.offset_ > 0)
+    {
+      this.offsetRatio_ = this.offset_;
+      this.offset_ *= goog.dom.getViewportSize().height;
+    }
   }
 
   var delay = goog.dom.dataset.get(el, 'delay');
@@ -162,6 +173,10 @@ morning.ui.AppearEffect.prototype.handleScroll = function(e)
  */
 morning.ui.AppearEffect.prototype.handleResize_ = function(e)
 {
+  if (this.offsetRatio_ > 0)
+  {
+    this.offset_ = goog.dom.getViewportSize().height * this.offsetRatio_;
+  }
   this.updatePositionDelay.start();
 };
 
