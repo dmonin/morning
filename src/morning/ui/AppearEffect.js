@@ -152,19 +152,7 @@ morning.ui.AppearEffect.prototype.handleScroll = function(e)
   var viewportSize = this.viewportSize;
   var isVisible = this.bounds.top < docScroll.y + viewportSize.height - this.offset_;
 
-  if (isVisible != this.isVisible_)
-  {
-    this.isVisible_ = isVisible;
-    if (this.updateClsDelay_ && !this.updateClsDelay_.isActive())
-    {
-      this.updateClsDelay_.start();
-    }
-    else
-    {
-      this.updateVisibility();
-    }
-
-  }
+  this.setVisible(isVisible);
 };
 
 /**
@@ -191,6 +179,27 @@ morning.ui.AppearEffect.prototype.isVisible = function()
 };
 
 /**
+ * Sets whether element is visible.
+ *
+ * @param {boolean} isVisible
+ */
+morning.ui.AppearEffect.prototype.setVisible = function(isVisible)
+{
+  if (isVisible != this.isVisible_)
+  {
+    this.isVisible_ = isVisible;
+    if (this.updateClsDelay_ && !this.updateClsDelay_.isActive())
+    {
+      this.updateClsDelay_.start();
+    }
+    else
+    {
+      this.updateVisibility();
+    }
+  }
+};
+
+/**
  */
 morning.ui.AppearEffect.prototype.updatePosition = function()
 {
@@ -212,7 +221,6 @@ morning.ui.AppearEffect.prototype.updateVisibility = function()
   if (this.isVisible_ && this.isOnce_)
   {
     this.isOnceAppeared_ = true;
-
   }
 };
 
