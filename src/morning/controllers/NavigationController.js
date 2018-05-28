@@ -101,7 +101,7 @@ morning.controllers.NavigationController.prototype.handleClick = function(e)
 
   var token = path.substr(1);
   var currentToken = currentPath.substr(1);
-  if (currentToken == token && TweenLite)
+  if (currentToken == token)
   {
     var scrollPosition = goog.dom.getDocumentScroll();
     this.scrollAnim_.setStartPoint([scrollPosition.x, scrollPosition.y]);
