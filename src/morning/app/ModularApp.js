@@ -353,9 +353,7 @@ morning.app.ModularApp.prototype.setState = function(state)
   if (this.state_.route.module && morning.MODULAR)
   {
     this.moduleManager_.execOnLoad(this.state_.route.module,
-      this.setViewFromState_, this, function() {
-        document.location.reload();
-      });
+      this.setViewFromState_, this);
   }
   else
   {
