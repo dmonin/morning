@@ -240,7 +240,7 @@ morning.net.BackendService.prototype.handleResponse_ = function(transactionId,
           errorCallback,
           xhr)) && errorCallback)
       {
-        errorCallback(response);
+        errorCallback(response, xhr);
       }
     }
   }
