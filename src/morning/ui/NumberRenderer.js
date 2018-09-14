@@ -104,6 +104,16 @@ morning.ui.NumberRenderer.prototype.handleAnimation_ = function(e)
 };
 
 /**
+ * @param {string} format
+ */
+morning.ui.NumberRenderer.prototype.setFormat = function(format)
+{
+  this.formatter_ = new goog.i18n.NumberFormat(format);
+  this.setValue(this.value_);
+};
+
+
+/**
  * Sets and animates value
  *
  * @param {number} value value
