@@ -47,7 +47,7 @@ goog.inherits(morning.forms.AbstractControl, goog.ui.Component);
 /** @inheritDoc */
 morning.forms.AbstractControl.prototype.decorateInternal = function(el)
 {
-  goog.base(this, 'decorateInternal', el);
+  morning.forms.AbstractControl.superClass_.decorateInternal.call(this, el);
 
   var name = /** @type {string} */ (goog.dom.dataset.get(el, 'name'));
   if (name)

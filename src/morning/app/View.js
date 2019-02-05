@@ -58,7 +58,7 @@ morning.app.View.prototype.decorateInternal = function(el)
 /** @inheritDoc */
 morning.app.View.prototype.enterDocument = function()
 {
-  goog.base(this, 'enterDocument');
+  morning.app.View.superClass_.enterDocument.call(this);
 
   this.componentController.getAll().forEach(function(child) {
     if (!child.isInDocument())
