@@ -423,7 +423,7 @@ morning.parallax.ui.ParallaxContainer.prototype.handleKey_ = function(e)
  */
 morning.parallax.ui.ParallaxContainer.prototype.handleTouchStart_ = function(e)
 {
-  e.preventDefault();
+  // e.preventDefault();
 
   this.touchStartPos_ = /** @type {goog.math.Coordinate} */ (morning.events.getPointerPosition(e));
 
