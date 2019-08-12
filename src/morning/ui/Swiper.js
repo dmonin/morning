@@ -224,6 +224,15 @@ morning.ui.Swiper.prototype.getSlides = function()
   return this.swiper ? this.swiper.slides : [];
 };
 
+/**
+ * Returns swiper instance.
+ *
+ * @return {Swiper}
+ */
+morning.ui.Swiper.prototype.getSwiper = function()
+{
+  return this.swiper;
+};
 
 /**
  * Run transition to the slide with index number equal to 'index'
